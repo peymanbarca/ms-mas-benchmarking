@@ -2,7 +2,7 @@
 
 ## Order Service --> Inventory Services via REST API for reservation
 
-## Only delay exists in response of reservation from inventory service
+## Only a fixed delay injected in response of reservation from inventory service
 
 ## Run trial Experiments
 

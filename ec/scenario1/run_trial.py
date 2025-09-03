@@ -22,6 +22,10 @@ def run_experiment_parallel_order(trials=5, concurrent_orders=20):
     success_count = 0
     failure_count = 0
 
+    # clear previous orders/stocks for clean trial run
+    requests.post(f"http://localhost:8081/clear_orders", json={})
+    requests.post(f"http://localhost:8082/clear_stocks", json={})
+
     for t in range(trials):
         print(f"Trial {t+1}/{trials}")
         results = {}
@@ -30,6 +34,7 @@ def run_experiment_parallel_order(trials=5, concurrent_orders=20):
 
         # init stock in inventory for random item
         requests.post(f"http://localhost:8082/init_stock", json={"item": random_item_name})
+
 
         # Fire concurrent orders
         for i in range(concurrent_orders):
@@ -63,6 +68,10 @@ def run_experiment_sequential_order(trials=5, total_orders=20):
     success_count = 0
     failure_count = 0
 
+    # clear previous orders/stocks for clean trial run
+    requests.post(f"http://localhost:8081/clear_orders", json={})
+    requests.post(f"http://localhost:8082/clear_stocks", json={})
+
     for t in range(trials):
         print(f"Trial {t+1}/{trials}")
         results = {}
@@ -95,8 +104,8 @@ def run_experiment_sequential_order(trials=5, total_orders=20):
 
 
 if __name__ == "__main__":
-    success, failure = run_experiment_sequential_order()
-    # success, failure = run_experiment_parallel_order()
+    # success, failure = run_experiment_sequential_order()
+    success, failure = run_experiment_parallel_order()
 
     print("Success:", success)
     print("Failure:", failure)

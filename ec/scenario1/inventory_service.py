@@ -7,8 +7,13 @@ client = MongoClient("mongodb://user:pass1@localhost:27017/")
 db = client["retail"]
 
 
+@app.post("/clear_stocks")
+def clear_orders():
+    db.inventory.delete_many({})
+
+
 @app.post("/init_stock")
-def reserve(request: dict):
+def init_stock(request: dict):
     item: str = request["item"]
     db.inventory.insert_one({"item": item, "stock": 10})
 

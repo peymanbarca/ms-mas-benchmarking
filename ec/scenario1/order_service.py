@@ -7,6 +7,11 @@ client = MongoClient("mongodb://user:pass1@localhost:27017/")
 db = client["retail"]
 
 
+@app.post("/clear_orders")
+def clear_orders():
+    db.orders.delete_many({})
+
+
 @app.post("/order")
 def create_order(request: dict):
     item: str = request["item"]
