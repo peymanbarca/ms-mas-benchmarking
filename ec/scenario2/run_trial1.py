@@ -26,9 +26,12 @@ def reset_db():
 def place_order(trial_id):
     qty = 1
     try:
-        res = requests.post(API_URL, json={"item": ITEM, "qty": qty}, timeout=60)
-        data = res.json()
-        print(f"[Trial {trial_id}] Order {data['order_id']} → {data['reservation_status']}")
+        res = requests.post(API_URL, json={"item": ITEM, "qty": qty}, timeout=10)
+        status = res.status_code
+        if status == 200:
+            print(f"[Trial {trial_id}] Reservation Request Succeeded")
+        else:
+            print(f"[Trial {trial_id}] Request failed: {status}")
     except Exception as e:
         print(f"[Trial {trial_id}] Request failed: {e}")
 
@@ -44,7 +47,7 @@ def run_experiment_parallel_order():
         t = threading.Thread(target=place_order, args=(i,))
         t.start()
         threads.append(t)
-        time.sleep(0.05)  # slight stagger to simulate async arrival
+        # time.sleep(0.05)
 
     # Wait for all to complete
     for t in threads:
@@ -52,30 +55,31 @@ def run_experiment_parallel_order():
 
     # Gather results
     reserved = orders.count_documents({"status": "reserved"})
-    failed = orders.count_documents({"status": "out_of_stock"})
-    unknown = orders.count_documents({"status": "pending"})  # never updated
+    out_of_stock = orders.count_documents({"status": "out_of_stock"})
+    init_pending = orders.count_documents({"status": "INIT"})  # never updated
     stock = inventory.find_one({"item": ITEM})["stock"]
 
-    print("\n=== Trial Summary ===")
+    print("\n=== Trial Summary before ===")
     print(f"Initial stock: {INIT_STOCK}")
     print(f"Orders attempted: {N_TRIALS}")
+
     print(f"Reserved: {reserved}")
-    print(f"Failed: {failed}")
-    print(f"Unknown (timeout/consistency gap): {unknown}")
+    print(f"Out Of Stock: {out_of_stock}")
+    print(f"Init pending: {init_pending}")
     print(f"Final stock: {stock}")
 
-    time.sleep(20)
+    time.sleep(15)
 
     # Gather results
     reserved = orders.count_documents({"status": "reserved"})
-    failed = orders.count_documents({"status": "out_of_stock"})
-    unknown = orders.count_documents({"status": "pending"})  # never updated
+    out_of_stock = orders.count_documents({"status": "out_of_stock"})
+    init_pending = orders.count_documents({"status": "INIT"})  # never updated
     stock = inventory.find_one({"item": ITEM})["stock"]
 
-    print("\n=== Trial Summary ===")
+    print("\n=== Trial Summary after ===")
     print(f"Reserved: {reserved}")
-    print(f"Failed: {failed}")
-    print(f"Unknown (timeout/consistency gap): {unknown}")
+    print(f"Out Of Stock: {out_of_stock}")
+    print(f"Init pending: {init_pending}")
     print(f"Final stock: {stock}")
 
     print(f"Over-reservation? {reserved > INIT_STOCK}")
