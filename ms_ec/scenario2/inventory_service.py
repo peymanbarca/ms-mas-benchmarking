@@ -21,23 +21,24 @@ consumer_channel.queue_declare(queue="inventory_queue")
 # Queue for passing delivery_tags back to the consumer thread for ack
 ack_queue = queue.Queue()
 
-DROP_RATE = 0.2  # simulate reply message drop
+DROP_RATE = 0  # simulate reply message drop
 
 
 def process_request(data, props, delivery_tag):
     item, qty = data["item"], data["qty"]
+    delay = data["delay"]
 
     stock = inventory.find_one({"item": item}) or {"item": item, "stock": 10}
     if stock["stock"] >= qty:
         reservation_id = str(uuid.uuid4())
         inventory.update_one({"item": item}, {"$inc": {"stock": -qty}}, upsert=True)
         status = "reserved"
-        # Simulate delay
-        time.sleep(3)
     else:
         status = "out_of_stock"
         reservation_id = None
 
+    # Simulate delay
+    time.sleep(delay)
     response = {"order_id": data["order_id"], "reservation_id": reservation_id, "status": status}
 
     # todo: Decide whether to drop the reply

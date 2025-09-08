@@ -1,0 +1,210 @@
+---- Trial 0 ----
+
+Delay : 3, Total Response Took: 0.585 
+Delay : 3, Total Response Took: 0.606 
+Delay : 3, Total Response Took: 0.607 
+Delay : 3, Total Response Took: 0.602 
+Delay : 3, Total Response Took: 0.605 
+Delay : 3, Total Response Took: 0.623 
+Delay : 3, Total Response Took: 0.649 
+Delay : 3, Total Response Took: 0.663 
+Delay : 3, Total Response Took: 0.66 
+Delay : 3, Total Response Took: 0.652 
+Delay : 3, Total Response Took: 0.672 
+Delay : 3, Total Response Took: 0.684 
+Delay : 3, Total Response Took: 0.695 
+Delay : 3, Total Response Took: 0.702 
+Delay : 3, Total Response Took: 0.707 
+Delay : 3, Total Response Took: 0.718 
+Delay : 3, Total Response Took: 0.728 
+Delay : 3, Total Response Took: 0.727 
+Delay : 3, Total Response Took: 0.735 
+Delay : 3, Total Response Took: 0.732 
+----------------
+
+Initial stock: 10,
+Orders attempted: 20
+
+=== Trial Summary before ===
+Reserved orders: 0
+Out Of Stock orders: 0
+Init pending orders: 20
+Final stock remaining: 0
+
+
+=== Trial Summary after ===
+Reserved orders: 10
+Out Of Stock orders: 10
+Init pending orders: 0
+Final stock remaining: 0
+-------------------Over-reservation occurred? False
+Eventual consistency met? True
+
+---- Trial 1 ----
+
+Delay : 3, Total Response Took: 0.254 
+Delay : 3, Total Response Took: 0.299 
+Delay : 3, Total Response Took: 0.303 
+Delay : 3, Total Response Took: 0.322 
+Delay : 3, Total Response Took: 0.347 
+Delay : 3, Total Response Took: 0.305 
+Delay : 3, Total Response Took: 0.321 
+Delay : 3, Total Response Took: 0.36 
+Delay : 3, Total Response Took: 0.326 
+Delay : 3, Total Response Took: 0.356 
+Delay : 3, Total Response Took: 0.376 
+Delay : 3, Total Response Took: 0.363 
+Delay : 3, Total Response Took: 0.352 
+Delay : 3, Total Response Took: 0.358 
+Delay : 3, Total Response Took: 0.371 
+Delay : 3, Total Response Took: 0.359 
+Delay : 3, Total Response Took: 0.413 
+Delay : 3, Total Response Took: 0.365 
+Delay : 3, Total Response Took: 0.364 
+Delay : 3, Total Response Took: 0.368 
+----------------
+
+Initial stock: 10,
+Orders attempted: 20
+
+=== Trial Summary before ===
+Reserved orders: 0
+Out Of Stock orders: 0
+Init pending orders: 20
+Final stock remaining: 0
+
+
+=== Trial Summary after ===
+Reserved orders: 10
+Out Of Stock orders: 10
+Init pending orders: 0
+Final stock remaining: 0
+-------------------Over-reservation occurred? False
+Eventual consistency met? True
+
+---- Trial 2 ----
+
+Delay : 3, Total Response Took: 0.236 
+Delay : 3, Total Response Took: 0.33 
+Delay : 3, Total Response Took: 0.315 
+Delay : 3, Total Response Took: 0.306 
+Delay : 3, Total Response Took: 0.378 
+Delay : 3, Total Response Took: 0.335 
+Delay : 3, Total Response Took: 0.333 
+Delay : 3, Total Response Took: 0.343 
+Delay : 3, Total Response Took: 0.362 
+Delay : 3, Total Response Took: 0.348 
+Delay : 3, Total Response Took: 0.348 
+Delay : 3, Total Response Took: 0.336 
+Delay : 3, Total Response Took: 0.353 
+Delay : 3, Total Response Took: 0.338 
+Delay : 3, Total Response Took: 0.346 
+Delay : 3, Total Response Took: 0.349 
+Delay : 3, Total Response Took: 0.359 
+Delay : 3, Total Response Took: 0.35 
+Delay : 3, Total Response Took: 0.348 
+Delay : 3, Total Response Took: 0.39 
+----------------
+
+Initial stock: 10,
+Orders attempted: 20
+
+=== Trial Summary before ===
+Reserved orders: 0
+Out Of Stock orders: 0
+Init pending orders: 20
+Final stock remaining: 0
+
+
+=== Trial Summary after ===
+Reserved orders: 10
+Out Of Stock orders: 10
+Init pending orders: 0
+Final stock remaining: 0
+-------------------Over-reservation occurred? False
+Eventual consistency met? True
+
+---- Trial 3 ----
+
+Delay : 3, Total Response Took: 0.282 
+Delay : 3, Total Response Took: 0.296 
+Delay : 3, Total Response Took: 0.337 
+Delay : 3, Total Response Took: 0.359 
+Delay : 3, Total Response Took: 0.385 
+Delay : 3, Total Response Took: 0.382 
+Delay : 3, Total Response Took: 0.38 
+Delay : 3, Total Response Took: 0.379 
+Delay : 3, Total Response Took: 0.388 
+Delay : 3, Total Response Took: 0.377 
+Delay : 3, Total Response Took: 0.399 
+Delay : 3, Total Response Took: 0.397 
+Delay : 3, Total Response Took: 0.411 
+Delay : 3, Total Response Took: 0.424 
+Delay : 3, Total Response Took: 0.407 
+Delay : 3, Total Response Took: 0.427 
+Delay : 3, Total Response Took: 0.421 
+Delay : 3, Total Response Took: 0.436 
+Delay : 3, Total Response Took: 0.43 
+Delay : 3, Total Response Took: 0.45 
+----------------
+
+Initial stock: 10,
+Orders attempted: 20
+
+=== Trial Summary before ===
+Reserved orders: 0
+Out Of Stock orders: 0
+Init pending orders: 20
+Final stock remaining: 0
+
+
+=== Trial Summary after ===
+Reserved orders: 10
+Out Of Stock orders: 10
+Init pending orders: 0
+Final stock remaining: 0
+-------------------Over-reservation occurred? False
+Eventual consistency met? True
+
+---- Trial 4 ----
+
+Delay : 3, Total Response Took: 0.18 
+Delay : 3, Total Response Took: 0.276 
+Delay : 3, Total Response Took: 0.269 
+Delay : 3, Total Response Took: 0.262 
+Delay : 3, Total Response Took: 0.303 
+Delay : 3, Total Response Took: 0.3 
+Delay : 3, Total Response Took: 0.299 
+Delay : 3, Total Response Took: 0.309 
+Delay : 3, Total Response Took: 0.324 
+Delay : 3, Total Response Took: 0.335 
+Delay : 3, Total Response Took: 0.34 
+Delay : 3, Total Response Took: 0.353 
+Delay : 3, Total Response Took: 0.357 
+Delay : 3, Total Response Took: 0.36 
+Delay : 3, Total Response Took: 0.366 
+Delay : 3, Total Response Took: 0.367 
+Delay : 3, Total Response Took: 0.388 
+Delay : 3, Total Response Took: 0.38 
+Delay : 3, Total Response Took: 0.388 
+Delay : 3, Total Response Took: 0.394 
+----------------
+
+Initial stock: 10,
+Orders attempted: 20
+
+=== Trial Summary before ===
+Reserved orders: 0
+Out Of Stock orders: 0
+Init pending orders: 20
+Final stock remaining: 0
+
+
+=== Trial Summary after ===
+Reserved orders: 10
+Out Of Stock orders: 10
+Init pending orders: 0
+Final stock remaining: 0
+-------------------Over-reservation occurred? False
+Eventual consistency met? True
+

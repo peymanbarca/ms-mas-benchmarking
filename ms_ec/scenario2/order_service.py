@@ -61,6 +61,7 @@ threading.Thread(target=consume_forever, daemon=True).start()
 def create_order(request: dict):
     item: str = request["item"]
     qty: int = request["qty"]
+    delay: int = request["delay"]
     order_id = str(uuid.uuid4())
     orders.insert_one({"_id": order_id, "item": item, "qty": qty, "status": "INIT"})
 
@@ -85,7 +86,7 @@ def create_order(request: dict):
             reply_to=callback_queue,
             correlation_id=correlation_id,
         ),
-        body=json.dumps({"order_id": order_id, "item": item, "qty": qty}),
+        body=json.dumps({"order_id": order_id, "item": item, "qty": qty, "delay": delay}),
     )
     connection_publish.close()
 
