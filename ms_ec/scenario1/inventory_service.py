@@ -31,6 +31,7 @@ def reserve(request: dict):
         time.sleep(delay)  # Injected delay
         return {"status": "reserved", "reservation_id": reservation_id}
     else:
+        time.sleep(delay)  # Injected delay
         return {"status": "out_of_stock"}
 
 
