@@ -22,12 +22,13 @@ def init_stock(request: dict):
 def reserve(request: dict):
     item: str = request["item"]
     qty: int = request["qty"]
+    delay: int = request.get("delay", 0)
     stock = db.inventory.find_one({"item": item}) or {"item": item, "stock": 10}
     if stock["stock"] >= qty:
         reservation_id = str(uuid.uuid4())
         db.inventory.update_one({"item": item}, {"$inc": {"stock": -qty}}, upsert=True)
 
-        time.sleep(3)  # Injected delay
+        time.sleep(delay)  # Injected delay
         return {"status": "reserved", "reservation_id": reservation_id}
     else:
         return {"status": "out_of_stock"}

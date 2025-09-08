@@ -16,11 +16,12 @@ def clear_orders():
 def create_order(request: dict):
     item: str = request["item"]
     qty: int = request["qty"]
+    delay: int = request.get("delay", 0)
     order_id = str(uuid.uuid4())
     db.orders.insert_one({"_id": order_id, "item": item, "qty": qty, "status": "INIT"})
 
     # Call Inventory Service
-    r = requests.post("http://localhost:8082/reserve", json={"item": item, "qty": qty})
+    r = requests.post("http://localhost:8082/reserve", json={"item": item, "qty": qty, "delay": delay})
     res = r.json()
 
     if res["status"] == "reserved":

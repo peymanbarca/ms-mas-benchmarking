@@ -1,18 +1,18 @@
 import uuid
 from langgraph.graph import StateGraph, END
-from langchain_openai import ChatOpenAI
+from langchain_community.llms import Ollama
 from langchain_core.prompts import ChatPromptTemplate
 from typing import TypedDict, Optional
-from pymongo import MongoClient
+# from pymongo import MongoClient
 import json
 import time
 import re
 
 # MongoDB setup
-client = MongoClient("mongodb://user:pass1@localhost:27017/")
-db = client["retail_mas"]
-orders = db.orders
-inventory = db.inventory
+# client = MongoClient("mongodb://user:pass1@localhost:27017/")
+# db = client["retail_mas"]
+# orders = db.orders
+# inventory = db.inventory
 
 
 # 1. Define global state
@@ -57,66 +57,97 @@ class DBAgent:
             upsert=True
         )
 
-# 3. LLM setup
-llm = ChatOpenAI(model="gpt-4o-mini")
 
-order_prompt = ChatPromptTemplate.from_template("""
+# 3. LLM setup
+# llm = ChatOllama(model="tinyllama", temperature=0, base_url="http://127.0.0.1:11434")
+llm = Ollama(model="llama3")
+
+order_prompt = """
 You are the Order Agent.
 Decide what to do with an incoming order.
 
-Item: {item}
-Quantity: {qty}
-Order ID: {order_id}
-Current Status: {status}
+Item: {item_in}
+Quantity: {qty_in}
+Order ID: {order_id_in}
+Status: {status_in}
 
 Rules:
-- If status is empty or INIT → create the order and forward to inventory.
-- If status is reserved or out_of_stock → finalize order with given status and update DB.
+- If Status is empty or INIT → create the order in DB and forward to inventory agent.
+- If Status is reserved or out_of_stock → finalize order with given status and update DB.
+Return only one JSON with keys: order_id, item, qty, status, forward (true/false).
 
-Return JSON with keys: order_id, item, qty, status, forward (true/false).
-""")
+Example responses are:
 
-inventory_prompt = ChatPromptTemplate.from_template("""
+If Status is empty or INIT:
+ ```json
+{{
+  "order_id": "d550ad79-4960-4e8f-8ba7-db9a2a95dd0f",
+  "item": "laptop",
+  "qty": 2,
+  "status": "INIT",
+  "forward": true
+}}
+
+If Status is reserved:
+ ```json
+{{
+  "order_id": "d550ad79-4960-4e8f-8ba7-db9a2a95dd0f",
+  "item": "laptop",
+  "qty": 2,
+  "status": "reserved",
+  "forward": false
+}}
+
+"""
+
+inventory_prompt = """
 You are the Inventory Agent.
 Decide whether to reserve stock.
 
-Order ID: {order_id}
-Item: {item}
-Quantity: {qty}
-Stock: {stock}
+Order ID: {order_id_in}
+Item: {item_in}
+Quantity: {qty_in}
+Stock: {stock_in}
 
 Rules:
-- If stock >= qty → reserved
+- If Stock >= Quantity → reserved
 - Otherwise → out_of_stock
 
 Return JSON with keys: order_id, status.
-""")
+
+
+"""
 
 
 def parse_json_response(content: str, fallback: dict):
     """Extract JSON object from LLM output, safely parse it."""
     try:
-        # Remove ```json ... ``` or ``` fences if present
-        cleaned = re.sub(r"^```.*\n", "", content.strip())   # drop opening ```
-        cleaned = re.sub(r"\n```$", "", cleaned)             # drop closing ```
-        return json.loads(cleaned)
+        # Find the first {...} block in the text
+        match = re.search(r"\{.*\}", content, re.DOTALL)
+        if match:
+            return json.loads(match.group(0))
+        return fallback
     except Exception as e:
-        print(e)
+        print("JSON parse error:", e)
         return fallback
 
 
 # 4. Agent functions (sync now)
 def order_agent(state: OrderState, db: DBAgent):
     # First or second step, LLM decides what to do
-    messages = order_prompt.format_messages(
-        item=state["item"],
-        qty=state["qty"],
-        order_id=state["order_id"] or str(uuid.uuid4()),
-        status=state["status"] or "INIT",
-    )
-    response = llm.invoke(messages)
+    prompt = order_prompt.format(
+        item_in=state["item"],
+        qty_in=state["qty"],
+        order_id_in=state["order_id"] or str(uuid.uuid4()),
+        status_in=state["status"] or "INIT"
+                                 )
+    print(f"Order Agent: Sending prompt for LLM \n {prompt} \n ...")
+
+    response = llm.invoke(prompt)
+    print(f"Order Agent: LLM Raw Response Content is \n {response} \n ...")
+
     parsed = parse_json_response(
-        response.content,
+        response,
         fallback={
             "order_id": state["order_id"] or str(uuid.uuid4()),
             "item": state["item"],
@@ -126,42 +157,48 @@ def order_agent(state: OrderState, db: DBAgent):
         },
     )
 
-    print(f"Order Agent: Requested Qty: {state['qty']}, LLM Response: {parsed}")
+    print(f"Order Agent: Requested Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
 
-    if parsed["status"] == "INIT":
-        # Save INIT order
-        db.save_order(parsed["order_id"], parsed["item"], parsed["qty"])
-
-    elif parsed["status"] in ["reserved", "out_of_stock"]:
-        # Finalize order based on reservation response
-        db.update_order(parsed["order_id"], parsed["status"])
+    # if parsed["status"] == "INIT":
+    #     # Save INIT order
+    #     db.save_order(parsed["order_id"], parsed["item"], parsed["qty"])
+    #
+    # elif parsed["status"] in ["reserved", "out_of_stock"]:
+    #     # Finalize order based on reservation response
+    #     db.update_order(parsed["order_id"], parsed["status"])
 
     return parsed
 
 
 def inventory_agent(state: OrderState, db: DBAgent):
-    stock = db.get_stock(state["item"])
-    messages = inventory_prompt.format_messages(
-        order_id=state["order_id"],
-        item=state["item"],
-        qty=state["qty"],
-        stock=stock,
-    )
-    response = llm.invoke(messages)
+    # stock = db.get_stock(state["item"])
+    stock = 10
+    prompt = inventory_prompt.format(
+        item_in=state["item"],
+        qty_in=state["qty"],
+        order_id_in=state["order_id"],
+        stock_in=stock
+                                 )
+
+    print(f"Inventory Agent: Sending prompt for LLM \n {prompt} \n ...")
+
+    response = llm.invoke(prompt)
+    print(f"Inventory Agent: LLM Raw Response Content is \n {response} \n ...")
+
     parsed = parse_json_response(
-        response.content,
+        response,
         fallback={"order_id": state["order_id"], "status": "out_of_stock"},
     )
 
-    print(f"Inventory Agent: Current Stock: {stock}, Qty: {state['qty']}, LLM Response: {parsed}")
+    print(f"Inventory Agent: Current Stock: {stock}, Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
 
     # If reserved, decrement stock
-    if parsed["status"] == "reserved":
-        db.update_stock(state["item"], state["qty"])
+    # if parsed["status"] == "reserved":
+    #     db.update_stock(state["item"], state["qty"])
 
     # inject delay in reservation response
     print('Delay injected, waiting for response of reservation ...')
-    time.sleep(3)
+    time.sleep(delay)
     return parsed
 
 
@@ -193,10 +230,11 @@ def build_graph(db: DBAgent):
 
 if __name__ == "__main__":
 
-    db = DBAgent(db)
+    db = DBAgent(db=None)
     graph = build_graph(db)
+    delay = 1
 
-    initial_state: OrderState = {"order_id": "", "item": "laptop", "qty": 2, "status": None}
+    initial_state: OrderState = {"order_id": "", "item": "laptop", "qty": 2, "status": "INIT"}
 
     # OrderAgent (INIT order)
     #    → InventoryAgent (decide reservation)

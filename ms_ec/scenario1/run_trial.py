@@ -7,10 +7,10 @@ import uuid
 BASE_URL = "http://localhost:8081/order"
 
 
-def place_order(item, qty, results, idx):
+def place_order(item, qty, results, idx, delay):
     try:
         t1 = time.time()
-        r = requests.post(BASE_URL, json={"item": item, "qty": qty})
+        r = requests.post(BASE_URL, json={"item": item, "qty": qty, "delay": delay})
         results[idx] = r.json()
         t2 = time.time()
         print(f'Reservation Response Took: {round((t2-t1), 3)}')
@@ -35,10 +35,10 @@ def run_experiment_parallel_order(trials=5, concurrent_orders=20):
         # init stock in inventory for random item
         requests.post(f"http://localhost:8082/init_stock", json={"item": random_item_name})
 
-
         # Fire concurrent orders
+        delay = 3
         for i in range(concurrent_orders):
-            th = threading.Thread(target=place_order, args=(random_item_name, 1, results, i))
+            th = threading.Thread(target=place_order, args=(random_item_name, 1, results, i, delay))
             threads.append(th)
             th.start()
 
