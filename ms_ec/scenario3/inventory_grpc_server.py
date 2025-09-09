@@ -1,4 +1,4 @@
-# inventory_server.py
+# inventory_grpc_server.py
 import asyncio
 import time
 import uuid
@@ -14,12 +14,12 @@ import proto.retail_pb2_grpc as rpc
 logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger("inventory")
 
-# Mongo config (change credentials / URI as needed)
 MONGO_URI = "mongodb://user:pass1@localhost:27017/"
 DB_NAME = "retail"
 
-# Use a small thread pool for blocking operations (Mongo + time.sleep)
+# Use a small thread pool for blocking operations
 executor = ThreadPoolExecutor(max_workers=8)
+
 
 class InventoryServicer(rpc.InventoryServicer):
     def __init__(self):
@@ -37,8 +37,8 @@ class InventoryServicer(rpc.InventoryServicer):
         LOG.info("Reserve request: item=%s qty=%d delay_ms=%d", item, qty, delay_ms)
 
         # perform the reservation atomically in a thread to avoid blocking asyncio loop
-        def do_work():
-            # find and decrement atomically
+        def atomic_reserve():
+            # find and decrement stock atomically
             # use find_one_and_update with $gte check
             # Mongo find_one_and_update is atomic so oversells are prevented at DB level
             res = self.db.inventory.find_one_and_update(
@@ -47,11 +47,16 @@ class InventoryServicer(rpc.InventoryServicer):
             )
             return res is not None
 
-        # If you want the delay to be before or after the DB decrement,
-        # choose where to sleep. To mimic earlier example, we decrement then sleep.
-        reserved = await asyncio.get_event_loop().run_in_executor(executor, do_work)
+        def regular_reserve():
+            stock = self.db.inventory.find_one({"item": item})
+            if stock["stock"] >= qty:
+                self.db.inventory.update_one({"item": item}, {"$inc": {"stock": -qty}}, upsert=True)
+                return True
+            return False
 
-        # Inject artificial delay AFTER decrement (like your earlier REST impl)
+        reserved = await asyncio.get_event_loop().run_in_executor(executor=executor, func=regular_reserve)
+
+        # Inject artificial delay AFTER stock decrement
         if delay_ms > 0:
             await asyncio.sleep(delay_ms / 1000.0)
 

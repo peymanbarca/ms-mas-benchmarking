@@ -25,6 +25,7 @@ db = client[DB_NAME]
 grpc_channel = None
 inventory_stub = None
 
+
 @app.on_event("startup")
 async def startup_event():
     global grpc_channel, inventory_stub
@@ -35,8 +36,10 @@ async def startup_event():
     try:
         await grpc_channel.channel_ready()
         LOG.info("Connected to Inventory gRPC at %s", INVENTORY_ADDR)
-    except Exception:
+    except Exception as e:
+        LOG.error(e)
         LOG.warning("gRPC channel not ready immediately")
+
 
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -44,9 +47,11 @@ async def shutdown_event():
     if grpc_channel is not None:
         await grpc_channel.close()
 
+
 @app.post("/clear_orders")
 def clear_orders():
     db.orders.delete_many({})
+
 
 @app.post("/order")
 async def create_order(request: dict):
