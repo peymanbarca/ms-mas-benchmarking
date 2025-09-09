@@ -2,17 +2,12 @@ import uuid
 from langgraph.graph import StateGraph, END
 from langchain_community.llms import Ollama
 from langchain_core.prompts import ChatPromptTemplate
-from typing import TypedDict, Optional
-# from pymongo import MongoClient
+from typing import TypedDict, Optional, Dict, List
+from pymongo import MongoClient
 import json
 import time
 import re
 
-# MongoDB setup
-# client = MongoClient("mongodb://user:pass1@localhost:27017/")
-# db = client["retail_mas"]
-# orders = db.orders
-# inventory = db.inventory
 
 
 # 1. Define global state
@@ -26,36 +21,69 @@ class OrderState(TypedDict):
 
 # 2. Deterministic DB Agent
 class DBAgent:
-    def __init__(self, db):
-        self.db = db
+    def __init__(self, db, mode: str = 'MOCK'):
+        self.mode = mode
+        if mode == "REAL":
+            if db is None:
+                raise ValueError("MongoDB client must be provided in real mode")
+            self.db = db
+        elif mode == "MOCK":
+            self.orders: List[Dict] = []
+            self.inventory: List[Dict] = []
+        else:
+            raise ValueError("mode must be 'real' or 'mock'")
 
-    def save_order(self, order_id, item, qty):
-        self.db.orders.insert_one({
-            "_id": order_id,
-            "item": item,
-            "qty": qty,
-            "status": "INIT"
-        })
+    def save_order(self, order_id: str, item: str, qty: int):
+        if self.mode == "real":
+            self.db.orders.insert_one({
+                "_id": order_id,
+                "item": item,
+                "qty": qty,
+                "status": "INIT"
+            })
+        else:  # mock mode
+            self.orders.append({
+                "_id": order_id,
+                "item": item,
+                "qty": qty,
+                "status": "INIT"
+            })
 
-    def update_order(self, order_id, status):
-        self.db.orders.update_one(
-            {"_id": order_id},
-            {"$set": {"status": status}}
-        )
+    def update_order(self, order_id: str, status: str):
+        if self.mode == "real":
+            self.db.orders.update_one({"_id": order_id}, {"$set": {"status": status}})
+        else:
+            for order in self.orders:
+                if order["_id"] == order_id:
+                    order["status"] = status
+                    break
 
-    def get_stock(self, item):
-        stock = self.db.inventory.find_one({"item": item})
-        if not stock:
-            stock = {"item": item, "stock": 10}
-            self.db.inventory.insert_one(stock)
-        return stock["stock"]
+    def get_stock(self, item: str) -> int:
+        if self.mode == "real":
+            stock = self.db.inventory.find_one({"item": item})
+            if not stock:
+                stock = {"item": item, "stock": 10}
+                self.db.inventory.insert_one(stock)
+            return stock["stock"]
+        else:
+            stock = next((s for s in self.inventory if s["item"] == item), None)
+            if not stock:
+                stock = {"item": item, "stock": 10}
+                self.inventory.append(stock)
+            return stock["stock"]
 
-    def update_stock(self, item, qty):
-        self.db.inventory.update_one(
-            {"item": item},
-            {"$inc": {"stock": -qty}},
-            upsert=True
-        )
+    def update_stock(self, item: str, qty: int):
+        if self.mode == "real":
+            self.db.inventory.update_one(
+                {"item": item},
+                {"$inc": {"stock": -qty}},
+                upsert=True
+            )
+        else:
+            for s in self.inventory:
+                if s["item"] == item:
+                    s["stock"] -= qty
+                    return
 
 
 # 3. LLM setup
@@ -133,7 +161,7 @@ def parse_json_response(content: str, fallback: dict):
 
 
 # 4. Agent functions (sync now)
-def order_agent(state: OrderState, db: DBAgent):
+def order_agent(state: OrderState, db_ag: DBAgent):
     # First or second step, LLM decides what to do
     prompt = order_prompt.format(
         item_in=state["item"],
@@ -159,20 +187,19 @@ def order_agent(state: OrderState, db: DBAgent):
 
     print(f"Order Agent: Requested Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
 
-    # if parsed["status"] == "INIT":
-    #     # Save INIT order
-    #     db.save_order(parsed["order_id"], parsed["item"], parsed["qty"])
-    #
-    # elif parsed["status"] in ["reserved", "out_of_stock"]:
-    #     # Finalize order based on reservation response
-    #     db.update_order(parsed["order_id"], parsed["status"])
+    if parsed["status"] == "INIT":
+        # Save INIT order
+        db_ag.save_order(parsed["order_id"], parsed["item"], parsed["qty"])
+
+    elif parsed["status"] in ["reserved", "out_of_stock"]:
+        # Finalize order based on reservation response
+        db_ag.update_order(parsed["order_id"], parsed["status"])
 
     return parsed
 
 
-def inventory_agent(state: OrderState, db: DBAgent):
-    # stock = db.get_stock(state["item"])
-    stock = 10
+def inventory_agent(state: OrderState, db_ag: DBAgent):
+    stock = db_ag.get_stock(state["item"])
     prompt = inventory_prompt.format(
         item_in=state["item"],
         qty_in=state["qty"],
@@ -193,8 +220,8 @@ def inventory_agent(state: OrderState, db: DBAgent):
     print(f"Inventory Agent: Current Stock: {stock}, Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
 
     # If reserved, decrement stock
-    # if parsed["status"] == "reserved":
-    #     db.update_stock(state["item"], state["qty"])
+    if parsed["status"] == "reserved":
+        db_ag.update_stock(state["item"], state["qty"])
 
     # inject delay in reservation response
     print('Delay injected, waiting for response of reservation ...')
@@ -203,11 +230,11 @@ def inventory_agent(state: OrderState, db: DBAgent):
 
 
 # 5. Graph definition
-def build_graph(db: DBAgent):
+def build_graph(db_ag: DBAgent):
     workflow = StateGraph(OrderState)
 
-    workflow.add_node("order_agent", lambda state: order_agent(state, db))
-    workflow.add_node("inventory_agent", lambda state: inventory_agent(state, db))
+    workflow.add_node("order_agent", lambda state: order_agent(state, db_ag))
+    workflow.add_node("inventory_agent", lambda state: inventory_agent(state, db_ag))
 
     workflow.set_entry_point("order_agent")
 
@@ -230,8 +257,17 @@ def build_graph(db: DBAgent):
 
 if __name__ == "__main__":
 
-    db = DBAgent(db=None)
-    graph = build_graph(db)
+    db_mode = 'MOCK'  # REAL | MOCK
+
+    if db_mode == 'REAL':
+        client = MongoClient("mongodb://user:pass1@localhost:27017/")
+        db = client["retail_mas"]
+        orders = db.orders
+        inventory = db.inventory
+    else:
+        db = None
+    db_agent = DBAgent(db=db, mode=db_mode)
+    graph = build_graph(db_agent)
     delay = 1
 
     initial_state: OrderState = {"order_id": "", "item": "laptop", "qty": 2, "status": "INIT"}
