@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package retail;
+
+service Inventory {
+  // Reserve items synchronously (server will sleep to simulate delay)
+  rpc Reserve (ReserveRequest) returns (ReserveResponse);
+}
+
+message ReserveRequest {
+  string item = 1;
+  int32 qty = 2;
+  int32 delay_ms = 3; // delay in milliseconds (optional)
+}
+
+message ReserveResponse {
+  string status = 1; // "reserved" | "out_of_stock" | "error"
+  string reservation_id = 2;
+  string message = 3;
+}
