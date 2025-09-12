@@ -97,7 +97,7 @@ def run_experiment_parallel_order():
 if __name__ == "__main__":
     # Config
     N_TRIALS = 5
-    ORDERS_WITHIN_EACH_TRIAL = 20
+    ORDERS_WITHIN_EACH_TRIAL = 100
     API_URL = "http://localhost:8081/order"  # OrderService endpoint
     INIT_STOCK = 10
     delay = 3
