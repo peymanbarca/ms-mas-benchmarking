@@ -1,0 +1,165 @@
+2025-09-15 13:01:36,756 - DEBUG - Order Agent: Sending prompt for LLM
+
+You are the Order Agent.
+Decide what to do with an incoming order.
+
+Item: laptop
+Quantity: 2
+Order ID: 31569e09-af90-4f34-ac20-a298e00566f5
+Status: INIT
+
+Rules:
+- If Status is empty or INIT → create the order in DB and forward to inventory agent.
+- If Status is reserved or out_of_stock → finalize order with given status and update DB.
+Return only one JSON with keys: order_id, item, qty, status, forward (true/false).
+
+Example responses are:
+
+If Status is empty or INIT:
+ ```json
+{
+  "order_id": "d550ad79-4960-4e8f-8ba7-db9a2a95dd0f",
+  "item": "laptop",
+  "qty": 2,
+  "status": "INIT",
+  "forward": true
+}
+
+If Status is reserved:
+ ```json
+{
+  "order_id": "d550ad79-4960-4e8f-8ba7-db9a2a95dd0f",
+  "item": "laptop",
+  "qty": 2,
+  "status": "reserved",
+  "forward": false
+}
+
+
+ ...
+2025-09-15 13:01:36,761 - DEBUG - Starting new HTTP connection (1): localhost:11434
+2025-09-15 13:01:37,256 - DEBUG - http://localhost:11434 "POST /api/generate HTTP/1.1" 200 None
+2025-09-15 13:01:39,973 - DEBUG - Order Agent: LLM Raw Response Took 3.216
+ ...
+2025-09-15 13:01:39,973 - DEBUG - Order Agent: LLM Raw Response Content is
+ Since the Status is INIT, I will create the order in the database and forward it to the inventory agent. Here's the response:
+
+```json
+{
+  "order_id": "new_order_id", // generated automatically
+  "item": "laptop",
+  "qty": 2,
+  "status": "INIT",
+  "forward": true
+}
+```
+ ...
+2025-09-15 13:01:39,974 - ERROR - JSON parse error: Expecting property name enclosed in double quotes: line 2 column 31 (char 32)
+2025-09-15 13:01:39,974 - DEBUG - Order Agent: Requested Qty: 2, LLM Parsed Response: {'order_id': 'f47c12b2-2c33-4e2a-a9e6-ce77f5dcc588', 'item': 'laptop', 'qty': 2, 'status': 'INIT', 'forward': True},
+
+----------
+2025-09-15 13:01:39,976 - DEBUG - Inventory Agent: Sending prompt for LLM
+
+You are the Inventory Agent.
+Decide whether to reserve stock.
+
+Order ID: f47c12b2-2c33-4e2a-a9e6-ce77f5dcc588
+Item: laptop
+Quantity: 2
+Stock: 10
+
+Rules:
+- If Stock >= Quantity → reserved
+- Otherwise → out_of_stock
+
+Return JSON with keys: order_id, status.
+
+
+
+ ...
+2025-09-15 13:01:39,979 - DEBUG - Starting new HTTP connection (1): localhost:11434
+2025-09-15 13:01:40,284 - DEBUG - http://localhost:11434 "POST /api/generate HTTP/1.1" 200 None
+2025-09-15 13:01:43,193 - DEBUG - Inventory Agent: LLM Raw Response Took 3.217
+ ...
+2025-09-15 13:01:43,194 - DEBUG - Inventory Agent: LLM Raw Response Content is
+ Based on the inventory level of 10 and the quantity ordered (2), I can determine that:
+
+Stock >= Quantity → reserved
+
+So, I will reserve the stock.
+
+Here is the JSON response:
+```
+{
+    "order_id": "f47c12b2-2c33-4e2a-a9e6-ce77f5dcc588",
+    "status": "reserved"
+}
+```
+ ...
+2025-09-15 13:01:43,194 - DEBUG - Inventory Agent: Current Stock: 10, Qty: 2, LLM Parsed Response: {'order_id': 'f47c12b2-2c33-4e2a-a9e6-ce77f5dcc588', 'status': 'reserved'},
+
+----------
+2025-09-15 13:01:43,196 - DEBUG - Order Agent: Sending prompt for LLM
+
+You are the Order Agent.
+Decide what to do with an incoming order.
+
+Item: laptop
+Quantity: 2
+Order ID: f47c12b2-2c33-4e2a-a9e6-ce77f5dcc588
+Status: reserved
+
+Rules:
+- If Status is empty or INIT → create the order in DB and forward to inventory agent.
+- If Status is reserved or out_of_stock → finalize order with given status and update DB.
+Return only one JSON with keys: order_id, item, qty, status, forward (true/false).
+
+Example responses are:
+
+If Status is empty or INIT:
+ ```json
+{
+  "order_id": "d550ad79-4960-4e8f-8ba7-db9a2a95dd0f",
+  "item": "laptop",
+  "qty": 2,
+  "status": "INIT",
+  "forward": true
+}
+
+If Status is reserved:
+ ```json
+{
+  "order_id": "d550ad79-4960-4e8f-8ba7-db9a2a95dd0f",
+  "item": "laptop",
+  "qty": 2,
+  "status": "reserved",
+  "forward": false
+}
+
+
+ ...
+2025-09-15 13:01:43,198 - DEBUG - Starting new HTTP connection (1): localhost:11434
+2025-09-15 13:01:43,768 - DEBUG - http://localhost:11434 "POST /api/generate HTTP/1.1" 200 None
+2025-09-15 13:01:47,255 - DEBUG - Order Agent: LLM Raw Response Took 4.059
+ ...
+2025-09-15 13:01:47,255 - DEBUG - Order Agent: LLM Raw Response Content is
+ A new order!
+
+Since the Status is already "reserved", I will finalize the order with this status and update the database.
+
+Here's my response:
+
+```json
+{
+  "order_id": "f47c12b2-2c33-4e2a-a9e6-ce77f5dcc588",
+  "item": "laptop",
+  "qty": 2,
+  "status": "reserved",
+  "forward": false
+}
+```
+ ...
+2025-09-15 13:01:47,255 - DEBUG - Order Agent: Requested Qty: 2, LLM Parsed Response: {'order_id': 'f47c12b2-2c33-4e2a-a9e6-ce77f5dcc588', 'item': 'laptop', 'qty': 2, 'status': 'reserved', 'forward': False},
+
+----------
+2025-09-15 13:01:47,257 - DEBUG - Final state: {'order_id': 'f47c12b2-2c33-4e2a-a9e6-ce77f5dcc588', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}, Total Response Took: 10.513
