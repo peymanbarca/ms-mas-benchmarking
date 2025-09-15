@@ -69,7 +69,13 @@ async def create_order(request: dict):
     try:
         # Call gRPC Inventory service (async)
         # create_order is async and uses the inventory_stub.Reserve async stub call.
-        res: pb.ReserveResponse = await inventory_stub.Reserve(grpc_req, timeout=10.0)
+        call = inventory_stub.Reserve(grpc_req, timeout=10.0)
+        res: pb.ReserveResponse = await call
+        initial_metadata = await call.initial_metadata()
+
+        req_bytes = int(initial_metadata.get("request-bytes", "0"))
+        res_bytes = int(initial_metadata.get("response-bytes", "0"))
+
     except grpc.aio.AioRpcError as e:
         LOG.exception("gRPC call failed: %s", e)
         db.orders.update_one({"_id": order_id}, {"$set": {"status": "FAILED"}})
@@ -86,4 +92,5 @@ async def create_order(request: dict):
         db.orders.update_one({"_id": order_id}, {"$set": {"status": "FAILED"}})
 
     final = db.orders.find_one({"_id": order_id})
-    return {"order_id": order_id, "final_status": final["status"]}
+    return {"order_id": order_id, "final_status": final["status"],
+            "payload": {"req_bytes": req_bytes, "res_bytes": res_bytes}}

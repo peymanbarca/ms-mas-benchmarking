@@ -34,6 +34,9 @@ class InventoryServicer(rpc.InventoryServicer):
         qty = int(request.qty)
         delay_ms = int(request.delay_ms or 0)
 
+        # request payload size (protobuf binary size) (number of bytes the serialized object)
+        req_size = request.ByteSize()
+
         LOG.info("Reserve request: item=%s qty=%d delay_ms=%d", item, qty, delay_ms)
 
         # perform the reservation atomically in a thread to avoid blocking asyncio loop
@@ -63,10 +66,20 @@ class InventoryServicer(rpc.InventoryServicer):
         if reserved:
             reservation_id = str(uuid.uuid4())
             LOG.info("Reserved %d %s (reservation=%s)", qty, item, reservation_id)
-            return pb.ReserveResponse(status="reserved", reservation_id=reservation_id, message="")
+            response = pb.ReserveResponse(status="reserved", reservation_id=reservation_id, message="")
         else:
             LOG.info("Out of stock: %s x%d", item, qty)
-            return pb.ReserveResponse(status="out_of_stock", reservation_id="", message="not enough stock")
+            response = pb.ReserveResponse(status="out_of_stock", reservation_id="", message="")
+
+        res_size = response.ByteSize()
+        LOG.info("Payload sizes: request=%dB, response=%dB", req_size, res_size)
+
+        await context.send_initial_metadata((
+            ("request-bytes", str(req_size)),
+            ("response-bytes", str(res_size)),
+        ))
+
+        return response
 
 
 async def serve(host="0.0.0.0", port=50051):

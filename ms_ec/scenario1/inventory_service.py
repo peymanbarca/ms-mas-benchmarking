@@ -32,7 +32,7 @@ def reserve(request: dict):
         return {"status": "reserved", "reservation_id": reservation_id}
     else:
         time.sleep(delay)  # Injected delay
-        return {"status": "out_of_stock"}
+        return {"status": "out_of_stock", "reservation_id": None}
 
 
 @app.get("/debug_stock")

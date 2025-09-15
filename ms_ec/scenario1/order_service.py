@@ -33,4 +33,5 @@ def create_order(request: dict):
     else:
         db.orders.update_one({"_id": order_id}, {"$set": {"status": "FAILED"}})
 
-    return {"order_id": order_id, "final_status": db.orders.find_one({"_id": order_id})["status"]}
+    return {"order_id": order_id, "final_status": db.orders.find_one({"_id": order_id})["status"],
+            "reservation_id": res["reservation_id"]}
