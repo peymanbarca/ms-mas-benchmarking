@@ -1,6 +1,6 @@
 # Scenario 1:
 
-##  direct function-call chaining (sync communication)
+##  direct function-call chaining (sync communication with internal state passing of a mutable state object)
     # OrderAgent (INIT order)
     #    → InventoryAgent (decide reservation)
     #    → OrderAgent (finalize order status)
@@ -11,4 +11,5 @@
 ## Run trial Experiments
 
 ### 1. Parallel Orders
+    --> setenv OLLAMA_NUM_PARALLEL 10 to Ollama server be able to handle 10 requests concurrently
 ### 2. Sequential Orders

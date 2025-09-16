@@ -1,0 +1,12 @@
+trial,delay,response_time,cpu_time,memory_change,final_status
+5    |   0  |   51.345  |   1.36 |   4392.0  |   {'order_id': '267637a4-f133-48b3-9afd-4cea975d8467', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+10    |   0  |   52.905  |   1.37 |   4392.0  |   {'order_id': '60202aa9-ef48-4651-bea9-eb58d9525fd6', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+9    |   0  |   54.079  |   1.4 |   4392.0  |   {'order_id': '0df6a2a7-7e2e-4c78-9d64-33d84d861f07', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+8    |   0  |   54.873  |   1.42 |   4392.0  |   {'order_id': 'ce46ebf9-61a7-4ed0-9749-2d3a66ad8ff3', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+6    |   0  |   55.155  |   1.43 |   4392.0  |   {'order_id': 'f9ead79c-6d4a-494d-b8bf-c16657318329', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+1    |   0  |   55.821  |   1.46 |   4392.0  |   {'order_id': '1706276d-0e81-4be5-a9e2-41ca0ed9bf82', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+2    |   0  |   56.062  |   1.47 |   4392.0  |   {'order_id': 'ff2da532-1eb1-43d8-885c-3c4d197d7e5f', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+3    |   0  |   56.743  |   1.48 |   4392.0  |   {'order_id': 'd4f40f1a-fbe4-4237-bbec-9f96acc07042', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+4    |   0  |   58.42  |   1.5 |   2452.0  |   {'order_id': '7d3a8343-6ecb-4f00-abc5-2b5742ccb712', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+7    |   0  |   58.656  |   1.5 |   2452.0  |   {'order_id': '4bf6347f-292d-4d15-98e9-3d5b8e4603e6', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+final_stock is: {'_id': ObjectId('68c9de053e69b2026b752b41'), 'item': 'laptop', 'stock': -10}

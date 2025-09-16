@@ -11,6 +11,8 @@ import logging
 import psutil
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
+import asyncio
+
 
 logging.basicConfig(
     filename='llm_mas_sc1_traces.log',  # Specify the log file name
@@ -51,6 +53,7 @@ def get_final_stock(item):
     inventory = db.inventory
     final_stock = inventory.find_one({"item": item})
     return final_stock
+
 
 # 2. Deterministic DB Agent
 class DBAgent:
@@ -199,7 +202,7 @@ def parse_json_response(content: str, fallback: dict):
 
 
 # 4. Agent functions (sync now)
-def order_agent(state: OrderState, db_ag: DBAgent):
+async def order_agent(state: OrderState, db_ag: DBAgent):
     # First or second step, LLM decides what to do
     prompt = order_prompt.format(
         item_in=state["item"],
@@ -210,7 +213,7 @@ def order_agent(state: OrderState, db_ag: DBAgent):
     logging.debug(f"Order Agent: Sending prompt for LLM \n {prompt} \n ...")
 
     st = time.time()
-    response = llm.invoke(prompt)
+    response = await llm.ainvoke(prompt)
     et = time.time()
     print(f"Order Agent: LLM Raw Response Took {round((et - st), 3)} \n ...")
     logging.debug(f"Order Agent: LLM Raw Response Took {round((et - st), 3)} \n ...")
@@ -243,7 +246,7 @@ def order_agent(state: OrderState, db_ag: DBAgent):
     return parsed
 
 
-def inventory_agent(state: OrderState, db_ag: DBAgent):
+async def inventory_agent(state: OrderState, db_ag: DBAgent):
     stock = db_ag.get_stock(state["item"])
     prompt = inventory_prompt.format(
         item_in=state["item"],
@@ -255,7 +258,7 @@ def inventory_agent(state: OrderState, db_ag: DBAgent):
     logging.debug(f"Inventory Agent: Sending prompt for LLM \n {prompt} \n ...")
 
     st = time.time()
-    response = llm.invoke(prompt)
+    response = await llm.ainvoke(prompt)
     et = time.time()
     print(f"Inventory Agent: LLM Raw Response Took {round((et - st), 3)} \n ...")
     logging.debug(f"Inventory Agent: LLM Raw Response Took {round((et - st), 3)} \n ...")
@@ -277,7 +280,8 @@ def inventory_agent(state: OrderState, db_ag: DBAgent):
 
     # inject delay in reservation response
     print('Delay injected, waiting for response of reservation ...')
-    time.sleep(delay)
+    await asyncio.sleep(delay)
+
     return parsed
 
 
@@ -308,7 +312,7 @@ def build_graph(db_ag: DBAgent):
     return workflow.compile()
 
 
-def run_trial(idx, db_mode, delay=0):
+async def run_trial(idx, db_mode, delay=0):
     """Run one LLM-MAS trial and return metrics."""
     # CPU + memory before
     cpu_start = process.cpu_times()
@@ -329,7 +333,7 @@ def run_trial(idx, db_mode, delay=0):
     initial_state: OrderState = {"order_id": str(uuid.uuid4()), "item": item, "qty": 2, "status": "INIT"}
     print(f'Trial {idx}, initial_state is {initial_state}')
     # Run graph
-    result = graph.invoke(initial_state)
+    result = await graph.invoke(initial_state)
 
     # CPU + memory after
     cpu_end = process.cpu_times()
@@ -350,35 +354,48 @@ def run_trial(idx, db_mode, delay=0):
     return metrics
 
 
-def parallel_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_parallel_report.txt"):
-    """Run N parallel LLM-MAS trials and log metrics."""
+async def parallel_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_parallel_report.txt"):
+    """Run N parallel LLM-MAS trials and log metrics asynchronously."""
     with open(report_file_name, "w") as f:
         f.write("trial,delay,response_time,cpu_time,memory_change,final_status\n")
 
-    results = []
-    with ThreadPoolExecutor(max_workers=n_trials) as executor:
-        futures = {executor.submit(run_trial, i, db_mode, delay): i for i in range(1, n_trials+1)}
-        for future in as_completed(futures):
-            metrics = future.result()
-            results.append(metrics)
-            logging.debug(f"Trial {metrics['trial']} finished: {metrics}")
-            print(f"Trial {metrics['trial']} result:", metrics)
+    tasks = [asyncio.create_task(run_trial(i, db_mode, delay)) for i in range(1, n_trials+1)]
+    results = await asyncio.gather(*tasks)
 
-            with open(report_file_name, "a") as f:
-                f.write(f"{metrics['trial']}    |   {metrics['delay']}  |   {metrics['response_time']}  |   "
-                        f"{metrics['cpu_time']} |   {metrics['memory_change']}  |   {metrics['final_status']}\n")
+    for metrics in results:
+        logging.debug(f"Trial {metrics['trial']} finished: {metrics}")
+        print(f"Trial {metrics['trial']} result:", metrics)
+
+        with open(report_file_name, "a") as f:
+            f.write(f"{metrics['trial']}    |   {metrics['delay']}  |   {metrics['response_time']}  |   "
+                    f"{metrics['cpu_time']} |   {metrics['memory_change']}  |   {metrics['final_status']}\n")
 
     return results
 
+    # results = []
+    # with ThreadPoolExecutor(max_workers=n_trials) as executor:
+    #     futures = {executor.submit(run_trial, i, db_mode, delay): i for i in range(1, n_trials+1)}
+    #     for future in as_completed(futures):
+    #         metrics = future.result()
+    #         results.append(metrics)
+    #         logging.debug(f"Trial {metrics['trial']} finished: {metrics}")
+    #         print(f"Trial {metrics['trial']} result:", metrics)
+    #
+    #         with open(report_file_name, "a") as f:
+    #             f.write(f"{metrics['trial']}    |   {metrics['delay']}  |   {metrics['response_time']}  |   "
+    #                     f"{metrics['cpu_time']} |   {metrics['memory_change']}  |   {metrics['final_status']}\n")
+    #
+    # return results
 
-def sequential_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_sequential_report.txt"):
-    """Run N parallel LLM-MAS trials and log metrics."""
+
+async def sequential_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_sequential_report.txt"):
+    """Run N sequential LLM-MAS trials and log metrics."""
     with open(report_file_name, "w") as f:
         f.write("trial,delay,response_time,cpu_time,memory_change,final_status\n")
 
     results = []
     for i in range(1, n_trials+1):
-        metrics = run_trial(i, db_mode, delay)
+        metrics = await run_trial(i, db_mode, delay)   # await each trial
         results.append(metrics)
         logging.debug(f"Trial {metrics['trial']} finished: {metrics}")
         print(f"Trial {metrics['trial']} result:", metrics)
@@ -400,8 +417,8 @@ if __name__ == "__main__":
         reset_db(item, init_stock)
         input('Check DB state is clean, press any key to continue ...')
 
-    sequential_trials(n_trials=n_trials, delay=delay)
-    #parallel_trials(n_trials=n_trials, delay=delay)
+    results = asyncio.run(parallel_trials(n_trials=10, db_mode="REAL", delay=0))
+    # results = asyncio.run(sequential_trials(n_trials=10, db_mode="REAL", delay=0))
 
     final_stock = get_final_stock(item=item)
     print(f'final_stock is: {final_stock}')
