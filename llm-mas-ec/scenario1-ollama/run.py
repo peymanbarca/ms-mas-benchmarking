@@ -2,13 +2,14 @@ import uuid
 from langgraph.graph import StateGraph, END
 from langchain_community.llms import Ollama
 from langchain_core.prompts import ChatPromptTemplate
-from typing import TypedDict, Optional, Dict, List
+from typing import TypedDict, Optional, Dict, List, Any
 from pymongo import MongoClient
 import json
 import time
 import re
 import logging
 import psutil
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 
 logging.basicConfig(
@@ -29,6 +30,28 @@ class OrderState(TypedDict):
     status: Optional[str]  # INIT, reserved, out_of_stock
 
 
+def real_db():
+    client = MongoClient("mongodb://localhost:27017/")
+    db = client["retail_mas"]
+    return client, db
+
+
+def reset_db(item, init_stock):
+    client, db = real_db()
+    orders = db.orders
+    inventory = db.inventory
+    inventory.delete_many({})
+    orders.delete_many({})
+    stock = {"item": item, "stock": init_stock}
+    inventory.insert_one(stock)
+
+
+def get_final_stock(item):
+    client, db = real_db()
+    inventory = db.inventory
+    final_stock = inventory.find_one({"item": item})
+    return final_stock
+
 # 2. Deterministic DB Agent
 class DBAgent:
     def __init__(self, db, mode: str = 'MOCK'):
@@ -37,6 +60,9 @@ class DBAgent:
             if db is None:
                 raise ValueError("MongoDB client must be provided in real mode")
             self.db = db
+            self.orders = db.orders
+            self.inventory = db.inventory
+
         elif mode == "MOCK":
             self.orders: List[Dict] = []
             self.inventory: List[Dict] = []
@@ -44,7 +70,7 @@ class DBAgent:
             raise ValueError("mode must be 'real' or 'mock'")
 
     def save_order(self, order_id: str, item: str, qty: int):
-        if self.mode == "real":
+        if self.mode == "REAL":
             self.db.orders.insert_one({
                 "_id": order_id,
                 "item": item,
@@ -60,7 +86,7 @@ class DBAgent:
             })
 
     def update_order(self, order_id: str, status: str):
-        if self.mode == "real":
+        if self.mode == "REAL":
             self.db.orders.update_one({"_id": order_id}, {"$set": {"status": status}})
         else:
             for order in self.orders:
@@ -69,8 +95,9 @@ class DBAgent:
                     break
 
     def get_stock(self, item: str) -> int:
-        if self.mode == "real":
+        if self.mode == "REAL":
             stock = self.db.inventory.find_one({"item": item})
+            print(f"Stock in inventory DB is: {stock}")
             if not stock:
                 stock = {"item": item, "stock": 10}
                 self.db.inventory.insert_one(stock)
@@ -83,7 +110,7 @@ class DBAgent:
             return stock["stock"]
 
     def update_stock(self, item: str, qty: int):
-        if self.mode == "real":
+        if self.mode == "REAL":
             self.db.inventory.update_one(
                 {"item": item},
                 {"$inc": {"stock": -qty}},
@@ -119,7 +146,7 @@ Example responses are:
 If Status is empty or INIT:
  ```json
 {{
-  "order_id": "d550ad79-4960-4e8f-8ba7-db9a2a95dd0f",
+  "order_id": "{order_id_in}",
   "item": "laptop",
   "qty": 2,
   "status": "INIT",
@@ -129,7 +156,7 @@ If Status is empty or INIT:
 If Status is reserved:
  ```json
 {{
-  "order_id": "d550ad79-4960-4e8f-8ba7-db9a2a95dd0f",
+  "order_id": "{order_id_in}",
   "item": "laptop",
   "qty": 2,
   "status": "reserved",
@@ -177,7 +204,7 @@ def order_agent(state: OrderState, db_ag: DBAgent):
     prompt = order_prompt.format(
         item_in=state["item"],
         qty_in=state["qty"],
-        order_id_in=state["order_id"] or str(uuid.uuid4()),
+        order_id_in=state["order_id"],
         status_in=state["status"] or "INIT"
                                  )
     logging.debug(f"Order Agent: Sending prompt for LLM \n {prompt} \n ...")
@@ -278,28 +305,19 @@ def build_graph(db_ag: DBAgent):
     return workflow.compile()
 
 
-if __name__ == "__main__":
-
-    report_file_name = 'mas_sc1_parallel.txt'
+def simple_run():
 
     cpu_start = process.cpu_times()
     t1 = time.time()
 
-    with open(report_file_name, 'w') as f:
-        f.write('')
-
-    db_mode = 'MOCK'  # REAL | MOCK
-
     if db_mode == 'REAL':
-        client = MongoClient("mongodb://user:pass1@localhost:27017/")
-        db = client["retail_mas"]
+        client, db = real_db()
         orders = db.orders
         inventory = db.inventory
     else:
         db = None
     db_agent = DBAgent(db=db, mode=db_mode)
     graph = build_graph(db_agent)
-    delay = 0
 
     initial_state: OrderState = {"order_id": "", "item": "laptop", "qty": 2, "status": "INIT"}
 
@@ -315,9 +333,102 @@ if __name__ == "__main__":
 
     logging.debug(f"Final state: {result}, Total Response Took: {round((t2 - t1), 3)}")
     print("Final state:", result, f' Total Response Took: {round((t2 - t1), 3)}')
-    with open(report_file_name, 'a') as f1:
-        f1.write(f'Delay : {delay}, '
-                 f'Total Response Took: {round((t2 - t1), 3)}, '
-                 f'Status: {result}, '
-                 f'CPU time: {round(cpu_used, 5)} \n')
+
+
+def run_trial(idx, db_mode, delay=0):
+    """Run one LLM-MAS trial and return metrics."""
+    # CPU + memory before
+    cpu_start = process.cpu_times()
+    mem_start = process.memory_info().rss  # in bytes
+    t1 = time.time()
+
+    if db_mode == 'REAL':
+        client = MongoClient("mongodb://localhost:27017/")
+        db = client["retail_mas"]
+        orders = db.orders
+        inventory = db.inventory
+    else:
+        db = None
+
+    db_agent = DBAgent(db=db, mode=db_mode)
+    graph = build_graph(db_agent)
+
+    initial_state: OrderState = {"order_id": str(uuid.uuid4()), "item": item, "qty": 2, "status": "INIT"}
+    print(f'Trial {idx}, initial_state is {initial_state}')
+    # Run graph
+    result = graph.invoke(initial_state)
+
+    # CPU + memory after
+    cpu_end = process.cpu_times()
+    mem_end = process.memory_info().rss
+    t2 = time.time()
+    cpu_used = (cpu_end.user - cpu_start.user) + (cpu_end.system - cpu_start.system)
+    mem_used = mem_end - mem_start
+    elapsed = t2 - t1
+
+    metrics = {
+        "trial": idx,
+        "delay": delay,
+        "response_time": round((elapsed), 3),
+        "cpu_time": round(cpu_used, 5),
+        "memory_change": round(mem_used/1024,2),
+        "final_status": result,
+    }
+    return metrics
+
+
+def parallel_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_parallel_report.txt"):
+    """Run N parallel LLM-MAS trials and log metrics."""
+    with open(report_file_name, "w") as f:
+        f.write("trial,delay,response_time,cpu_time,memory_change,final_status\n")
+
+    results = []
+    with ThreadPoolExecutor(max_workers=n_trials) as executor:
+        futures = {executor.submit(run_trial, i, db_mode, delay): i for i in range(1, n_trials+1)}
+        for future in as_completed(futures):
+            metrics = future.result()
+            results.append(metrics)
+            logging.debug(f"Trial {metrics['trial']} finished: {metrics}")
+            print(f"Trial {metrics['trial']} result:", metrics)
+
+            with open(report_file_name, "a") as f:
+                f.write(f"{metrics['trial']},{metrics['delay']},{metrics['response_time']},"
+                        f"{metrics['cpu_time']},{metrics['memory_change']},{metrics['final_status']}\n")
+
+    return results
+
+
+def sequential_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_sequential_report.txt"):
+    """Run N parallel LLM-MAS trials and log metrics."""
+    with open(report_file_name, "w") as f:
+        f.write("trial,delay,response_time,cpu_time,memory_change,final_status\n")
+
+    results = []
+    for i in range(1, n_trials+1):
+        metrics = run_trial(i, db_mode, delay)
+        results.append(metrics)
+        logging.debug(f"Trial {metrics['trial']} finished: {metrics}")
+        print(f"Trial {metrics['trial']} result:", metrics)
+
+        with open(report_file_name, "a") as f:
+            f.write(f"{metrics['trial']},{metrics['delay']},{metrics['response_time']},"
+                    f"{metrics['cpu_time']},{metrics['memory_change']},{metrics['final_status']}\n")
+
+    return results
+
+
+if __name__ == "__main__":
+    db_mode = 'REAL'  # REAL | MOCK
+    delay = 0
+    n_trials = 10
+    item = "laptop"
+    init_stock = 10
+    if db_mode == 'REAL':
+        reset_db(item, init_stock)
+        input('Check DB state is clean, press any key to continue ...')
+
+    sequential_trials(n_trials=n_trials, delay=delay)
+    final_stock = get_final_stock(item=item)
+    print(f'final_stock is: {final_stock}')
+
 
