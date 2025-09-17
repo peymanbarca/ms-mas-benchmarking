@@ -18,7 +18,7 @@ MONGO_URI = "mongodb://user:pass1@localhost:27017/"
 DB_NAME = "retail"
 
 # Use a small thread pool for blocking operations
-executor = ThreadPoolExecutor(max_workers=8)
+executor = ThreadPoolExecutor(max_workers=20)
 
 
 class InventoryServicer(rpc.InventoryServicer):

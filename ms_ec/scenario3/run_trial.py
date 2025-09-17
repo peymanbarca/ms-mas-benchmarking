@@ -50,7 +50,7 @@ def place_order(item, qty, results, idx, delay):
         results[idx] = {"error": str(e)}
 
 
-def run_experiment_parallel_order(trials=5, concurrent_orders=100):
+def run_experiment_parallel_order(trials=10, concurrent_orders=100):
     success_count = 0
     failure_count = 0
 
@@ -94,7 +94,7 @@ def run_experiment_parallel_order(trials=5, concurrent_orders=100):
     return success_count, failure_count
 
 
-def run_experiment_sequential_order(trials=5, total_orders=100):
+def run_experiment_sequential_order(trials=10, total_orders=100):
     success_count = 0
     failure_count = 0
 

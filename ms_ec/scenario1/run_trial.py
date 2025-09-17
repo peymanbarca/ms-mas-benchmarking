@@ -128,7 +128,7 @@ def run_experiment_sequential_order(trials=5, total_orders=100):
 
 
 if __name__ == "__main__":
-    delay = 0
+    delay = 1
     # report_file_name = 'ms_sc1_sequential.txt'
     report_file_name = 'ms_sc1_parallel.txt'
 
