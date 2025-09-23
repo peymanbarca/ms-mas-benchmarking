@@ -1,6 +1,6 @@
 # Scenario 1:
 
-##  direct function-call chaining (sync communication with internal state passing of a mutable state object)
+##  direct function-call chaining (sync communication with internal state passing of a mutable state object) using LangGraph synchronous state machine
     # OrderAgent (INIT order)
     #    → InventoryAgent (decide reservation)
     #    → OrderAgent (finalize order status)
