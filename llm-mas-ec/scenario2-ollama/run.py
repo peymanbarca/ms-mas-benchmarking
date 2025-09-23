@@ -5,7 +5,7 @@ import time
 import uuid
 import re
 from typing import Optional, TypedDict
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
 import aio_pika
 from langgraph.graph import StateGraph, END
 from langchain_community.llms import Ollama
@@ -39,7 +39,7 @@ checkpointer = MemorySaver()
 
 
 def real_db():
-    client = MongoClient("mongodb://user:pass1@localhost:27017/")
+    client = MongoClient("mongodb://localhost:27017/")
     db = client["retail_mas"]
     return client, db
 
@@ -59,6 +59,13 @@ def get_final_stock(item):
     inventory = db.inventory
     final_stock = inventory.find_one({"item": item})
     return final_stock
+
+
+def get_all_orders(item):
+    client, db = real_db()
+    orders = db.orders
+    all_orders = list(orders.find({"item": item}))
+    return all_orders
 
 
 # 2. Deterministic DB Agent
@@ -443,7 +450,7 @@ async def main_runner(n_trials: int = 5, db_mode: str = "REAL",
                       delay_seconds: float = 0.0, drop_rate: float = 0.0):
     # Prepare DB agent
     if db_mode == "REAL":
-        client = MongoClient("mongodb://user:pass1@localhost:27017/")
+        client = MongoClient("mongodb://localhost:27017/")
         db = client["retail_mas"]
         db_ag = DBAgent(db=db, mode="REAL")
     else:
@@ -506,6 +513,10 @@ async def main_runner(n_trials: int = 5, db_mode: str = "REAL",
 
     final_stock = get_final_stock(item=item)
     print(f'final_stock is: {final_stock}')
+
+    all_orders = get_all_orders(item=item)
+    print(f'all orders:\n')
+    print(*all_orders, sep='\n')
 
 
 # ---- CLI entrypoint ----
