@@ -222,6 +222,8 @@ def order_agent(state: OrderState, db_ag: DBAgent):
 
     print(f"Order Agent: Requested Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
     logging.debug(f"Order Agent: Requested Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
+    with open(report_file_name, "a") as f:
+        f.write(f"\tOrder Agent Response: {parsed}\n")
 
     if str(parsed["status"]).lower() == "init":
         # Save INIT order
@@ -268,6 +270,8 @@ def inventory_agent(state: OrderState, db_ag: DBAgent):
     print(f"Inventory Agent: Current Stock: {stock}, Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
     logging.debug(f"Inventory Agent: Current Stock: {stock}, Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
 
+    with open(report_file_name, "a") as f:
+        f.write(f"\tInventory Agent: {parsed}\n")
     # If reserved, decrement stock
     if parsed["status"] == "reserved":
         db_ag.update_stock(state["item"], state["qty"])
@@ -358,7 +362,7 @@ def parallel_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_
         f.write("trial,delay,response_time,cpu_time,memory_change,final_status\n")
 
     results = []
-    with ThreadPoolExecutor(max_workers=n_trials) as executor:
+    with ThreadPoolExecutor(max_workers=int(n_trials/10)) as executor:
         futures = {executor.submit(run_trial, i, db_mode, delay): i for i in range(1, n_trials+1)}
         for future in as_completed(futures):
             metrics = future.result()
@@ -368,7 +372,7 @@ def parallel_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_
 
             with open(report_file_name, "a") as f:
                 f.write(f"{metrics['trial']}    |   {metrics['delay']}  |   {metrics['response_time']}  |   "
-                        f"{metrics['cpu_time']} |   {metrics['memory_change']}  |   {metrics['final_status']}\n")
+                        f"{metrics['cpu_time']} |   {metrics['memory_change']}  |   {metrics['final_status']}\n----------------\n\n")
 
     return results
 
@@ -387,7 +391,7 @@ def sequential_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="ma
 
         with open(report_file_name, "a") as f:
             f.write(f"{metrics['trial']}    |   {metrics['delay']}  |   {metrics['response_time']}  |   "
-                    f"{metrics['cpu_time']} |   {metrics['memory_change']}  |   {metrics['final_status']}\n")
+                    f"{metrics['cpu_time']} |   {metrics['memory_change']}  |   {metrics['final_status']}\n----------------\n\n")
 
     return results
 
@@ -402,8 +406,11 @@ if __name__ == "__main__":
         reset_db(item, init_stock)
         input('Check DB state is clean, press any key to continue ...')
 
-    sequential_trials(n_trials=n_trials, delay=delay)
-    #parallel_trials(n_trials=n_trials, delay=delay)
+    report_file_name="mas_parallel_report.txt"
+    sequential_trials(n_trials=n_trials, delay=delay, report_file_name=report_file_name)
+
+    # report_file_name="mas_parallel_report.txt"
+    # parallel_trials(n_trials=n_trials, delay=delay, report_file_name=report_file_name)
 
     final_stock = get_final_stock(item=item)
     print(f'final_stock is: {final_stock}')
