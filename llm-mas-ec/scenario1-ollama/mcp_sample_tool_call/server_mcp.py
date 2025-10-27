@@ -15,11 +15,12 @@ PORT = 8000
 
 @mcp.tool()
 def reserve_stock(order_id: str, item: str, qty: int) -> dict:
-    print(f'New Request: {order_id}, {item}, {qty}')
+    # print(f'New Request: {order_id}, {item}, {qty}')
     stock_doc = inventory_col.find_one({"item": item})
     if not stock_doc:
-        stock_doc = {"item": item, "stock": 10}
-        inventory_col.insert_one(stock_doc)
+        # stock_doc = {"item": item, "stock": 10}
+        # inventory_col.insert_one(stock_doc)
+        return {"order_id": order_id, "status": "out_of_stock"}
 
     if stock_doc["stock"] >= qty:
         inventory_col.update_one({"item": item}, {"$inc": {"stock": -qty}}, upsert=True)
