@@ -1,0 +1,602 @@
+trial,delay,response_time,cpu_time,memory_change,final_status
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': '1c2b8ec7-706a-4443-8d77-ac9bf828ea04', 'status': 'reserved'}
+	Inventory Agent: {'order_id': 'f7fa0ca7-bd17-49f8-a516-7eb069982fc6', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '65128db2-d432-42f3-b23a-9915b99134c8', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '648a8b0d-8e8b-4905-b859-bb1cc1fe8e5f', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '4050c223-0378-4e63-a756-977966265b9a', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '6e5634cd-5686-440b-9399-279bfb677d1b', 'status': 'reserved'}
+	Inventory Agent: {'order_id': 'c2f798dc-aca0-467f-a7ab-819aa38e7515', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '21f40ba6-e3fb-46d2-a96c-1a5e801024a7', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '0970be2a-e127-4573-9194-ea8780e2a439', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '2146d297-2116-4986-a4dd-abdd6e418d22', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '7b5d941b-8437-43af-bfef-6bf2b80f7daf', 'status': 'reserved'}
+	Inventory Agent: {'order_id': 'b822cdaa-fbaf-416d-bffe-8819e3227a0f', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '3cea3b1e-ddab-46bd-a1bd-42b915d375aa', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '73ef456f-2694-41e4-8bae-a7060a6dc29a', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '996063e1-2de4-4b1c-9094-6139607d97b4', 'status': 'reserved'}
+	Inventory Agent: {'order_id': 'b29fb8b5-8687-40b1-97a0-e794011eab26', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '8736892a-1a48-4063-8c20-4abd26cbb923', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '9231d544-99dd-465f-b70b-11a4744fa449', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': 'eb13e905-e487-48b8-8018-7c01905d20b6', 'status': 'reserved'}
+	Inventory Agent: {'order_id': '744eb175-ba2d-40f9-ac3b-acf4c158081e', 'status': 'reserved'}
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+1    |   10  |   16.128  |   0.56 |   12340.0  |   {'order_id': '1c2b8ec7-706a-4443-8d77-ac9bf828ea04', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+15    |   10  |   16.289  |   0.55 |   9700.0  |   {'order_id': 'f7fa0ca7-bd17-49f8-a516-7eb069982fc6', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+6    |   10  |   17.495  |   0.62 |   12852.0  |   {'order_id': '648a8b0d-8e8b-4905-b859-bb1cc1fe8e5f', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+12    |   10  |   17.735  |   0.62 |   9956.0  |   {'order_id': '4050c223-0378-4e63-a756-977966265b9a', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+19    |   10  |   17.807  |   0.62 |   9956.0  |   {'order_id': '65128db2-d432-42f3-b23a-9915b99134c8', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+13    |   10  |   17.845  |   0.64 |   9956.0  |   {'order_id': '6e5634cd-5686-440b-9399-279bfb677d1b', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+17    |   10  |   17.888  |   0.66 |   9956.0  |   {'order_id': 'c2f798dc-aca0-467f-a7ab-819aa38e7515', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+2    |   10  |   17.974  |   0.7 |   12852.0  |   {'order_id': '21f40ba6-e3fb-46d2-a96c-1a5e801024a7', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+11    |   10  |   17.97  |   0.68 |   12340.0  |   {'order_id': '0970be2a-e127-4573-9194-ea8780e2a439', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+14    |   10  |   17.997  |   0.69 |   9956.0  |   {'order_id': '2146d297-2116-4986-a4dd-abdd6e418d22', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+8    |   10  |   20.482  |   0.84 |   11504.0  |   {'order_id': '7b5d941b-8437-43af-bfef-6bf2b80f7daf', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+4    |   10  |   20.853  |   0.87 |   11504.0  |   {'order_id': 'b822cdaa-fbaf-416d-bffe-8819e3227a0f', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+3    |   10  |   20.976  |   0.89 |   11504.0  |   {'order_id': '73ef456f-2694-41e4-8bae-a7060a6dc29a', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+10    |   10  |   20.971  |   0.87 |   10992.0  |   {'order_id': '3cea3b1e-ddab-46bd-a1bd-42b915d375aa', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+5    |   10  |   20.981  |   0.89 |   11504.0  |   {'order_id': '996063e1-2de4-4b1c-9094-6139607d97b4', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+20    |   10  |   20.972  |   0.88 |   8608.0  |   {'order_id': 'b29fb8b5-8687-40b1-97a0-e794011eab26', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+16    |   10  |   21.314  |   0.91 |   8864.0  |   {'order_id': '9231d544-99dd-465f-b70b-11a4744fa449', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+18    |   10  |   21.809  |   0.93 |   7060.0  |   {'order_id': '8736892a-1a48-4063-8c20-4abd26cbb923', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+7    |   10  |   22.316  |   0.96 |   9956.0  |   {'order_id': 'eb13e905-e487-48b8-8018-7c01905d20b6', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Inventory Agent: {'order_id': 'd945a197-2344-49b0-a478-95bef573d69e', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'reserved', 'forward': False}
+9    |   10  |   22.537  |   0.98 |   9956.0  |   {'order_id': '744eb175-ba2d-40f9-ac3b-acf4c158081e', 'item': 'laptop', 'qty': 2, 'status': 'reserved'}
+----------------
+
+	Inventory Agent: {'order_id': '705a7144-47d1-4a8c-a1d4-239a7d678ef3', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': '37f3e097-8786-4df5-8ec9-859ad62907f1', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'edf8d6fe-9a5b-4528-8122-f793d34e2f2a', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': '19b1c439-fa5d-4618-98aa-ace4e74e3f61', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': '82240ed4-bf91-48d8-a977-f12a28cbe589', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': 'e805c230-154f-44ec-936b-05c625c9b748', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '6742b406-ffaa-4600-86ba-5a22d7273eb3', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '48cbab5a-2510-4bb4-abde-61565b6e3bd9', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '4ecbdd3e-bdc6-41c3-9455-8a83ace49350', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'cd953a52-3c48-46ff-a28d-e26fbf6c60bd', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '9a895d42-93b2-403e-bd4a-994142699fe4', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '54ca8412-da7f-44ac-be96-b0a45e61f4ca', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '27da8184-31f9-4a38-a250-e344739a6087', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': 'd2d80c02-8c21-4e99-b8ae-483b7422f35e', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '2d3f56a9-1def-4827-ba65-aa4cf069cc3d', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': 'eab80061-89e3-4fc3-a5b8-e56a46e0a5a4', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '21878fee-5f4e-4a7d-8c1e-2fef70599b3c', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '5bc0a32b-ec23-4904-945a-043d832d1d2f', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '6f60b350-7d59-452d-8a71-58de31223f20', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+21    |   10  |   17.028  |   0.67 |   -2384.0  |   {'order_id': 'd945a197-2344-49b0-a478-95bef573d69e', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+22    |   10  |   17.259  |   0.67 |   -2640.0  |   {'order_id': '705a7144-47d1-4a8c-a1d4-239a7d678ef3', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+23    |   10  |   17.705  |   0.66 |   -2896.0  |   {'order_id': '37f3e097-8786-4df5-8ec9-859ad62907f1', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': 'c080709c-8c0a-4d90-a0e7-05dc4d56d957', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '2b480263-90c0-47ef-9a6b-72767cba7298', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+27    |   10  |   18.596  |   0.65 |   -2896.0  |   {'order_id': 'edf8d6fe-9a5b-4528-8122-f793d34e2f2a', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+24    |   10  |   18.782  |   0.7 |   -2896.0  |   {'order_id': '19b1c439-fa5d-4618-98aa-ace4e74e3f61', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+25    |   10  |   18.751  |   0.7 |   -2896.0  |   {'order_id': '82240ed4-bf91-48d8-a977-f12a28cbe589', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+26    |   10  |   18.723  |   0.68 |   -2896.0  |   {'order_id': 'e805c230-154f-44ec-936b-05c625c9b748', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+30    |   10  |   19.958  |   0.69 |   -3152.0  |   {'order_id': '48cbab5a-2510-4bb4-abde-61565b6e3bd9', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+28    |   10  |   20.144  |   0.72 |   -2896.0  |   {'order_id': '4ecbdd3e-bdc6-41c3-9455-8a83ace49350', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+29    |   10  |   20.255  |   0.73 |   -2896.0  |   {'order_id': '6742b406-ffaa-4600-86ba-5a22d7273eb3', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '88fb8faa-972b-4c19-bdb7-d992bc9ee66b', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+31    |   10  |   21.164  |   0.7 |   -1292.0  |   {'order_id': 'cd953a52-3c48-46ff-a28d-e26fbf6c60bd', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+32    |   10  |   21.249  |   0.7 |   -1292.0  |   {'order_id': '9a895d42-93b2-403e-bd4a-994142699fe4', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+36    |   10  |   21.25  |   0.67 |   -1292.0  |   {'order_id': '54ca8412-da7f-44ac-be96-b0a45e61f4ca', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+33    |   10  |   21.273  |   0.69 |   -1292.0  |   {'order_id': '27da8184-31f9-4a38-a250-e344739a6087', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+34    |   10  |   21.545  |   0.72 |   -1292.0  |   {'order_id': 'd2d80c02-8c21-4e99-b8ae-483b7422f35e', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '30b29c79-10d8-45af-9fdf-d72147c493fb', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': 'dc1e903c-ab59-46d3-a8c6-b968c1a4579a', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '9c4eca8e-9f5b-4cbd-a4a5-bd0b94271019', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '785bed2e-52c7-43ff-a374-596c7defc62d', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+39    |   10  |   21.853  |   0.67 |   256.0  |   {'order_id': 'eab80061-89e3-4fc3-a5b8-e56a46e0a5a4', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+35    |   10  |   23.296  |   0.75 |   -1292.0  |   {'order_id': '2d3f56a9-1def-4827-ba65-aa4cf069cc3d', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+38    |   10  |   22.691  |   0.72 |   512.0  |   {'order_id': '5bc0a32b-ec23-4904-945a-043d832d1d2f', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': 'ee9fcb8e-b40b-4cca-bc0b-8af0445357f6', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+37    |   10  |   24.217  |   0.78 |   -1292.0  |   {'order_id': '21878fee-5f4e-4a7d-8c1e-2fef70599b3c', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+40    |   10  |   23.007  |   0.72 |   512.0  |   {'order_id': '6f60b350-7d59-452d-8a71-58de31223f20', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'c70dd1a4-de83-4389-a723-55ea434f83fa', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'f0aff48c-293a-4225-bc3f-ebc118a2eedf', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+41    |   10  |   15.862  |   0.61 |   512.0  |   {'order_id': 'c080709c-8c0a-4d90-a0e7-05dc4d56d957', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+42    |   10  |   15.871  |   0.61 |   512.0  |   {'order_id': '2b480263-90c0-47ef-9a6b-72767cba7298', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': 'c023ad78-a118-4bb0-82b8-9e8360c2a061', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': 'fffc8170-671e-4668-9499-387ec410a59c', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '810b7de4-4d03-42cd-b74f-4a732074d2b9', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '0ce738ff-131b-4421-9cde-97ad098c1b61', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '8e6a0096-c41e-4d2b-a002-0317ddcfd71c', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'd5415e06-5399-4988-9072-0352c3456bbd', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '44a7dd88-be82-47c3-8003-80778feae79d', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '9c8b6734-268b-4b21-982c-3f0e945993f5', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+43    |   10  |   17.964  |   0.69 |   512.0  |   {'order_id': '88fb8faa-972b-4c19-bdb7-d992bc9ee66b', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '5bd05264-9155-4030-a3c5-21150fadbd4c', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '6a6c3d52-fa2a-4b57-a53b-dedfa2b57b44', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+45    |   10  |   18.705  |   0.69 |   512.0  |   {'order_id': '30b29c79-10d8-45af-9fdf-d72147c493fb', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+46    |   10  |   18.665  |   0.69 |   512.0  |   {'order_id': '9c4eca8e-9f5b-4cbd-a4a5-bd0b94271019', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+44    |   10  |   18.741  |   0.71 |   512.0  |   {'order_id': 'dc1e903c-ab59-46d3-a8c6-b968c1a4579a', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+47    |   10  |   18.803  |   0.7 |   512.0  |   {'order_id': '785bed2e-52c7-43ff-a374-596c7defc62d', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '88efbb71-7a37-4bc7-93f2-da21b2bd3984', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '9cb7b482-1a7d-4066-8c55-34b0c43fba11', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+48    |   10  |   18.884  |   0.7 |   512.0  |   {'order_id': 'ee9fcb8e-b40b-4cca-bc0b-8af0445357f6', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '8f4bbc49-e6df-413b-ae3d-a786819a8ad4', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+49    |   10  |   20.849  |   0.74 |   512.0  |   {'order_id': 'c70dd1a4-de83-4389-a723-55ea434f83fa', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+50    |   10  |   20.974  |   0.74 |   512.0  |   {'order_id': 'f0aff48c-293a-4225-bc3f-ebc118a2eedf', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'c5b3a1f9-da30-467b-a7fd-a163ff23a037', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '0f9c9732-effe-4519-899d-f37fd845c403', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'c05fe5ff-8560-4eb5-a61a-a23f2fd17f65', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': 'ce143632-032d-4152-9ade-3874ea4029da', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '8c81de3b-ee35-4c3d-8d25-35477eb1f7d3', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+51    |   10  |   20.611  |   0.7 |   256.0  |   {'order_id': 'c023ad78-a118-4bb0-82b8-9e8360c2a061', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+52    |   10  |   20.871  |   0.72 |   256.0  |   {'order_id': 'fffc8170-671e-4668-9499-387ec410a59c', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+53    |   10  |   20.845  |   0.72 |   256.0  |   {'order_id': '810b7de4-4d03-42cd-b74f-4a732074d2b9', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '4c131eda-c637-4aa6-b39c-a9f912877634', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+54    |   10  |   21.698  |   0.75 |   256.0  |   {'order_id': '0ce738ff-131b-4421-9cde-97ad098c1b61', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+56    |   10  |   20.703  |   0.72 |   256.0  |   {'order_id': 'd5415e06-5399-4988-9072-0352c3456bbd', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+58    |   10  |   20.606  |   0.72 |   0.0  |   {'order_id': '44a7dd88-be82-47c3-8003-80778feae79d', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+57    |   10  |   20.85  |   0.75 |   256.0  |   {'order_id': '9c8b6734-268b-4b21-982c-3f0e945993f5', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+55    |   10  |   22.605  |   0.79 |   256.0  |   {'order_id': '8e6a0096-c41e-4d2b-a002-0317ddcfd71c', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '9ce011f8-cfe7-4f11-b7ae-e7b3d03e087f', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+60    |   10  |   19.715  |   0.71 |   0.0  |   {'order_id': '5bd05264-9155-4030-a3c5-21150fadbd4c', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+59    |   10  |   19.978  |   0.74 |   256.0  |   {'order_id': '6a6c3d52-fa2a-4b57-a53b-dedfa2b57b44', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+61    |   10  |   18.546  |   0.69 |   256.0  |   {'order_id': '88efbb71-7a37-4bc7-93f2-da21b2bd3984', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'b1a12324-503e-49b7-9d88-f31bc90605aa', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+62    |   10  |   19.607  |   0.71 |   256.0  |   {'order_id': '9cb7b482-1a7d-4066-8c55-34b0c43fba11', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+63    |   10  |   16.016  |   0.61 |   256.0  |   {'order_id': '8f4bbc49-e6df-413b-ae3d-a786819a8ad4', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '96649ad5-1494-40e5-8553-8e234db9da62', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '12f08c2d-3226-4168-86a8-30870809fef1', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': '265b76a4-4800-4eac-a088-be30c615c72c', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'ee4c06ce-12f7-47b0-b4f7-ca881071acd0', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': 'b7788683-77a4-4d8f-91d9-d604cf7d221d', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '9eeb5919-50c5-4f47-93b2-3f8bf0612274', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '581c0a74-07d2-47a9-8647-499148dad8e6', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+67    |   10  |   17.441  |   0.63 |   256.0  |   {'order_id': 'c5b3a1f9-da30-467b-a7fd-a163ff23a037', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+65    |   10  |   18.325  |   0.67 |   256.0  |   {'order_id': '0f9c9732-effe-4519-899d-f37fd845c403', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+66    |   10  |   18.33  |   0.67 |   256.0  |   {'order_id': 'c05fe5ff-8560-4eb5-a61a-a23f2fd17f65', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+64    |   10  |   18.696  |   0.7 |   256.0  |   {'order_id': 'ce143632-032d-4152-9ade-3874ea4029da', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+68    |   10  |   17.567  |   0.65 |   256.0  |   {'order_id': '8c81de3b-ee35-4c3d-8d25-35477eb1f7d3', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '532ecb6b-cb34-4e9a-8a57-54f25d6472b8', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+70    |   10  |   16.239  |   0.62 |   256.0  |   {'order_id': '4c131eda-c637-4aa6-b39c-a9f912877634', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'ebc39bd9-36bc-4243-ab4a-3ac6205cfd87', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+69    |   10  |   18.349  |   0.69 |   256.0  |   {'order_id': '9ce011f8-cfe7-4f11-b7ae-e7b3d03e087f', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': '97db4578-31e3-4fc5-b340-d90df6b651f4', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '3ff4e35e-227c-419a-8744-a074da516d67', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': 'cc872719-787f-4d34-a4b3-1ea501b394e5', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'b5233ead-ae2f-48e6-bd58-2800470b88fc', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '6d42f4b9-7787-4832-a4b7-ea65c89a3da8', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+71    |   10  |   17.833  |   0.66 |   256.0  |   {'order_id': 'b1a12324-503e-49b7-9d88-f31bc90605aa', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': 'b30a0278-7fc7-4a5e-b3cd-26a5b1683c92', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '917d2b73-a82d-4298-aadb-477fabb26a40', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '437f3001-0777-440e-b7a0-90c803f57b34', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '145aceea-9448-48dc-9b4f-e732e949ebb6', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+73    |   10  |   18.257  |   0.66 |   256.0  |   {'order_id': '96649ad5-1494-40e5-8553-8e234db9da62', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+72    |   10  |   18.458  |   0.68 |   256.0  |   {'order_id': '12f08c2d-3226-4168-86a8-30870809fef1', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '9c11f6a3-668d-41a6-8191-39cd206a676b', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+74    |   10  |   18.726  |   0.68 |   256.0  |   {'order_id': '265b76a4-4800-4eac-a088-be30c615c72c', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+76    |   10  |   18.379  |   0.66 |   256.0  |   {'order_id': 'ee4c06ce-12f7-47b0-b4f7-ca881071acd0', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+75    |   10  |   19.318  |   0.7 |   256.0  |   {'order_id': 'b7788683-77a4-4d8f-91d9-d604cf7d221d', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'bd87ba1d-8a95-404c-9de4-7f08825adedd', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+78    |   10  |   19.363  |   0.68 |   256.0  |   {'order_id': '9eeb5919-50c5-4f47-93b2-3f8bf0612274', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+77    |   10  |   19.368  |   0.69 |   256.0  |   {'order_id': '581c0a74-07d2-47a9-8647-499148dad8e6', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'fe276d96-6aa7-4f92-be19-716cff2dfd2c', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+80    |   10  |   21.362  |   0.72 |   0.0  |   {'order_id': '532ecb6b-cb34-4e9a-8a57-54f25d6472b8', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '1aa4f4f3-3051-4fa1-9bef-0ffa2876402f', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+81    |   10  |   20.494  |   0.67 |   0.0  |   {'order_id': 'ebc39bd9-36bc-4243-ab4a-3ac6205cfd87', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+	Inventory Agent: {'order_id': 'f9ba1dfc-8e33-4876-9dcc-a41c97c9122e', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '16c34c30-8a22-4bb0-8523-278fc3625e97', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'INIT', 'forward': True}
+82    |   10  |   20.611  |   0.7 |   0.0  |   {'order_id': '97db4578-31e3-4fc5-b340-d90df6b651f4', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+83    |   10  |   20.613  |   0.68 |   0.0  |   {'order_id': '3ff4e35e-227c-419a-8744-a074da516d67', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '813f9daa-5542-4dc5-9781-17fd7af8a2a2', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+79    |   10  |   24.902  |   0.85 |   256.0  |   {'order_id': 'cc872719-787f-4d34-a4b3-1ea501b394e5', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '9e575275-8349-41db-9dbf-e641e884679a', 'status': 'out_of_stock'}
+	Inventory Agent: {'order_id': '85fd4829-a557-4827-b0f3-ce8d55b1b473', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+84    |   10  |   18.057  |   0.61 |   0.0  |   {'order_id': 'b5233ead-ae2f-48e6-bd58-2800470b88fc', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+85    |   10  |   17.904  |   0.6 |   0.0  |   {'order_id': '6d42f4b9-7787-4832-a4b7-ea65c89a3da8', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+86    |   10  |   18.202  |   0.6 |   0.0  |   {'order_id': 'b30a0278-7fc7-4a5e-b3cd-26a5b1683c92', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+87    |   10  |   17.975  |   0.59 |   0.0  |   {'order_id': '917d2b73-a82d-4298-aadb-477fabb26a40', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '4a37e3d3-507d-4eb6-a3c1-9ceb3bd7706d', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+88    |   10  |   17.846  |   0.58 |   0.0  |   {'order_id': '437f3001-0777-440e-b7a0-90c803f57b34', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+89    |   10  |   16.82  |   0.54 |   0.0  |   {'order_id': '145aceea-9448-48dc-9b4f-e732e949ebb6', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+90    |   10  |   15.217  |   0.48 |   0.0  |   {'order_id': '9c11f6a3-668d-41a6-8191-39cd206a676b', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Inventory Agent: {'order_id': '81c948cf-6781-492b-8d86-51e3785ea114', 'status': 'out_of_stock'}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+91    |   10  |   14.701  |   0.43 |   0.0  |   {'order_id': 'bd87ba1d-8a95-404c-9de4-7f08825adedd', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+93    |   10  |   15.511  |   0.4 |   0.0  |   {'order_id': 'fe276d96-6aa7-4f92-be19-716cff2dfd2c', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+92    |   10  |   16.044  |   0.42 |   0.0  |   {'order_id': '1aa4f4f3-3051-4fa1-9bef-0ffa2876402f', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+94    |   10  |   16.35  |   0.38 |   0.0  |   {'order_id': 'f9ba1dfc-8e33-4876-9dcc-a41c97c9122e', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+95    |   10  |   16.333  |   0.35 |   0.0  |   {'order_id': '16c34c30-8a22-4bb0-8523-278fc3625e97', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+96    |   10  |   16.117  |   0.35 |   0.0  |   {'order_id': '813f9daa-5542-4dc5-9781-17fd7af8a2a2', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+98    |   10  |   16.395  |   0.34 |   0.0  |   {'order_id': '9e575275-8349-41db-9dbf-e641e884679a', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+97    |   10  |   16.423  |   0.35 |   0.0  |   {'order_id': '85fd4829-a557-4827-b0f3-ce8d55b1b473', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+99    |   10  |   15.567  |   0.26 |   0.0  |   {'order_id': '4a37e3d3-507d-4eb6-a3c1-9ceb3bd7706d', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+	Order Agent Response: {'status': 'out_of_stock', 'forward': False}
+100    |   10  |   14.931  |   0.24 |   0.0  |   {'order_id': '81c948cf-6781-492b-8d86-51e3785ea114', 'item': 'laptop', 'qty': 2, 'status': 'out_of_stock'}
+----------------
+
+final_stock is: {'_id': ObjectId('68ffacc111f4c732c93a248c'), 'item': 'laptop', 'stock': -28}

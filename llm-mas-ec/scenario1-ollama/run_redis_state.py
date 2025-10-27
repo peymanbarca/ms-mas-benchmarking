@@ -362,7 +362,7 @@ def parallel_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_
         f.write("trial,delay,response_time,cpu_time,memory_change,final_status\n")
 
     results = []
-    with ThreadPoolExecutor(max_workers=int(n_trials/10)) as executor:
+    with ThreadPoolExecutor(max_workers=int(n_trials/10) + delay) as executor:
         futures = {executor.submit(run_trial, i, db_mode, delay): i for i in range(1, n_trials+1)}
         for future in as_completed(futures):
             metrics = future.result()
