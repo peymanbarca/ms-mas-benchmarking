@@ -17,21 +17,28 @@ def create_order(request: dict):
     item: str = request["item"]
     qty: int = request["qty"]
     delay: int = request.get("delay", 0)
+    drop_rate: int = request.get("drop_rate", 0)
     order_id = str(uuid.uuid4())
     db.orders.insert_one({"_id": order_id, "item": item, "qty": qty, "status": "INIT"})
 
     # Call Inventory Service
-    r = requests.post("http://localhost:8082/reserve", json={"item": item, "qty": qty, "delay": delay})
-    res = r.json()
+    try:
+        r = requests.post("http://localhost:8082/reserve", json={"item": item, "qty": qty, "delay": delay,
+                                                                 "drop_rate": drop_rate})
+        res = r.json()
 
-    if res["status"] == "reserved":
-        db.orders.update_one({"_id": order_id}, {"$set": {"status": "RESERVED"}})
-        # Mock payment success
-        db.orders.update_one({"_id": order_id}, {"$set": {"status": "COMPLETED"}})
-    elif res["status"] == "out_of_stock":
-        db.orders.update_one({"_id": order_id}, {"$set": {"status": "FAILED_OUT_OF_STOCK"}})
-    else:
-        db.orders.update_one({"_id": order_id}, {"$set": {"status": "FAILED"}})
+        if res["status"] == "reserved":
+            db.orders.update_one({"_id": order_id}, {"$set": {"status": "RESERVED"}})
+            # Mock payment success
+            db.orders.update_one({"_id": order_id}, {"$set": {"status": "COMPLETED"}})
+        elif res["status"] == "out_of_stock":
+            db.orders.update_one({"_id": order_id}, {"$set": {"status": "FAILED_OUT_OF_STOCK"}})
+        else:
+            db.orders.update_one({"_id": order_id}, {"$set": {"status": "FAILED"}})
 
-    return {"order_id": order_id, "final_status": db.orders.find_one({"_id": order_id})["status"],
-            "reservation_id": res["reservation_id"]}
+        return {"order_id": order_id, "final_status": db.orders.find_one({"_id": order_id})["status"],
+                "reservation_id": res["reservation_id"]}
+    except Exception as e:
+        print(e)
+        return {"order_id": order_id, "final_status": db.orders.find_one({"_id": order_id})["status"],
+                "reservation_id": None}

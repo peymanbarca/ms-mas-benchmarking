@@ -13,12 +13,12 @@ BASE_URL = "http://localhost:8081/order"
 process = psutil.Process(os.getpid())
 
 
-def place_order(item, qty, results, idx, delay):
+def place_order(item, qty, results, idx, delay, drop_rate):
     try:
         cpu_start = process.cpu_times()
 
         t1 = time.time()
-        r = requests.post(BASE_URL, json={"item": item, "qty": qty, "delay": delay})
+        r = requests.post(BASE_URL, json={"item": item, "qty": qty, "delay": delay, "drop_rate": drop_rate})
         res = r.json()
         results[idx] = res
         t2 = time.time()
@@ -43,8 +43,6 @@ def place_order(item, qty, results, idx, delay):
 
 
 def run_experiment_parallel_order(total_orders=100):
-    success_count = 0
-    failure_count = 0
 
     # clear previous orders/stocks for clean trial run
     requests.post("http://localhost:8081/clear_orders", json={})
@@ -63,10 +61,12 @@ def run_experiment_parallel_order(total_orders=100):
         pool_size = int(total_orders / init_stock) + 2 * delay
         print(f"Using thread pool of size: {pool_size}")
 
+        failure_rate = 0
+
         # submit tasks to thread pool
         with ThreadPoolExecutor(max_workers=pool_size) as executor:
             futures = [
-                executor.submit(place_order, random_item_name, qty, results, i, delay)
+                executor.submit(place_order, random_item_name, qty, results, i, delay, drop_rate)
                 for i in range(total_orders)
             ]
 
@@ -82,26 +82,27 @@ def run_experiment_parallel_order(total_orders=100):
             inv = requests.get(f"http://localhost:8082/debug_stock?item={random_item_name}").json()
             stock_left = inv["stock"]
             total_completed_orders = sum(1 for r in results.values() if r.get("final_status") == "COMPLETED")
+            total_pending_orders = sum(1 for r in results.values() if r.get("final_status") == "INIT")
+            print(f'Stock Left: {stock_left}, Total Completed Orders: {total_completed_orders},'
+                  f' Total Pending Orders: {total_pending_orders}')
 
-            print(f"Stock Left: {stock_left}, Completed Orders: {total_completed_orders}")
-
-            if stock_left >= 0 and stock_left + \
+            if stock_left >= 0 and total_pending_orders == 0 and stock_left + \
                     total_completed_orders == int(init_stock / qty):
-                success_count += 1
                 print('success')
             else:
-                failure_count += 1
-                print('failure')
+                if stock_left < 0:
+                    failure_rate += -stock_left / qty
+                elif stock_left + total_completed_orders != int(init_stock / qty):
+                    failure_rate += int((total_completed_orders - stock_left) / qty)
+                if total_pending_orders > 0:
+                    failure_rate += total_pending_orders
+                print('failure: ', failure_rate)
+
         except Exception as e:
             print(f"Validation error: {e}")
-            failure_count += 1
-
-    return success_count, failure_count
 
 
 def run_experiment_sequential_order(total_orders=100):
-    success_count = 0
-    failure_count = 0
 
     # clear previous orders/stocks for clean trial run
     requests.post(f"http://localhost:8081/clear_orders", json={})
@@ -116,48 +117,47 @@ def run_experiment_sequential_order(total_orders=100):
         # init stock in inventory for random item
         requests.post(f"http://localhost:8082/init_stock", json={"item": random_item_name})
 
+        failure_rate = 0
         # Fire sequential orders
         for i in tqdm(range(total_orders)):
-            place_order(item=random_item_name, qty=qty, results=results, idx=i, delay=delay)
+            place_order(item=random_item_name, qty=qty, results=results, idx=i, delay=delay, drop_rate=drop_rate)
 
         # Check DB for consistency
         try:
             inv = requests.get("http://localhost:8082/debug_stock?item=a").json()
             stock_left = inv["stock"]
             total_completed_orders = sum(1 for r in results.values() if r.get("final_status") == "COMPLETED")
-            print(f'Stock Left: {stock_left}, Total Completed Orders: {total_completed_orders}')
+            total_pending_orders = sum(1 for r in results.values() if r.get("final_status") == "INIT")
+            print(f'Stock Left: {stock_left}, Total Completed Orders: {total_completed_orders},'
+                  f' Total Pending Orders: {total_pending_orders}')
 
-            if stock_left >= 0 and stock_left + \
+            if stock_left >= 0 and total_pending_orders == 0 and stock_left + \
                     total_completed_orders == int(init_stock / qty):
-                success_count += 1
                 print('success')
             else:
-                failure_count += 1
-                print('failure')
+                if stock_left < 0:
+                    failure_rate += -stock_left / qty
+                elif stock_left + total_completed_orders != int(init_stock / qty):
+                    failure_rate += int((total_completed_orders - stock_left) / qty)
+                if total_pending_orders > 0:
+                    failure_rate += total_pending_orders
+                print('failure: ', failure_rate)
         except Exception as e:
             print(e)
-            failure_count += 1
-
-    return success_count, failure_count
 
 
 if __name__ == "__main__":
-    delay = 2
+    delay = 0
     # report_file_name = 'ms_sc1_sequential.txt'
     report_file_name = 'ms_sc1_parallel.txt'
     init_stock = 10
     n_trials = 5
     qty = 2
+    drop_rate = 10
 
     with open(report_file_name, 'w') as f:
         f.write('')
 
     # success, failure = run_experiment_sequential_order()
-    success, failure = run_experiment_parallel_order()
+    run_experiment_parallel_order()
 
-    print("Success:", success)
-    print("Failure:", failure)
-    print("Success rate:", success / (success + failure))
-
-    with open(report_file_name, 'a') as f:
-        f.write(f'\n\n Success: {success}, Failure: {failure}, Success rate: {success / (success + failure)}')
