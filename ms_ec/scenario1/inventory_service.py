@@ -47,7 +47,6 @@ def reserve(request: dict):
         time.sleep(delay)  # Injected delay
         # drop response message after db update
         if drop_rate > 0 and random.randint(0, 99) < drop_rate:
-            time.sleep(delay)  # Still include delay before reporting failure
             print(f"FAULT INJECTED: Drop Rate triggered (item={item}, rate={drop_rate}%)")
             # Simulates a dropped connection or corrupted response that results in an immediate error
             raise HTTPException(

@@ -12,11 +12,12 @@ import psutil
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 import redis
+import random
 
 logging.basicConfig(
     filename='llm_mas_sc1_traces.log',  # Specify the log file name
-    level=logging.DEBUG,          # Set the logging level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL)
-    format='%(asctime)s - %(levelname)s - %(message)s' # Define the log message format
+    level=logging.DEBUG,  # Set the logging level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s - %(levelname)s - %(message)s'  # Define the log message format
 )
 
 process = psutil.Process(os.getpid())
@@ -28,7 +29,7 @@ class RedisStateStore:
 
     def save_state(self, key: str, state: dict):
         """Persist state as JSON under a given key"""
-        self.r.set(key, json.dumps(state), ex = 300)
+        self.r.set(key, json.dumps(state), ex=300)
 
     def load_state(self, key: str) -> dict:
         """Fetch state JSON and return as dict"""
@@ -65,11 +66,31 @@ def reset_db(item, init_stock):
     inventory.insert_one(stock)
 
 
-def get_final_stock(item):
+def get_final_state(item):
     client, db = real_db()
-    inventory = db.inventory
-    final_stock = inventory.find_one({"item": item})
-    return final_stock
+    final_ec_state = None
+    stock_left = 0
+    failure_rate = 0
+
+    final_stock = db.inventory.find_one({"item": item})
+    if final_stock:
+        stock_left = final_stock['stock']
+    total_completed_orders = db.orders.count_documents({"status": "reserved"})
+    total_pending_orders = db.orders.count_documents({"status": "INIT"})
+
+    if stock_left >= 0 and total_pending_orders == 0 and stock_left + \
+            total_completed_orders == int(init_stock / qty):
+        final_ec_state = 'SUCCESS'
+    else:
+        if stock_left < 0:
+            failure_rate += -stock_left / qty
+        elif stock_left + total_completed_orders != int(init_stock / qty):
+            failure_rate += int((total_completed_orders - stock_left) / qty)
+        if total_pending_orders > 0:
+            failure_rate += total_pending_orders
+        final_ec_state = 'FAIL'
+    return stock_left, total_completed_orders, total_pending_orders, final_ec_state, failure_rate
+
 
 # 2. Deterministic DB Agent
 class DBAgent:
@@ -154,8 +175,8 @@ Status: status_in
 
 Rules:
 - If Status is empty or INIT → create the order in DB and forward to inventory agent.
-- If Status is reserved or out_of_stock → finalize order with given status and update DB.
-Return only one JSON with keys: status(init/reserved/out_of_stock), forward (true/false).
+- If Status is reserved or out_of_stock or error → finalize order with given status and update DB.
+Return only one JSON with keys: status(init/reserved/out_of_stock/error), forward (true/false).
 
 """
 
@@ -227,11 +248,11 @@ def order_agent(state: OrderState, db_ag: DBAgent):
 
     if str(parsed["status"]).lower() == "init":
         # Save INIT order
-        db_ag.save_order(state["order_id"], state["item"], state["qty"])
+        db_ag.save_order(state["order_id"], state["item"], state["qty"]) # todo: replace with MCP
 
     elif str(parsed["status"]).lower() in ["reserved", "out_of_stock"]:
         # Finalize order based on reservation response
-        db_ag.update_order(state["order_id"], state["status"])
+        db_ag.update_order(state["order_id"], state["status"]) # todo: replace with MCP
 
     state['status'] = parsed['status']
     state['forward'] = parsed['forward']
@@ -249,7 +270,7 @@ def inventory_agent(state: OrderState, db_ag: DBAgent):
         qty_in=state["qty"],
         order_id_in=state["order_id"],
         stock_in=stock
-                                 )
+    )
 
     logging.debug(f"Inventory Agent: Sending prompt for LLM \n {prompt} \n ...")
 
@@ -267,18 +288,27 @@ def inventory_agent(state: OrderState, db_ag: DBAgent):
         fallback={"order_id": state["order_id"], "status": "out_of_stock"},
     )
 
-    print(f"Inventory Agent: Current Stock: {stock}, Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
-    logging.debug(f"Inventory Agent: Current Stock: {stock}, Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
+    print(
+        f"Inventory Agent: Current Stock: {stock}, Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
+    logging.debug(
+        f"Inventory Agent: Current Stock: {stock}, Qty: {state['qty']}, LLM Parsed Response: {parsed}, \n\n----------")
 
     with open(report_file_name, "a") as f:
         f.write(f"\tInventory Agent: {parsed}\n")
     # If reserved, decrement stock
     if parsed["status"] == "reserved":
-        db_ag.update_stock(state["item"], state["qty"])
+        db_ag.update_stock(state["item"], state["qty"]) # todo: replace with MCP
 
     # inject delay in reservation response
     print('Delay injected, waiting for response of reservation ...')
     time.sleep(delay)
+
+    if drop_rate > 0 and random.randint(0, 99) < drop_rate:
+        print(f"FAULT INJECTED: Drop Rate triggered (rate={drop_rate}%)")
+        # Simulates a dropped connection or corrupted response that results in an immediate error
+        state['status'] = 'error'
+        state_store.save_state(key, state)
+        return parsed
 
     state['status'] = parsed['status']
     state_store.save_state(key, state)
@@ -299,7 +329,7 @@ def build_graph(db_ag: DBAgent):
     def route_from_order(state: OrderState):
         if state["status"] == "INIT":
             return "inventory_agent"
-        elif state["status"] in ["reserved", "out_of_stock"]:
+        elif state["status"] in ["reserved", "out_of_stock", "error"]:
             return END
         else:
             return END
@@ -330,7 +360,7 @@ def run_trial(idx, db_mode, delay=0):
     db_agent = DBAgent(db=db, mode=db_mode)
     graph = build_graph(db_agent)
 
-    initial_state: OrderState = {"order_id": str(uuid.uuid4()), "item": item, "qty": 2, "status": "INIT"}
+    initial_state: OrderState = {"order_id": str(uuid.uuid4()), "item": item, "qty": qty, "status": "INIT"}
     print(f'Trial {idx}, initial_state is {initial_state}')
 
     state_store.save_state(f"order:{initial_state['order_id']}", initial_state)
@@ -348,9 +378,10 @@ def run_trial(idx, db_mode, delay=0):
     metrics = {
         "trial": idx,
         "delay": delay,
+        "drop_rate": drop_rate,
         "response_time": round((elapsed), 3),
         "cpu_time": round(cpu_used, 5),
-        "memory_change": round(mem_used/1024,2),
+        "memory_change": round(mem_used / 1024, 2),
         "final_status": result,
     }
     return metrics
@@ -362,8 +393,8 @@ def parallel_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="mas_
         f.write("trial,delay,response_time,cpu_time,memory_change,final_status\n")
 
     results = []
-    with ThreadPoolExecutor(max_workers=int(n_trials/init_stock) + delay) as executor:
-        futures = {executor.submit(run_trial, i, db_mode, delay): i for i in range(1, n_trials+1)}
+    with ThreadPoolExecutor(max_workers=int(n_trials / init_stock) + delay) as executor:
+        futures = {executor.submit(run_trial, i, db_mode, delay): i for i in range(1, n_trials + 1)}
         for future in as_completed(futures):
             metrics = future.result()
             results.append(metrics)
@@ -383,7 +414,7 @@ def sequential_trials(n_trials=10, db_mode="REAL", delay=0, report_file_name="ma
         f.write("trial,delay,response_time,cpu_time,memory_change,final_status\n")
 
     results = []
-    for i in range(1, n_trials+1):
+    for i in range(1, n_trials + 1):
         metrics = run_trial(i, db_mode, delay)
         results.append(metrics)
         logging.debug(f"Trial {metrics['trial']} finished: {metrics}")
@@ -402,15 +433,23 @@ if __name__ == "__main__":
     n_trials = 100
     item = "laptop"
     init_stock = 10
+    qty = 2
+    drop_rate = 0
     if db_mode == 'REAL':
         reset_db(item, init_stock)
         input('Check DB state is clean, press any key to continue ...')
 
-    report_file_name="mas_parallel_report.txt"
+    report_file_name = "mas_parallel_report.txt"
     sequential_trials(n_trials=n_trials, delay=delay, report_file_name=report_file_name)
 
     # report_file_name="mas_parallel_report.txt"
     # parallel_trials(n_trials=n_trials, delay=delay, report_file_name=report_file_name)
 
-    final_stock = get_final_stock(item=item)
-    print(f'final_stock is: {final_stock}')
+    stock_left, total_completed_orders, total_pending_orders, final_ec_state, failure_rate = get_final_state(item)
+    print(f'Final State: stock_left: {stock_left}, total_completed_orders: {total_completed_orders},'
+          f' total_pending_orders: {total_pending_orders}, final_ec_state: {final_ec_state}'
+          f' failure_rate: {failure_rate}')
+    with open(report_file_name, "a") as f:
+        f.write(f'Final State: stock_left: {stock_left}, total_completed_orders: {total_completed_orders},'
+                f' total_pending_orders: {total_pending_orders}, final_ec_state: {final_ec_state}'
+                f' failure_rate: {failure_rate}\n')
