@@ -617,15 +617,13 @@ if __name__ == "__main__":
     else:
         results = sequential_trials(n_trials=n_trials, db_mode=DB_MODE, delay_s=delay, drop_pct=drop_rate)
 
-    # Save aggregated JSON
-    with open("result/exp1_results.json", "w") as f:
-        json.dump(results, f, indent=2)
-
     # If REAL, print final summary
     if DB_MODE == 'REAL':
         stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved,\
             final_ec_state, failure_rate = get_final_state(item)
         summary = {
+            "n_trials": n_trials,
+            "n_threads": max_workers,
             "stock_left": stock_left,
             "total_completed_orders": total_completed_orders,
             "total_pending_orders": total_pending_orders,
@@ -638,5 +636,8 @@ if __name__ == "__main__":
         with open(REPORT_FILE, "a") as f:
             f.write("\nFINAL_SUMMARY:\n")
             f.write(json.dumps(summary) + "\n")
+
+        with open("exp1_results.json", "w") as f:
+            json.dump({"trial_results": results, "final_summary": summary}, f, indent=4)
 
     print("Done. Results saved to exp1_results.json and detailed lines in", REPORT_FILE)

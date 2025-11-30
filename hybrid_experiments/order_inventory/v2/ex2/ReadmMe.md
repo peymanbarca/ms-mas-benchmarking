@@ -1,4 +1,4 @@
-# Experiment 2: One LLM Agent vs One FastAPI Microservice implementation
+# Experiment 2: One LLM Agent vs One FastAPI Microservice implementation (1 LLM Call per trial)
 
 The agent is LLM-based (same partial-state), uses a small LangGraph-like wrapper and calls the microservice over HTTP to reserve inventory. It persists its lightweight state in Redis and the order record in MongoDB (REAL or MOCK modes preserved).
 

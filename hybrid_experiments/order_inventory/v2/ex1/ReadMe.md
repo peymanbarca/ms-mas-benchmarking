@@ -1,4 +1,5 @@
-## Experiment 1: 2 Agents
+## Experiment 1: 2 Agents (3 LLM Calls per trial)
+
 ### Two LLM Agents with Atomic MongoDB Updates
 
 This implementation uses the langgraph framework to define the two agents (Order and Inventory),  and MongoDB database and redis for state persistence

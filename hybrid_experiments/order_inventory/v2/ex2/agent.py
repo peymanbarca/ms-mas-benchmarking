@@ -489,10 +489,13 @@ if __name__ == "__main__":
         with open(REPORT_FILE, "a") as f:
             f.write("\nFINAL_AUDIT:\n")
             f.write(json.dumps(audit) + "\n")
+
         stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved,\
             final_ec_state, failure_rate = get_final_state(ITEM)
 
         summary = {
+            "n_trials": n_trials,
+            "n_threads": max_workers,
             "stock_left": stock_left,
             "total_completed_orders": total_completed_orders,
             "total_pending_orders": total_pending_orders,
@@ -505,5 +508,8 @@ if __name__ == "__main__":
         with open(REPORT_FILE, "a") as f:
             f.write("\nFINAL_SUMMARY:\n")
             f.write(json.dumps(summary) + "\n")
+
+        with open("exp2_results.json", "w") as f:
+            json.dump({"trial_results": results, "final_summary": summary}, f, indent=4)
 
     print("Done. Results in", RESULTS_JSON, "and", REPORT_FILE)

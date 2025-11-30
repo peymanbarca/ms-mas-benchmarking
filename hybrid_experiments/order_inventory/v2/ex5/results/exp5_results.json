@@ -1,0 +1,935 @@
+{
+    "trial_results": [
+        {
+            "order_id": "5f86fe76-6aa0-4f08-bb0b-7ecbffab797f",
+            "item": "laptop",
+            "qty": 2,
+            "status": "reserved",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"5f86fe76-6aa0-4f08-bb0b-7ecbffab797f\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"5f86fe76-6aa0-4f08-bb0b-7ecbffab797f\", \"status\": \"reserved\", \"remaining\": 8}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"5f86fe76-6aa0-4f08-bb0b-7ecbffab797f\", \"status\": \"reserved\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "5f86fe76-6aa0-4f08-bb0b-7ecbffab797f",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "5f86fe76-6aa0-4f08-bb0b-7ecbffab797f",
+                        "status": "reserved",
+                        "remaining": 8
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "5f86fe76-6aa0-4f08-bb0b-7ecbffab797f",
+                        "status": "reserved"
+                    }
+                }
+            ],
+            "trial": 3,
+            "elapsed": 6.812
+        },
+        {
+            "order_id": "6e00b401-900d-4754-8b11-ae4dcd66040a",
+            "item": "laptop",
+            "qty": 2,
+            "status": "reserved",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"6e00b401-900d-4754-8b11-ae4dcd66040a\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"6e00b401-900d-4754-8b11-ae4dcd66040a\", \"status\": \"reserved\", \"remaining\": 6}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"6e00b401-900d-4754-8b11-ae4dcd66040a\", \"status\": \"reserved\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "6e00b401-900d-4754-8b11-ae4dcd66040a",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "6e00b401-900d-4754-8b11-ae4dcd66040a",
+                        "status": "reserved",
+                        "remaining": 6
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "6e00b401-900d-4754-8b11-ae4dcd66040a",
+                        "status": "reserved"
+                    }
+                }
+            ],
+            "trial": 4,
+            "elapsed": 7.157
+        },
+        {
+            "order_id": "af495b75-91c9-4814-bf85-77aefe629752",
+            "item": "laptop",
+            "qty": 2,
+            "status": "reserved",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"af495b75-91c9-4814-bf85-77aefe629752\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"af495b75-91c9-4814-bf85-77aefe629752\", \"status\": \"reserved\", \"remaining\": 2}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"af495b75-91c9-4814-bf85-77aefe629752\", \"status\": \"reserved\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "af495b75-91c9-4814-bf85-77aefe629752",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "af495b75-91c9-4814-bf85-77aefe629752",
+                        "status": "reserved",
+                        "remaining": 2
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "af495b75-91c9-4814-bf85-77aefe629752",
+                        "status": "reserved"
+                    }
+                }
+            ],
+            "trial": 10,
+            "elapsed": 7.189
+        },
+        {
+            "order_id": "98b2644e-bd48-4aa1-8aac-dc2426d13a6f",
+            "item": "laptop",
+            "qty": 2,
+            "status": "reserved",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"98b2644e-bd48-4aa1-8aac-dc2426d13a6f\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"98b2644e-bd48-4aa1-8aac-dc2426d13a6f\", \"status\": \"reserved\", \"remaining\": 4}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"98b2644e-bd48-4aa1-8aac-dc2426d13a6f\", \"status\": \"reserved\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "98b2644e-bd48-4aa1-8aac-dc2426d13a6f",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "98b2644e-bd48-4aa1-8aac-dc2426d13a6f",
+                        "status": "reserved",
+                        "remaining": 4
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "98b2644e-bd48-4aa1-8aac-dc2426d13a6f",
+                        "status": "reserved"
+                    }
+                }
+            ],
+            "trial": 6,
+            "elapsed": 7.21
+        },
+        {
+            "order_id": "55c9da60-9c8c-48b1-90e3-1eea880eb977",
+            "item": "laptop",
+            "qty": 2,
+            "status": "reserved",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"55c9da60-9c8c-48b1-90e3-1eea880eb977\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"55c9da60-9c8c-48b1-90e3-1eea880eb977\", \"status\": \"reserved\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"55c9da60-9c8c-48b1-90e3-1eea880eb977\", \"status\": \"reserved\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "55c9da60-9c8c-48b1-90e3-1eea880eb977",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "55c9da60-9c8c-48b1-90e3-1eea880eb977",
+                        "status": "reserved",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "55c9da60-9c8c-48b1-90e3-1eea880eb977",
+                        "status": "reserved"
+                    }
+                }
+            ],
+            "trial": 1,
+            "elapsed": 7.219
+        },
+        {
+            "order_id": "d23acddf-e205-40ae-a15b-ebee21b2e5f8",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"d23acddf-e205-40ae-a15b-ebee21b2e5f8\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"d23acddf-e205-40ae-a15b-ebee21b2e5f8\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"d23acddf-e205-40ae-a15b-ebee21b2e5f8\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "d23acddf-e205-40ae-a15b-ebee21b2e5f8",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "d23acddf-e205-40ae-a15b-ebee21b2e5f8",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "d23acddf-e205-40ae-a15b-ebee21b2e5f8",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 5,
+            "elapsed": 7.228
+        },
+        {
+            "order_id": "ffc1abdd-18f0-4224-ac69-5c5dac14e2f9",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"ffc1abdd-18f0-4224-ac69-5c5dac14e2f9\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"ffc1abdd-18f0-4224-ac69-5c5dac14e2f9\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"ffc1abdd-18f0-4224-ac69-5c5dac14e2f9\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "ffc1abdd-18f0-4224-ac69-5c5dac14e2f9",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "ffc1abdd-18f0-4224-ac69-5c5dac14e2f9",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "ffc1abdd-18f0-4224-ac69-5c5dac14e2f9",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 9,
+            "elapsed": 7.23
+        },
+        {
+            "order_id": "ef80002b-373d-4254-99a3-f4e730073512",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"ef80002b-373d-4254-99a3-f4e730073512\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"ef80002b-373d-4254-99a3-f4e730073512\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"ef80002b-373d-4254-99a3-f4e730073512\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "ef80002b-373d-4254-99a3-f4e730073512",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "ef80002b-373d-4254-99a3-f4e730073512",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "ef80002b-373d-4254-99a3-f4e730073512",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 2,
+            "elapsed": 7.241
+        },
+        {
+            "order_id": "27538179-c624-40c6-8684-f0a9faca6434",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"27538179-c624-40c6-8684-f0a9faca6434\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"27538179-c624-40c6-8684-f0a9faca6434\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"27538179-c624-40c6-8684-f0a9faca6434\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "27538179-c624-40c6-8684-f0a9faca6434",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "27538179-c624-40c6-8684-f0a9faca6434",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "27538179-c624-40c6-8684-f0a9faca6434",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 7,
+            "elapsed": 7.246
+        },
+        {
+            "order_id": "063d64e5-73c2-4398-8610-2a290c999008",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"063d64e5-73c2-4398-8610-2a290c999008\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"063d64e5-73c2-4398-8610-2a290c999008\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"063d64e5-73c2-4398-8610-2a290c999008\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "063d64e5-73c2-4398-8610-2a290c999008",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "063d64e5-73c2-4398-8610-2a290c999008",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "063d64e5-73c2-4398-8610-2a290c999008",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 8,
+            "elapsed": 7.247
+        },
+        {
+            "order_id": "3f827ad7-18fd-468f-a2a8-0a913a5f63fa",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"3f827ad7-18fd-468f-a2a8-0a913a5f63fa\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"3f827ad7-18fd-468f-a2a8-0a913a5f63fa\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"3f827ad7-18fd-468f-a2a8-0a913a5f63fa\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "3f827ad7-18fd-468f-a2a8-0a913a5f63fa",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "3f827ad7-18fd-468f-a2a8-0a913a5f63fa",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "3f827ad7-18fd-468f-a2a8-0a913a5f63fa",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 11,
+            "elapsed": 2.848
+        },
+        {
+            "order_id": "fee44ab1-0da4-4734-bd89-a70277bce8b4",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"fee44ab1-0da4-4734-bd89-a70277bce8b4\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"fee44ab1-0da4-4734-bd89-a70277bce8b4\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"fee44ab1-0da4-4734-bd89-a70277bce8b4\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "fee44ab1-0da4-4734-bd89-a70277bce8b4",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "fee44ab1-0da4-4734-bd89-a70277bce8b4",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "fee44ab1-0da4-4734-bd89-a70277bce8b4",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 12,
+            "elapsed": 4.708
+        },
+        {
+            "order_id": "468a3e42-6455-4d06-9814-cf9bd7f39741",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"468a3e42-6455-4d06-9814-cf9bd7f39741\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"468a3e42-6455-4d06-9814-cf9bd7f39741\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"468a3e42-6455-4d06-9814-cf9bd7f39741\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "468a3e42-6455-4d06-9814-cf9bd7f39741",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "468a3e42-6455-4d06-9814-cf9bd7f39741",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "468a3e42-6455-4d06-9814-cf9bd7f39741",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 13,
+            "elapsed": 5.514
+        },
+        {
+            "order_id": "fcfbf5db-c61a-4506-bb5f-f8bea6c483ba",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"fcfbf5db-c61a-4506-bb5f-f8bea6c483ba\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"fcfbf5db-c61a-4506-bb5f-f8bea6c483ba\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"fcfbf5db-c61a-4506-bb5f-f8bea6c483ba\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "fcfbf5db-c61a-4506-bb5f-f8bea6c483ba",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "fcfbf5db-c61a-4506-bb5f-f8bea6c483ba",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "fcfbf5db-c61a-4506-bb5f-f8bea6c483ba",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 16,
+            "elapsed": 5.506
+        },
+        {
+            "order_id": "5871fef9-077f-4f95-b6eb-e8d272ab11c0",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"5871fef9-077f-4f95-b6eb-e8d272ab11c0\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"5871fef9-077f-4f95-b6eb-e8d272ab11c0\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"5871fef9-077f-4f95-b6eb-e8d272ab11c0\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "5871fef9-077f-4f95-b6eb-e8d272ab11c0",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "5871fef9-077f-4f95-b6eb-e8d272ab11c0",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "5871fef9-077f-4f95-b6eb-e8d272ab11c0",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 14,
+            "elapsed": 5.525
+        },
+        {
+            "order_id": "8e6809e4-74cb-4c64-8162-bbfd3a8de1d6",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"8e6809e4-74cb-4c64-8162-bbfd3a8de1d6\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"8e6809e4-74cb-4c64-8162-bbfd3a8de1d6\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"8e6809e4-74cb-4c64-8162-bbfd3a8de1d6\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "8e6809e4-74cb-4c64-8162-bbfd3a8de1d6",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "8e6809e4-74cb-4c64-8162-bbfd3a8de1d6",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "8e6809e4-74cb-4c64-8162-bbfd3a8de1d6",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 17,
+            "elapsed": 5.505
+        },
+        {
+            "order_id": "ca7a2768-8906-4bdf-9083-49d72d121af2",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"ca7a2768-8906-4bdf-9083-49d72d121af2\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"ca7a2768-8906-4bdf-9083-49d72d121af2\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"ca7a2768-8906-4bdf-9083-49d72d121af2\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "ca7a2768-8906-4bdf-9083-49d72d121af2",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "ca7a2768-8906-4bdf-9083-49d72d121af2",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "ca7a2768-8906-4bdf-9083-49d72d121af2",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 15,
+            "elapsed": 5.521
+        },
+        {
+            "order_id": "ef1ad45d-88db-4a37-9970-de97e02a04c2",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"ef1ad45d-88db-4a37-9970-de97e02a04c2\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"ef1ad45d-88db-4a37-9970-de97e02a04c2\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"ef1ad45d-88db-4a37-9970-de97e02a04c2\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "ef1ad45d-88db-4a37-9970-de97e02a04c2",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "ef1ad45d-88db-4a37-9970-de97e02a04c2",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "ef1ad45d-88db-4a37-9970-de97e02a04c2",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 19,
+            "elapsed": 5.499
+        },
+        {
+            "order_id": "9a6d9212-7c83-4eff-8090-26b43c4382c3",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"9a6d9212-7c83-4eff-8090-26b43c4382c3\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"9a6d9212-7c83-4eff-8090-26b43c4382c3\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"9a6d9212-7c83-4eff-8090-26b43c4382c3\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "9a6d9212-7c83-4eff-8090-26b43c4382c3",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "9a6d9212-7c83-4eff-8090-26b43c4382c3",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "9a6d9212-7c83-4eff-8090-26b43c4382c3",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 20,
+            "elapsed": 5.65
+        },
+        {
+            "order_id": "4481e3f2-54a5-48dc-83cb-6cd7361e08b2",
+            "item": "laptop",
+            "qty": 2,
+            "status": "out_of_stock",
+            "history": [
+                {
+                    "role": "create_order_tool",
+                    "content": "{\"order_id\": \"4481e3f2-54a5-48dc-83cb-6cd7361e08b2\", \"status\": \"INIT\"}"
+                },
+                {
+                    "role": "reserve_inventory_tool",
+                    "content": "{\"order_id\": \"4481e3f2-54a5-48dc-83cb-6cd7361e08b2\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+                },
+                {
+                    "role": "update_order_status_tool",
+                    "content": "{\"order_id\": \"4481e3f2-54a5-48dc-83cb-6cd7361e08b2\", \"status\": \"out_of_stock\"}"
+                }
+            ],
+            "trace": [
+                {
+                    "step": "create_order",
+                    "out": {
+                        "order_id": "4481e3f2-54a5-48dc-83cb-6cd7361e08b2",
+                        "status": "INIT"
+                    }
+                },
+                {
+                    "step": "reserve_inventory",
+                    "out": {
+                        "order_id": "4481e3f2-54a5-48dc-83cb-6cd7361e08b2",
+                        "status": "out_of_stock",
+                        "remaining": 0
+                    }
+                },
+                {
+                    "step": "update_order_status",
+                    "out": {
+                        "order_id": "4481e3f2-54a5-48dc-83cb-6cd7361e08b2",
+                        "status": "out_of_stock"
+                    }
+                }
+            ],
+            "trial": 18,
+            "elapsed": 5.658
+        }
+    ],
+    "final_summary": {
+        "n_trials": 20,
+        "n_threads": 10.0,
+        "stock_left": 0,
+        "total_completed_orders": 5,
+        "total_pending_orders": 0,
+        "total_oos_orders": 15,
+        "expected_total_reserved": 5,
+        "final_ec_state": "SUCCESS",
+        "failure_rate": 0.0
+    }
+}
