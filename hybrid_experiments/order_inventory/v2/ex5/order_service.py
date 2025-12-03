@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from pymongo import MongoClient
 
 MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
-DB_NAME = os.environ.get("DB_NAME", "exp5_db")
+DB_NAME = os.environ.get("DB_NAME", "retail_exp5")
 ORDERS_COLL = os.environ.get("ORDERS_COLL", "orders")
 
 client = MongoClient(MONGO_URL)

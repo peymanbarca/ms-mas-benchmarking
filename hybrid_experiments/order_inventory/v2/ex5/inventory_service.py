@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from pymongo import MongoClient, ReturnDocument
 
 MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
-DB_NAME = os.environ.get("DB_NAME", "exp5_db")
+DB_NAME = os.environ.get("DB_NAME", "retail_exp5")
 INVENTORY_COLL = os.environ.get("INVENTORY_COLL", "inventory")
 
 INJECT_DELAY = float(os.environ.get("INVENTORY_DELAY", "0"))

@@ -25,7 +25,7 @@ REDIS_DB = int(os.getenv("REDIS_DB", 0))
 REDIS_PASS = os.getenv("REDIS_PASS", "1")
 
 MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
-DB_NAME = os.environ.get("DB_NAME", "retail_exp5")
+DB_NAME = os.environ.get("DB_NAME", "retail_exp4")
 ORDERS_COLL = os.environ.get("ORDERS_COLL", "orders")
 INVENTORY_COLL = os.environ.get("INVENTORY_COLL", "inventory")
 
@@ -51,14 +51,12 @@ class RedisStateStore:
         data = self.r.get(key)
         return json.loads(data) if data else {}
 
-
 state_store = RedisStateStore()
 
 # -----------------------
 # LLM
 # -----------------------
 llm = Ollama(model=LLM_MODEL)
-
 
 def call_llm(prompt: str) -> dict:
     resp = llm.invoke(prompt)
@@ -151,40 +149,47 @@ class OrderState(TypedDict):
 
 
 # -----------------------
-# Order Agent Node
+# Orchestrator Agent Node
 # -----------------------
-def order_node(state: OrderState):
-    key = f"order_:{state['order_id']}"
+def orchestrator_node(state: OrderState):
+    key = f"orchestrator_node:{state['order_id']}"
     state = state_store.load_state(key) or state
     if "history" not in state: state["history"] = []
     if "trace" not in state: state["trace"] = []
-    print("state:", state)
 
-    prompt = f"""You are Order Agent, Based on the current status, choose the correct action: 
+    prompt = f"""You are Orchestrator Agent for two microservices: order and inventory, Based on the current status, choose the correct action: 
              if status is null: choose action as create_order 
-             else if status is in (reserved, out_of_stock) : choose action as update_order_status             
-             else choose action as null
+             else if status is INIT: choose action as reserve_inventory
+             else if status is in (reserved, out_of_stock) : choose action as update_order_status
+             else choose action as None
              Finally return a JSON response as: {{"action":"<action>"}}
              Current status: {state['status']}"""
     t1 = time.time()
-    print(f' --> Order Agent reasoning: \n {prompt} \n----------------------------\n')
+    print(f' --> Orchestrator Agent reasoning: \n {prompt} \n----------------------------\n')
     llm_resp = call_llm(prompt)
     t2 = time.time()
-    print(f' --> Order Agent reasoning response Took {round((t2-t1),3)}: \n {llm_resp}'
+    print(f' --> Orchestrator Agent reasoning response Took {round((t2-t1),3)}: \n {llm_resp}'
           f' \n----------------------------\n')
 
     action = llm_resp.get("action")
-    print(f"Action chosen by order agent: {action}")
-    state["trace"].append({"step": "order_agent_reasoning", "out": llm_resp, "took": round((t2 - t1), 3)})
+    print(f"Action chosen by Orchestrator agent: {action}")
+    state["trace"].append({"step": "orchestrator_agent_reasoning", "out": llm_resp, "took": round((t2 - t1), 3)})
 
     if action == "create_order":
-        # Create new order
         t1 = time.time()
         out = tool_create_order(state["order_id"], state["item"], state["qty"])
         t2 = time.time()
         state["trace"].append({"step": "create_order", "out": out, "took": round((t2 - t1), 3)})
         state["status"] = out.get("status", None)
         state["history"].append({"role": "create_order_tool", "content": json.dumps(out)})
+    elif action == "reserve_inventory":
+        # Reserve stock in inventory
+        t1 = time.time()
+        out = tool_reserve_inventory(state["order_id"], state["item"], state["qty"])
+        t2 = time.time()
+        state["trace"].append({"step": "reserve_inventory", "out": out, "took": round((t2 - t1), 3)})
+        state["status"] = out.get("status", "INIT")
+        state["history"].append({"role": "reserve_inventory_tool", "content": json.dumps(out)})
     elif action == "update_order_status":
         # Update order status in Order Service
         t1 = time.time()
@@ -199,66 +204,21 @@ def order_node(state: OrderState):
 
 
 # -----------------------
-# Inventory Agent Node
-# -----------------------
-def inventory_node(state: OrderState):
-    key = f"order_:{state['order_id']}"
-    state = state_store.load_state(key) or state
-    if "history" not in state: state["history"] = []
-    if "trace" not in state: state["trace"] = []
-    print("state:", state)
-
-    prompt = f"""You are Inventory Agent, Based on the current status, choose the correct action: 
-             if status is INIT: choose action as reserve_inventory
-             else choose action as None 
-             Finally return a JSON response as: {{"action":"<action>"}}
-             Current status: {state['status']}"""
-    t1 = time.time()
-    print(f' --> Inventory Agent reasoning: \n {prompt} \n----------------------------\n')
-    llm_resp = call_llm(prompt)
-    t2 = time.time()
-    print(f' --> Inventory Agent reasoning response Took {round((t2-t1),3)}: \n {llm_resp}'
-          f' \n----------------------------\n')
-
-    action = llm_resp.get("action")
-    print(f"Action chosen by inventory agent: {action}")
-    state["trace"].append({"step": "inventory_agent_reasoning", "out": llm_resp, "took": round((t2 - t1), 3)})
-
-    if action == "reserve_inventory":
-        # Reserve stock in inventory
-        t1 = time.time()
-        out = tool_reserve_inventory(state["order_id"], state["item"], state["qty"])
-        t2 = time.time()
-        state["trace"].append({"step": "reserve_inventory", "out": out, "took": round((t2 - t1), 3)})
-        state["status"] = out.get("status", "INIT")
-        state["history"].append({"role": "reserve_inventory_tool", "content": json.dumps(out)})
-
-    state_store.save_state(key, state)
-    return state
-
-
-# -----------------------
 # Build Graph
 # -----------------------
 def build_graph():
     workflow = StateGraph(OrderState)
-    workflow.add_node("order_agent", order_node)
-    workflow.add_node("inventory_agent", inventory_node)
-    workflow.set_entry_point("order_agent")
+    workflow.add_node("orchestrator_agent", orchestrator_node)
+    workflow.set_entry_point("orchestrator_agent")
 
     # Conditional edges
-    def route_from_order(state: OrderState):
-        if state["status"] in ["INIT"]:
-            return "inventory_agent"
-        if state["status"] in ["reserved", "out_of_stock"]:
-            return "order_agent"
-        if state["status"] == "completed":
-            return END
+    def order_next(state: OrderState):
+        if state["status"] in ["INIT", "reserved", "out_of_stock"]:
+            return "orchestrator_agent"
         return END
 
-    workflow.add_conditional_edges("order_agent", path=route_from_order)
-    # inventory agent always sends result back to order agent (which will read state and decide)
-    workflow.add_edge(start_key="inventory_agent", end_key="order_agent")
+    workflow.add_conditional_edges("orchestrator_agent", path=order_next)
+    workflow.add_edge("orchestrator_agent", END)
     return workflow.compile()
 
 
@@ -318,6 +278,6 @@ if __name__ == "__main__":
     }
     print("Final summary:", summary)
 
-    with open("exp5_results.json", "w") as f:
+    with open("exp4_results.json", "w") as f:
         json.dump({"trial_results": results, "final_summary": summary}, f, indent=4)
 
