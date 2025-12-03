@@ -1,4 +1,4 @@
-# Experiment 5: Two Agents + Two Microservices (2 LLM Call per trial)
+# Experiment 5: Two Agents + Two Microservices (3 LLM Call  + 3 MS API Call per trial)
 
 Two FastAPI microservices using MongoDB:
 

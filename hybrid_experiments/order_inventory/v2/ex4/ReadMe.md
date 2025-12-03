@@ -1,4 +1,4 @@
-# Experiment 4: LLM Orchestrator Agent + Microservices as Tools
+# Experiment 4: LLM Orchestrator Agent + Microservices as Tools  (3 LLM Call  + 3 MS API Call per trial)
 
 
 Evaluate how an LLM-based reasoning agent can orchestrate a workflow across existing microservices (Order, Inventory) and measure:
@@ -21,21 +21,9 @@ Comparison vs pure MSA orchestration (no LLM)
  │                             │
 ▼                              ▼
 Inventory Microservice       Order Microservice
-(check stock)                 (create order)
+(reserve stock)                 (create order, update order status)
 
 
-The LLM agent receives a high-level request:
-
-“Place an order for 2 laptops”
-
-
-It decides:
-
-Call check_inventory(item="laptop", qty=2)
-
-If success → call create_order(...)
-
-Return final reasoning trace + outcome
 
 --------------------
 ## Includes: 

@@ -40,7 +40,7 @@ INVENTORY_SERVICE_URL = os.environ.get("INVENTORY_SERVICE_URL", "http://localhos
 SERVICE_RESET_URL = os.environ.get("SERVICE_RESET_URL", "http://localhost:8000/reset")
 
 REPORT_FILE = os.environ.get("REPORT_FILE", "exp2_report.txt")
-RESULTS_JSON = os.environ.get("RESULTS_JSON", "result/exp2_results.json")
+RESULTS_JSON = os.environ.get("RESULTS_JSON", "exp2_results.json")
 
 # Experiment defaults (can override via env)
 ITEM = os.environ.get("ITEM", "laptop")
@@ -154,23 +154,6 @@ class DBTool:
                     o["status"] = status
                     break
 
-    def get_stock(self, item: str) -> int:
-        if self.mode == "REAL":
-            stock = self.inventory.find_one({"item": item})
-            return stock["stock"] if stock else 0
-        else:
-            s = next((x for x in self.inventory if x["item"] == item), None)
-            return s["stock"] if s else 0
-
-    def set_stock(self, item: str, stock: int):
-        if self.mode == "REAL":
-            self.inventory.update_one({"item": item}, {"$set": {"stock": stock}}, upsert=True)
-        else:
-            s = next((x for x in self.inventory if x["item"] == item), None)
-            if s:
-                s["stock"] = stock
-            else:
-                self.inventory.append({"item": item, "stock": stock})
 
 # ---------------------------
 # LLM & prompt helpers (fallback deterministic)
@@ -188,7 +171,7 @@ order_prompt_template = """
 You are the Order Agent.
 Given Status: {status_in}
 If status is INIT, return JSON: {{"order_id":"<id>","status":"INIT","forward": true}}
-If status already final, return JSON with the same status and forward=false.
+If status is in (reserved, out_of_stock), return JSON with the same status and forward=false.
 """
 
 def call_llm(prompt: str) -> str:
@@ -231,6 +214,7 @@ class OrderState(TypedDict):
     qty: int
     status: Optional[str]
     forward: Optional[bool]
+    trace: list
 
 # ---------------------------
 # Agent: order_agent (LLM) that calls microservice /reserve
@@ -241,6 +225,7 @@ import httpx
 def order_agent(state: OrderState, db_tool: DBTool):
     key = f"order:{state['order_id']}"
     existing = state_store.load_state(key) or state
+    if "trace" not in state: state["trace"] = []
     merged = {**state, **existing}
     status_in = merged.get("status") or "INIT"
 
@@ -251,6 +236,7 @@ def order_agent(state: OrderState, db_tool: DBTool):
     resp_text = call_llm(prompt)
     t1 = time.time()
     logging.debug(f"Order Agent LLM time: {t1 - t0:.3f}s")
+    state["trace"].append({"step": "order_agent_reasoning", "out": resp_text, "took": round((t1 - t0), 3)})
 
     parsed = parse_json_response(resp_text, fallback={"order_id": merged.get("order_id") or str(uuid.uuid4()), "status": "INIT", "forward": True})
     order_id = merged.get("order_id") or parsed.get("order_id") or str(uuid.uuid4())
@@ -271,25 +257,33 @@ def order_agent(state: OrderState, db_tool: DBTool):
     # If microservice fails (HTTP error), treat as error
     try:
         with httpx.Client(timeout=10.0) as client:
+            t0 = time.time()
             r = client.post(INVENTORY_SERVICE_URL, json={"item": merged["item"], "qty": merged["qty"], "request_id": order_id})
+            t1 = time.time()
+            state["trace"].append({"step": "inventory_microservice_reserve_tool_call", "out": r.json(), "took": round((t1 - t0), 3)})
+
             if r.status_code >= 500:
                 logging.error(f"Inventory service error: {r.status_code} {r.text}")
-                state_store.save_state(key, {**merged, "order_id": order_id, "status": "error", "forward": False})
+                state_store.save_state(key, {**merged, "order_id": order_id, "status": "error", "forward": False,
+                                             "trace": state["trace"]})
                 return {"order_id": order_id, "status": "error", "forward": False}
             jr = r.json()
     except Exception as e:
         logging.error(f"Call to inventory service failed: {e}")
-        state_store.save_state(key, {**merged, "order_id": order_id, "status": "error", "forward": False})
+        state_store.save_state(key, {**merged, "order_id": order_id, "status": "error", "forward": False,
+                                     "trace": state["trace"]})
         return {"order_id": order_id, "status": "error", "forward": False}
 
     # interpret microservice response
     if jr.get("reserved"):
         # successful reservation: update order status to reserved
         db_tool.update_order(order_id, "reserved")
-        partial = {"order_id": order_id, "status": "reserved", "forward": False, "remaining": jr.get("remaining")}
+        partial = {"order_id": order_id, "status": "reserved", "forward": False, "remaining": jr.get("remaining"),
+                   "trace": state["trace"]}
     else:
         db_tool.update_order(order_id, "out_of_stock")
-        partial = {"order_id": order_id, "status": "out_of_stock", "forward": False, "remaining": jr.get("remaining")}
+        partial = {"order_id": order_id, "status": "out_of_stock", "forward": False, "remaining": jr.get("remaining"),
+                   "trace": state["trace"]}
 
     state_store.save_state(key, {**merged, **partial})
     return partial

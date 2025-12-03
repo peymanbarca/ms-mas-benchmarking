@@ -234,8 +234,8 @@ Decide what to do with an incoming order.
 Status: {status_in}
 
 Rules:
-- If Status is empty or INIT → return JSON: {{"order_id": "<id>", "status": "INIT", "forward": true}}
-- If Status is reserved or out_of_stock or error → return JSON: {{"order_id": "<id>", "status": "<status>", "forward": false}}
+- If Status is empty or INIT → return JSON: {{"status": "INIT", "forward": true}}
+- If Status is reserved or out_of_stock or error → return JSON: {{"status": "<status>", "forward": false}}
 
 Return only one JSON object.
 """
@@ -245,8 +245,6 @@ inventory_prompt_template = """
 You are the Inventory Agent.
 Decide whether to reserve stock.
 
-Order ID: {order_id_in}
-Item: {item_in}
 Quantity: {qty_in}
 Stock: {stock_in}
 
@@ -254,7 +252,7 @@ Rules:
 - If Stock >= Quantity → reserved
 - Otherwise → out_of_stock
 
-Return JSON with keys: order_id, status (reserved/out_of_stock).
+Return JSON with key: status (reserved/out_of_stock).
 """
 
 def call_llm(prompt: str) -> str:
@@ -312,6 +310,8 @@ class OrderState(TypedDict):
     qty: int
     status: Optional[str]  # INIT, reserved, out_of_stock, error
     forward: Optional[bool]
+    trace: list
+
 
 # ---------------------------
 # Agent implementations (return PARTIAL dicts)
@@ -324,6 +324,8 @@ def order_agent(state: OrderState, db_tool: DBTool):
     """
     key = f"order:{state['order_id']}"
     existing = state_store.load_state(key) or state
+    if "trace" not in state: state["trace"] = []
+
     # Merge incoming state with persisted state (persisted overrides missing fields)
     merged = {**state, **existing}
     # If status was set in persisted state, use it; else use incoming
@@ -336,6 +338,7 @@ def order_agent(state: OrderState, db_tool: DBTool):
     response_text = call_llm(prompt)
     et = time.time()
     logging.debug(f"Order Agent LLM latency: {et - st:.3f}s, raw response: {response_text}")
+    state["trace"].append({"step": "order_agent_reasoning", "out": response_text, "took": round((et - st), 3)})
 
     parsed = parse_json_response(response_text, fallback={
         "order_id": merged.get("order_id") or str(uuid.uuid4()),
@@ -349,13 +352,31 @@ def order_agent(state: OrderState, db_tool: DBTool):
     # Persist INIT order when LLM asks for INIT (save as partial DB action, done by DBTool)
     if str(parsed.get("status", "")).lower() == "init":
         # Save order with INIT status if not already present
+        st = time.time()
         db_tool.save_order(order_id, merged.get("item"), merged.get("qty"))
+        et = time.time()
+        state["trace"].append({"step": "db_tool_save_order", "param": merged.get("qty"), "took": round((et - st), 3)})
+
+    elif str(parsed.get("status", "")).lower() == "reserved":
+        # do the DB update for order
+        st = time.time()
+        db_tool.update_order(merged["order_id"], "reserved")
+        et = time.time()
+        state["trace"].append({"step": "db_tool_update_order", "param": "reserved", "took": round((et - st), 3)})
+
+    elif str(parsed.get("status", "")).lower() == "out_of_stock":
+        # do the DB update for order
+        st = time.time()
+        db_tool.update_order(merged["order_id"], "out_of_stock")
+        et = time.time()
+        state["trace"].append({"step": "db_tool_update_order", "param": "out_of_stock", "took": round((et - st), 3)})
 
     # Save merged state in Redis
     partial = {
         "order_id": order_id,
         "status": parsed.get("status", status_in),
-        "forward": parsed.get("forward", False)
+        "forward": parsed.get("forward", False),
+        "trace": state["trace"]
     }
     state_store.save_state(key, {**merged, **partial})
     # Return partial update (Option B)
@@ -369,6 +390,8 @@ def inventory_agent(state: OrderState, db_tool: DBTool):
     """
     key = f"order:{state['order_id']}"
     existing = state_store.load_state(key) or state
+    if "trace" not in state: state["trace"] = []
+
     merged = {**state, **existing}
 
     stock = db_tool.get_stock(merged["item"])
@@ -384,6 +407,7 @@ def inventory_agent(state: OrderState, db_tool: DBTool):
     response_text = call_llm(prompt)
     et = time.time()
     logging.debug(f"Inventory Agent LLM latency: {et - st:.3f}s, raw response: {response_text}")
+    state["trace"].append({"step": "inventory_agent_reasoning", "out": response_text, "took": round((et - st), 3)})
 
     parsed = parse_json_response(response_text, fallback={"order_id": merged["order_id"], "status": "out_of_stock"})
 
@@ -403,13 +427,13 @@ def inventory_agent(state: OrderState, db_tool: DBTool):
     # If LLM recommended reserved, apply DB update
     status_out = parsed.get("status", "out_of_stock")
     if str(status_out).lower() == "reserved":
-        # do the DB update
+        # do the DB update for stock
+        st = time.time()
         db_tool.update_stock(merged["item"], merged["qty"])
-        db_tool.update_order(merged["order_id"], "reserved")
-        partial = {"status": "reserved", "forward": False}
-    else:
-        db_tool.update_order(merged["order_id"], "out_of_stock")
-        partial = {"status": "out_of_stock", "forward": False}
+        et = time.time()
+        state["trace"].append({"step": "db_tool_update_stock", "param": merged["qty"], "took": round((et - st), 3)})
+
+    partial = {"status": str(status_out).lower(), "forward": False, "trace": state["trace"]}
 
     # Save partial merged state to Redis
     state_store.save_state(key, {**merged, **partial})
@@ -553,7 +577,7 @@ def run_trial(idx, db_mode='REAL', delay_s=0, drop_pct=0, report_file_name=REPOR
         "trial": idx,
         "delay": delay,
         "drop_rate": drop_rate,
-        "response_time": round(elapsed, 3),
+        "elapsed": round(elapsed, 3),
         "cpu_time": round(cpu_used, 5),
         "memory_change_bytes": mem_used,
         "n_threads": max_workers,
