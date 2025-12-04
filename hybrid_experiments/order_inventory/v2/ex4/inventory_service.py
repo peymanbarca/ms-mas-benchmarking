@@ -27,6 +27,7 @@ class ReserveReq(BaseModel):
     order_id: str
     item: str
     qty: int
+    atomic_update: bool = False
 
 @app.on_event("startup")
 def startup():
@@ -48,12 +49,29 @@ def reserve_stock(req: ReserveReq):
         raise HTTPException(status_code=503, detail="simulated drop")
     if INJECT_DELAY > 0:
         time.sleep(INJECT_DELAY)
-    # atomic decrement
-    res = inventory_col.find_one_and_update(
-        {"item": req.item, "stock": {"$gte": req.qty}},
-        {"$inc": {"stock": -req.qty}},
-        return_document=ReturnDocument.AFTER
-    )
+
+    # Atomic decrement if stock >= qty
+    if req.atomic_update is None or req.atomic_update is True:
+
+        res = inventory_col.find_one_and_update(
+            {"item": req.item, "stock": {"$gte": req.qty}},
+            {"$inc": {"stock": -req.qty}},
+            return_document=ReturnDocument.AFTER
+        )
+    else:
+        doc = inventory_col.find_one({"item": req.item})
+
+        if doc and doc.get("stock", 0) >= req.qty:
+
+            new_stock = doc["stock"] - req.qty
+            inventory_col.update_one(
+                {"item": req.item},
+                {"$set": {"stock": new_stock}}
+            )
+            res = inventory_col.find_one({"item": req.item})
+        else:
+            res = None
+
     if res:
         return {"order_id": req.order_id, "status": "reserved", "remaining": res["stock"]}
     else:

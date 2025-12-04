@@ -23,6 +23,7 @@ class ReserveReq(BaseModel):
     item: str
     qty: int
     request_id: str | None = None
+    atomic_update: bool = False
 
 @app.on_event("startup")
 def startup():
@@ -47,11 +48,27 @@ def reserve(req: ReserveReq):
         time.sleep(INJECT_DELAY)
 
     # Atomic decrement if stock >= qty
-    res = inventory_col.find_one_and_update(
-        {"item": req.item, "stock": {"$gte": req.qty}},
-        {"$inc": {"stock": -req.qty}},
-        return_document=ReturnDocument.AFTER
-    )
+    if req.atomic_update is None or req.atomic_update is True:
+
+        res = inventory_col.find_one_and_update(
+            {"item": req.item, "stock": {"$gte": req.qty}},
+            {"$inc": {"stock": -req.qty}},
+            return_document=ReturnDocument.AFTER
+        )
+    else:
+        doc = inventory_col.find_one({"item": req.item})
+
+        if doc and doc.get("stock", 0) >= req.qty:
+
+            new_stock = doc["stock"] - req.qty
+            inventory_col.update_one(
+                {"item": req.item},
+                {"$set": {"stock": new_stock}}
+            )
+            res = inventory_col.find_one({"item": req.item})
+        else:
+            res = None
+
     if res:
         remaining = res["stock"]
         return {"reserved": True, "item": req.item, "remaining": remaining}

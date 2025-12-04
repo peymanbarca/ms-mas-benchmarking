@@ -9,6 +9,7 @@ import psutil
 from typing import TypedDict, Optional, Dict, List, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
+import statistics
 
 # external deps:
 # pip install pymongo redis psutil langchain_community
@@ -234,7 +235,7 @@ Decide what to do with an incoming order.
 Status: {status_in}
 
 Rules:
-- If Status is empty or INIT → return JSON: {{"status": "INIT", "forward": true}}
+- If Status is null or INIT → return JSON: {{"status": "INIT", "forward": true}}
 - If Status is reserved or out_of_stock or error → return JSON: {{"status": "<status>", "forward": false}}
 
 Return only one JSON object.
@@ -347,7 +348,7 @@ def order_agent(state: OrderState, db_tool: DBTool):
     })
 
     # preserve original order_id if provided
-    order_id = merged.get("order_id") or parsed.get("order_id") or str(uuid.uuid4())
+    order_id = merged.get("order_id") or str(uuid.uuid4())
 
     # Persist INIT order when LLM asks for INIT (save as partial DB action, done by DBTool)
     if str(parsed.get("status", "")).lower() == "init":
@@ -625,43 +626,55 @@ if __name__ == "__main__":
     drop_rate = int(os.environ.get("DROP_RATE", drop_rate))
     n_trials = int(os.environ.get("N_TRIALS", n_trials))
     parallel = os.environ.get("PARALLEL", parallel)
+    total_runs = 5
 
     with open(REPORT_FILE, "w") as f:
+        f.write("")
+    with open("exp1_results.json", "w") as f:
         f.write("")
 
     print(f"Starting LLM-MAS experiment: DB_MODE={DB_MODE}, delay={delay}s, drop_rate={drop_rate}%, n_trials={n_trials}, parallel={parallel}")
     logging.info(f"Experiment start: DB_MODE={DB_MODE}, delay={delay}, drop_rate={drop_rate}, n_trials={n_trials}")
 
-    if DB_MODE == 'REAL':
-        reset_db(item, init_stock)
-        input("DB reset. Press Enter to start the trials...")
+    run_results = []
+    for i in range(total_runs):
 
-    if parallel:
-        results = parallel_trials(n_trials=n_trials, db_mode=DB_MODE, delay_s=delay, drop_pct=drop_rate, max_workers=max_workers)
-    else:
-        results = sequential_trials(n_trials=n_trials, db_mode=DB_MODE, delay_s=delay, drop_pct=drop_rate)
+        if DB_MODE == 'REAL':
+            reset_db(item, init_stock)
+            # input("DB reset. Press Enter to start the trials...")
+            print(f"Run {i+1} started, DB Reset")
 
-    # If REAL, print final summary
-    if DB_MODE == 'REAL':
-        stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved,\
-            final_ec_state, failure_rate = get_final_state(item)
-        summary = {
-            "n_trials": n_trials,
-            "n_threads": max_workers,
-            "stock_left": stock_left,
-            "total_completed_orders": total_completed_orders,
-            "total_pending_orders": total_pending_orders,
-            "total_oos_orders": total_oos_orders,
-            "expected_total_reserved": expected_total_reserved,
-            "final_ec_state": final_ec_state,
-            "failure_rate": failure_rate
-        }
-        print("Final summary:", summary)
-        with open(REPORT_FILE, "a") as f:
-            f.write("\nFINAL_SUMMARY:\n")
-            f.write(json.dumps(summary) + "\n")
+        if parallel:
+            results = parallel_trials(n_trials=n_trials, db_mode=DB_MODE, delay_s=delay, drop_pct=drop_rate, max_workers=max_workers)
+        else:
+            results = sequential_trials(n_trials=n_trials, db_mode=DB_MODE, delay_s=delay, drop_pct=drop_rate)
 
-        with open("exp1_results.json", "w") as f:
-            json.dump({"trial_results": results, "final_summary": summary}, f, indent=4)
+        # If REAL, print final summary
+        if DB_MODE == 'REAL':
+            stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved,\
+                final_ec_state, failure_rate = get_final_state(item)
+            summary = {
+                "n_trials": n_trials,
+                "n_threads": max_workers,
+                "stock_left": stock_left,
+                "total_completed_orders": total_completed_orders,
+                "total_pending_orders": total_pending_orders,
+                "total_oos_orders": total_oos_orders,
+                "expected_total_reserved": expected_total_reserved,
+                "final_ec_state": final_ec_state,
+                "failure_rate": (failure_rate / n_trials) * 100,
+                "avg_latency": statistics.mean([x['elapsed'] for x in results]),
+                "std_latency": statistics.stdev([x['elapsed'] for x in results]),
+                "med_latency": statistics.median([x['elapsed'] for x in results]),
+            }
+            print("Final summary:", summary)
+            with open(REPORT_FILE, "a") as f:
+                f.write("\nFINAL_SUMMARY:\n")
+                f.write(json.dumps(summary) + "\n")
+            run_results.append({"run_number": i + 1, "trial_results": results, "final_summary": summary})
+        print(f"Run {i + 1} Done,\n-----------------------------------------")
 
-    print("Done. Results saved to exp1_results.json and detailed lines in", REPORT_FILE)
+    with open("exp1_results.json", "a") as f:
+        # json.dump(run_results, f, indent=4)
+        json.dump(run_results, f)
+

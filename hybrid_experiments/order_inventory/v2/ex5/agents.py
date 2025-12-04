@@ -11,6 +11,7 @@ from langchain_community.llms import Ollama
 from typing import TypedDict, Optional
 import concurrent.futures
 from pymongo import MongoClient
+import statistics
 
 logging.basicConfig(level=logging.INFO)
 
@@ -36,6 +37,8 @@ INIT_STOCK = int(os.environ.get("INIT_STOCK", "10"))
 
 N_TRIALS = int(os.getenv("N_TRIALS", 10))
 NUM_WORKERS = N_TRIALS
+atomic_update = False
+
 
 # -----------------------
 # Redis State Store
@@ -126,7 +129,7 @@ def tool_create_order(order_id, item, qty):
 
 def tool_reserve_inventory(order_id, item, qty):
     with httpx.Client(timeout=5) as c:
-        r = c.post(f"{INVENTORY_SERVICE_URL}/reserve", json={"order_id": order_id, "item": item, "qty": qty})
+        r = c.post(f"{INVENTORY_SERVICE_URL}/reserve", json={"order_id": order_id, "item": item, "qty": qty, "atomic_update": atomic_update})
         r.raise_for_status()
         return r.json()
 
@@ -297,27 +300,43 @@ def run_parallel_trials(n_trials=N_TRIALS):
 # Entry Point
 # -----------------------
 if __name__ == "__main__":
-    reset_db(item_name=DEFAULT_ITEM, init_stock_value=INIT_STOCK)
-    input("DB reset. Press Enter to start the trials...")
 
-    results = run_parallel_trials()
-
-    stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved, \
-    final_ec_state, failure_rate = get_final_state(DEFAULT_ITEM)
-
-    summary = {
-        "n_trials": N_TRIALS,
-        "n_threads": NUM_WORKERS,
-        "stock_left": stock_left,
-        "total_completed_orders": total_completed_orders,
-        "total_pending_orders": total_pending_orders,
-        "total_oos_orders": total_oos_orders,
-        "expected_total_reserved": expected_total_reserved,
-        "final_ec_state": final_ec_state,
-        "failure_rate": failure_rate
-    }
-    print("Final summary:", summary)
+    total_runs = 5
 
     with open("exp5_results.json", "w") as f:
-        json.dump({"trial_results": results, "final_summary": summary}, f, indent=4)
+        f.write("")
+
+    run_results = []
+    for i in range(total_runs):
+
+        reset_db(item_name=DEFAULT_ITEM, init_stock_value=INIT_STOCK)
+        # input("DB reset. Press Enter to start the trials...")
+        print(f"Run {i + 1} started, DB Reset")
+
+        results = run_parallel_trials()
+
+        stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved, \
+        final_ec_state, failure_rate = get_final_state(DEFAULT_ITEM)
+
+        summary = {
+            "n_trials": N_TRIALS,
+            "n_threads": NUM_WORKERS,
+            "stock_left": stock_left,
+            "total_completed_orders": total_completed_orders,
+            "total_pending_orders": total_pending_orders,
+            "total_oos_orders": total_oos_orders,
+            "expected_total_reserved": expected_total_reserved,
+            "final_ec_state": final_ec_state,
+            "failure_rate": (failure_rate / N_TRIALS) * 100,
+            "avg_latency": statistics.mean([x['elapsed'] for x in results]),
+            "std_latency": statistics.stdev([x['elapsed'] for x in results]),
+            "med_latency": statistics.median([x['elapsed'] for x in results]),
+        }
+        print("Final summary:", summary)
+        run_results.append({"run_number": i + 1, "trial_results": results, "final_summary": summary})
+        print(f"Run {i + 1} Done,\n-----------------------------------------")
+
+    with open("exp5_results.json", "w") as f:
+        # json.dump(run_results, f, indent=4)
+        json.dump(run_results, f)
 

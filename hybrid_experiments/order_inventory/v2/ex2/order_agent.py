@@ -11,6 +11,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import redis
 import httpx
 from pymongo import MongoClient
+import statistics
 
 # Optional Ollama import (if you use it). Fallback to deterministic.
 try:
@@ -258,7 +259,8 @@ def order_agent(state: OrderState, db_tool: DBTool):
     try:
         with httpx.Client(timeout=10.0) as client:
             t0 = time.time()
-            r = client.post(INVENTORY_SERVICE_URL, json={"item": merged["item"], "qty": merged["qty"], "request_id": order_id})
+            r = client.post(INVENTORY_SERVICE_URL, json={"item": merged["item"], "qty": merged["qty"],
+                                                         "request_id": order_id, "atomic_update": atomic_update})
             t1 = time.time()
             state["trace"].append({"step": "inventory_microservice_reserve_tool_call", "out": r.json(), "took": round((t1 - t0), 3)})
 
@@ -411,8 +413,8 @@ def sequential_trials(n=n_trials, db_mode="REAL", agent_delay=0.0, agent_drop=0,
         logging.info(f"Trial {i}: {m}")
         print("Trial", i, "->", m)
         results.append(m)
-    with open(RESULTS_JSON, "w") as f:
-        json.dump(results, f, indent=2)
+    # with open(RESULTS_JSON, "w") as f:
+    #     json.dump(results, f, indent=2)
     return results
 
 def parallel_trials(n=n_trials, max_workers=max_workers, db_mode="REAL", agent_delay=0.0, agent_drop=0, reset_db_before=True):
@@ -430,8 +432,8 @@ def parallel_trials(n=n_trials, max_workers=max_workers, db_mode="REAL", agent_d
             logging.info(f"Trial done: {m}")
             print("Trial result:", m)
             results.append(m)
-    with open(RESULTS_JSON, "w") as f:
-        json.dump(results, f, indent=2)
+    # with open(RESULTS_JSON, "w") as f:
+    #     json.dump(results, f, indent=2)
     return results
 
 # ---------------------------
@@ -457,8 +459,12 @@ if __name__ == "__main__":
     AGENT_DROP = int(os.environ.get("AGENT_DROP", AGENT_DROP))
     n_trials = int(os.environ.get("N_TRIALS", n_trials))
     parallel = os.environ.get("PARALLEL", parallel)
+    total_runs = 5
 
     with open(REPORT_FILE, "w") as f:
+        f.write("")
+
+    with open(RESULTS_JSON, "w") as f:
         f.write("")
 
     print("Experiment 2: Agent vs Microservice")
@@ -466,44 +472,53 @@ if __name__ == "__main__":
           f" n_trials={n_trials}, parallel={parallel}")
     logging.info("Starting Experiment 2")
 
-    # reset service state before runs
-    if DB_MODE == 'REAL':
-        reset_db(item_name=ITEM, init_stock_value=INIT_STOCK)
-        input("DB reset. Press Enter to start the trials...")
+    run_results = []
+    for i in range(total_runs):
 
-    if parallel:
-        results = parallel_trials(n=n_trials, max_workers=max_workers, db_mode=DB_MODE, agent_delay=AGENT_DELAY, agent_drop=AGENT_DROP)
-    else:
-        results = sequential_trials(n=n_trials, db_mode=DB_MODE, agent_delay=AGENT_DELAY, agent_drop=AGENT_DROP)
+        # reset service state before runs
+        if DB_MODE == 'REAL':
+            reset_db(item_name=ITEM, init_stock_value=INIT_STOCK)
+            print(f"Run {i+1} started, DB Reset")
+            # input("DB reset. Press Enter to start the trials...")
 
-    # final audit (if REAL)
-    if DB_MODE == "REAL":
-        audit = compute_consistency_error_from_db()
-        print("Final audit:", audit)
-        with open(REPORT_FILE, "a") as f:
-            f.write("\nFINAL_AUDIT:\n")
-            f.write(json.dumps(audit) + "\n")
+        if parallel:
+            results = parallel_trials(n=n_trials, max_workers=max_workers, db_mode=DB_MODE, agent_delay=AGENT_DELAY, agent_drop=AGENT_DROP)
+        else:
+            results = sequential_trials(n=n_trials, db_mode=DB_MODE, agent_delay=AGENT_DELAY, agent_drop=AGENT_DROP)
 
-        stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved,\
-            final_ec_state, failure_rate = get_final_state(ITEM)
+        # final audit (if REAL)
+        if DB_MODE == "REAL":
+            audit = compute_consistency_error_from_db()
+            print("Final audit:", audit)
+            with open(REPORT_FILE, "a") as f:
+                f.write("\nFINAL_AUDIT:\n")
+                f.write(json.dumps(audit) + "\n")
 
-        summary = {
-            "n_trials": n_trials,
-            "n_threads": max_workers,
-            "stock_left": stock_left,
-            "total_completed_orders": total_completed_orders,
-            "total_pending_orders": total_pending_orders,
-            "total_oos_orders": total_oos_orders,
-            "expected_total_reserved": expected_total_reserved,
-            "final_ec_state": final_ec_state,
-            "failure_rate": failure_rate
-        }
-        print("Final summary:", summary)
-        with open(REPORT_FILE, "a") as f:
-            f.write("\nFINAL_SUMMARY:\n")
-            f.write(json.dumps(summary) + "\n")
+            stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved,\
+                final_ec_state, failure_rate = get_final_state(ITEM)
 
-        with open("exp2_results.json", "w") as f:
-            json.dump({"trial_results": results, "final_summary": summary}, f, indent=4)
+            summary = {
+                "n_trials": n_trials,
+                "n_threads": max_workers,
+                "stock_left": stock_left,
+                "total_completed_orders": total_completed_orders,
+                "total_pending_orders": total_pending_orders,
+                "total_oos_orders": total_oos_orders,
+                "expected_total_reserved": expected_total_reserved,
+                "final_ec_state": final_ec_state,
+                "failure_rate": (failure_rate / n_trials) * 100,
+                "avg_latency": statistics.mean([x['elapsed'] for x in results]),
+                "std_latency": statistics.stdev([x['elapsed'] for x in results]),
+                "med_latency": statistics.median([x['elapsed'] for x in results]),
+            }
+            print("Final summary:", summary)
+            with open(REPORT_FILE, "a") as f:
+                f.write(f"\n Run {i+1} FINAL_SUMMARY:\n")
+                f.write(json.dumps(summary) + "\n")
+            run_results.append({"run_number": i + 1, "trial_results": results, "final_summary": summary})
+        print(f"Run {i + 1} Done,\n-----------------------------------------")
 
-    print("Done. Results in", RESULTS_JSON, "and", REPORT_FILE)
+    with open(RESULTS_JSON, "a") as f:
+        # json.dump(run_results, f, indent=4)
+        json.dump(run_results, f)
+

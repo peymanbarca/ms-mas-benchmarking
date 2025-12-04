@@ -1,675 +1,3397 @@
-{
+[
+  {
+    "run_number": 1,
     "trial_results": [
-        {
-            "trial": 5,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 1.8574,
-            "cpu_time": 0.19,
-            "mem_bytes": 5976064,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "01450ca7-49ba-41d0-acf2-4fef498a69bd",
+      {
+        "trial": 9,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.5269,
+        "cpu_time": 0.19,
+        "mem_bytes": 4804608,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "9166181f-719c-4721-8007-ff9be0bea66f",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"123456\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.309
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
                 "item": "laptop",
-                "qty": 2,
-                "status": "reserved",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"<generated_id>\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 1.627
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": true,
-                            "item": "laptop",
-                            "remaining": 8
-                        },
-                        "took": 0.004
-                    }
-                ],
                 "remaining": 8
+              },
+              "took": 0.005
             }
-        },
-        {
-            "trial": 11,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 1.9999,
-            "cpu_time": 0.63,
-            "mem_bytes": 7958528,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "caee132d-5cad-46f5-b43a-a42fbde36b47",
-                "item": "laptop",
-                "qty": 2,
-                "status": "reserved",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 1.717
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": true,
-                            "item": "laptop",
-                            "remaining": 6
-                        },
-                        "took": 0.004
-                    }
-                ],
-                "remaining": 6
-            }
-        },
-        {
-            "trial": 18,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.0046,
-            "cpu_time": 0.6,
-            "mem_bytes": 6455296,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "b38b33d5-ba00-4052-ab10-051d9b82a834",
-                "item": "laptop",
-                "qty": 2,
-                "status": "reserved",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 1.726
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": true,
-                            "item": "laptop",
-                            "remaining": 4
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 4
-            }
-        },
-        {
-            "trial": 1,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.0475,
-            "cpu_time": 0.64,
-            "mem_bytes": 9678848,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "64ea7aed-fbe2-410b-bb70-6df7a2d5a239",
-                "item": "laptop",
-                "qty": 2,
-                "status": "reserved",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 1.729
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": true,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.004
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 13,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.0283,
-            "cpu_time": 0.63,
-            "mem_bytes": 7856128,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "2f7b78b6-8bcd-4b44-9907-13183f21cee5",
-                "item": "laptop",
-                "qty": 2,
-                "status": "reserved",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 1.732
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": true,
-                            "item": "laptop",
-                            "remaining": 2
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 2
-            }
-        },
-        {
-            "trial": 20,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.1139,
-            "cpu_time": 0.64,
-            "mem_bytes": 7503872,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "d6a97821-a630-450e-b425-593e803d2fc5",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"<generate_unique_id>\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 1.913
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.004
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 10,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.2303,
-            "cpu_time": 0.76,
-            "mem_bytes": 10584064,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "e222ca73-1579-4593-a770-f290b8b2306c",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"123456\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 2.0
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.004
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 12,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.2395,
-            "cpu_time": 0.76,
-            "mem_bytes": 10719232,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "cae2c259-ed2c-4701-9335-b62e8afc4e16",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"123456\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 1.987
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 17,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.3114,
-            "cpu_time": 0.76,
-            "mem_bytes": 10326016,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "aeeb482c-fe7b-43ad-858c-71104e45f72e",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"<auto-generated-id>\",\"status\":\"INIT\",\"forward\":true}",
-                        "took": 2.114
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.004
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 4,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.46,
-            "cpu_time": 1.15,
-            "mem_bytes": 16265216,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "5e5d705c-1554-488b-ac31-ca7d403cf329",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 2.178
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.004
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 19,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.4515,
-            "cpu_time": 1.19,
-            "mem_bytes": 14090240,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "9676e681-636d-4af4-808a-afc9e6dfa87f",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
-                        "took": 2.183
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 14,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.4806,
-            "cpu_time": 1.24,
-            "mem_bytes": 15798272,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "e8ae8312-0fb9-46e6-a3a5-e6cf0deca58b",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"my_order_12345\",\"status\":\"INIT\",\"forward\":true}",
-                        "took": 2.194
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 8,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.5262,
-            "cpu_time": 1.29,
-            "mem_bytes": 17211392,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "c0e5eaf5-51c3-4cb1-8cd2-3708043d4a3a",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\n\"order_id\":\"1234567890\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
-                        "took": 2.247
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 2,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.5369,
-            "cpu_time": 1.29,
-            "mem_bytes": 18370560,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "755eb6b8-70eb-44e6-9100-1d8253467df4",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\"order_id\":\"ORD20230401\",\"status\":\"INIT\",\"forward\":true}",
-                        "took": 2.258
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.002
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 16,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.525,
-            "cpu_time": 1.31,
-            "mem_bytes": 15773696,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "ae7197cb-8125-408d-bc8e-873b5b2ef802",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\n\"order_id\":\"123456\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
-                        "took": 2.317
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 3,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.6275,
-            "cpu_time": 1.47,
-            "mem_bytes": 20680704,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "a1cfed3c-ca67-4df8-a804-07c0666bc85d",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\n\"order_id\": \"12345\",\n\"status\": \"INIT\",\n\"forward\": true\n}",
-                        "took": 2.369
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 6,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.6348,
-            "cpu_time": 1.47,
-            "mem_bytes": 19947520,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "63b542ad-581b-42ce-bd24-7439538aaeb5",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\n\"order_id\":\"12345\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
-                        "took": 2.373
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 9,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.6407,
-            "cpu_time": 1.47,
-            "mem_bytes": 19369984,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "ad68a68c-c5be-480f-ab68-61a3c5869efb",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\n\"order_id\":\"1234567890\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
-                        "took": 2.404
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.002
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 15,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 2.7308,
-            "cpu_time": 1.49,
-            "mem_bytes": 19808256,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "0d59ef9f-e774-4957-a6f6-e4b28467607c",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\n  \"order_id\": \"123456\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
-                        "took": 2.526
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.004
-                    }
-                ],
-                "remaining": 0
-            }
-        },
-        {
-            "trial": 7,
-            "agent_delay": 0.0,
-            "agent_drop": 0,
-            "elapsed": 3.4919,
-            "cpu_time": 1.54,
-            "mem_bytes": 21032960,
-            "n_threads": 20.0,
-            "final_state": {
-                "order_id": "0ea50bd4-398c-423b-be52-5ef01d066250",
-                "item": "laptop",
-                "qty": 2,
-                "status": "out_of_stock",
-                "forward": false,
-                "trace": [
-                    {
-                        "step": "order_agent_reasoning",
-                        "out": "{\n  \"order_id\": \"<generate_unique_order_id>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n} \n\nReplace `<generate_unique_order_id>` with a unique identifier for the order. This could be any string that ensures uniqueness, such as a combination of the current timestamp and a random number, or using a library function if you're programming this in an environment like Python or Java where there are built-in ways to generate unique identifiers (like UUIDs).",
-                        "took": 3.27
-                    },
-                    {
-                        "step": "inventory_microservice_reserve_tool_call",
-                        "out": {
-                            "reserved": false,
-                            "item": "laptop",
-                            "remaining": 0
-                        },
-                        "took": 0.003
-                    }
-                ],
-                "remaining": 0
-            }
+          ],
+          "remaining": 8
         }
+      },
+      {
+        "trial": 4,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6848,
+        "cpu_time": 0.27,
+        "mem_bytes": 7774208,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "5db7109d-62b5-4e69-b485-b38d9360161c",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.437
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 6
+              },
+              "took": 0.006
+            }
+          ],
+          "remaining": 6
+        }
+      },
+      {
+        "trial": 8,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6779,
+        "cpu_time": 0.27,
+        "mem_bytes": 6807552,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "195940fd-1aa2-4de4-bfe9-7001a0eba6f7",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.445
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 4
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 4
+        }
+      },
+      {
+        "trial": 20,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.7922,
+        "cpu_time": 0.32,
+        "mem_bytes": 6676480,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "0ac3747a-f6bd-479b-9ddb-10568c437b8d",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.587
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 2
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 2
+        }
+      },
+      {
+        "trial": 16,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8093,
+        "cpu_time": 0.34,
+        "mem_bytes": 7442432,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "e42aeb8b-fef4-4c54-9acc-d4e0229793fe",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.597
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 18,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.9267,
+        "cpu_time": 0.39,
+        "mem_bytes": 8818688,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "8505019c-0605-4139-8108-41ad25c84b2e",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\":true}",
+              "took": 1.72
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 10,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.958,
+        "cpu_time": 0.42,
+        "mem_bytes": 10113024,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "52d69d2d-6fa2-4074-8937-5c796c852ebd",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<new_order_id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.734
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 6,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1049,
+        "cpu_time": 0.52,
+        "mem_bytes": 12857344,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "9aed2d79-0920-4c9b-b55c-1b2317dc4b07",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<id>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 1.855
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 1,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1136,
+        "cpu_time": 0.52,
+        "mem_bytes": 13328384,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "26ed4390-8958-4f2d-9666-6ab35d06b3aa",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"ord123456\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.873
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 3,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1893,
+        "cpu_time": 0.68,
+        "mem_bytes": 16412672,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "3b22904e-9fd7-4e64-9497-edefae242ee6",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.939
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 15,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1713,
+        "cpu_time": 0.67,
+        "mem_bytes": 14508032,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "970976f1-603c-4a2a-9cfc-13b9e398daf8",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.935
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 19,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1643,
+        "cpu_time": 0.65,
+        "mem_bytes": 13766656,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "1c950db7-55a9-4019-997f-98455eb3bb28",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.942
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 13,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.206,
+        "cpu_time": 0.67,
+        "mem_bytes": 14901248,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "2e708f9d-3f45-46d2-8b57-a8d8d7a2a8a9",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"<generate_unique_order_id>\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 1.999
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 17,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2934,
+        "cpu_time": 0.99,
+        "mem_bytes": 18616320,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "b8c91c6a-3f65-4824-8f04-dfd02af37721",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 2.056
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 2,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.329,
+        "cpu_time": 1.04,
+        "mem_bytes": 21475328,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "2b50fb50-a82b-4d06-94fc-86c7e4669e47",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"123456\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 2.064
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 14,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3053,
+        "cpu_time": 1.02,
+        "mem_bytes": 19415040,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "184a76a1-3e47-4ba5-9c46-de7087b581c9",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"ORD123456789\",\"status\":\"INIT\",\"forward\":true}",
+              "took": 2.058
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 12,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3464,
+        "cpu_time": 1.09,
+        "mem_bytes": 21270528,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "2f8c1ad4-77bf-4875-a4ca-55eb344ce4f2",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 2.06
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 11,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3538,
+        "cpu_time": 1.09,
+        "mem_bytes": 20615168,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "43d1669d-ae74-4aaf-b32b-15bdf444ae8c",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<new_order_id>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.121
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 7,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.376,
+        "cpu_time": 1.11,
+        "mem_bytes": 22548480,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "528a2697-4304-42f9-9f0c-71f92ff1a656",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\": \"ORD123456\",\n\"status\": \"INIT\",\n\"forward\": true\n}",
+              "took": 2.096
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 5,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3916,
+        "cpu_time": 1.11,
+        "mem_bytes": 22618112,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "3357b29c-3b29-4b90-8f1a-9a2fdcec7f3e",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_unique_order_id_here>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.156
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      }
     ],
     "final_summary": {
-        "n_trials": 20,
-        "n_threads": 20.0,
-        "stock_left": 0,
-        "total_completed_orders": 5,
-        "total_pending_orders": 0,
-        "total_oos_orders": 15,
-        "expected_total_reserved": 5,
-        "final_ec_state": "SUCCESS",
-        "failure_rate": 0.0
+      "n_trials": 20,
+      "n_threads": 20,
+      "stock_left": 0,
+      "total_completed_orders": 5,
+      "total_pending_orders": 0,
+      "total_oos_orders": 15,
+      "expected_total_reserved": 5,
+      "final_ec_state": "SUCCESS",
+      "failure_rate": 0,
+      "avg_latency": 2.086035,
+      "std_latency": 0.26670613687609146,
+      "med_latency": 2.1677999999999997
     }
-}
+  },
+  {
+    "run_number": 2,
+    "trial_results": [
+      {
+        "trial": 3,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.5184,
+        "cpu_time": 0.19,
+        "mem_bytes": 1880064,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "eb2dd374-7bcc-45ef-8e3c-3a1b5e22420a",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.398
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 8
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 8
+        }
+      },
+      {
+        "trial": 17,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6198,
+        "cpu_time": 0.18,
+        "mem_bytes": 1626112,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "faab110c-cf5c-4872-b982-d531b233a0c1",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"XYZ123\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.495
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 6
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 6
+        }
+      },
+      {
+        "trial": 18,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.7012,
+        "cpu_time": 0.21,
+        "mem_bytes": 2588672,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "3447a01c-14a7-4f68-8956-5999338ebae1",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.581
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 4
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 4
+        }
+      },
+      {
+        "trial": 12,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8477,
+        "cpu_time": 0.36,
+        "mem_bytes": 5058560,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "7d3daa55-c2f3-4ac3-a7c7-ba607337c7a0",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"ord123456\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.712
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 2
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 2
+        }
+      },
+      {
+        "trial": 5,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8627,
+        "cpu_time": 0.37,
+        "mem_bytes": 5476352,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "b8e0ccba-0d86-413c-911c-cd8c04992dc5",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<auto-generated-id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.721
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 19,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8557,
+        "cpu_time": 0.35,
+        "mem_bytes": 5013504,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "b686a19f-0f1d-40f6-9723-9f8a58f50904",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<generated_order_id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.7
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 8,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.9145,
+        "cpu_time": 0.38,
+        "mem_bytes": 6275072,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "d1983224-36d9-4f4d-9913-9386970522d9",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.8
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 1,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.0002,
+        "cpu_time": 0.48,
+        "mem_bytes": 7254016,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "87867f74-a2ec-4d32-8653-d158fcf1636d",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\": \"<new_order_id>\",\n\"status\": \"INIT\",\n\"forward\": true\n}",
+              "took": 1.878
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 14,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.9753,
+        "cpu_time": 0.44,
+        "mem_bytes": 6369280,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "3556ff8d-2390-4e3a-8efb-30a9a97bed2c",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"NewOrder12345\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.848
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 10,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.0912,
+        "cpu_time": 0.64,
+        "mem_bytes": 8318976,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "4f31ea48-317e-4fa7-b7ea-bab50b0d17bc",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"abc12345\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 1.936
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 15,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.0816,
+        "cpu_time": 0.64,
+        "mem_bytes": 7905280,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "8f804f1d-559a-4325-a306-0c9585b0b582",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.926
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 4,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1092,
+        "cpu_time": 0.65,
+        "mem_bytes": 8511488,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "1de43d3c-6725-497d-be78-c9ac7af09f65",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"ORD12345\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 1.94
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 6,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2306,
+        "cpu_time": 0.9,
+        "mem_bytes": 11390976,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "bf83b901-ca2f-4537-8c14-da4a9fbc8e93",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"1234567890\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 2.067
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 11,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2168,
+        "cpu_time": 0.89,
+        "mem_bytes": 11046912,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "5f2c28e1-d7fb-465e-a898-ab4f0593ffb0",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"123456\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 2.059
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 16,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.216,
+        "cpu_time": 0.88,
+        "mem_bytes": 10883072,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "3f5390dd-89ce-49f0-ba99-ee939a1a9e50",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 2.049
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 9,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2487,
+        "cpu_time": 0.95,
+        "mem_bytes": 11767808,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "cc93a928-714f-4f11-8a74-5cfcda7c6c97",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 2.063
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 13,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2816,
+        "cpu_time": 0.98,
+        "mem_bytes": 11702272,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "b231ab78-2ef1-466e-8657-c218d6a2f494",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"123456789\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 2.148
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 2,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3009,
+        "cpu_time": 0.99,
+        "mem_bytes": 12152832,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "38da6a8b-6902-4884-adc8-52c29d85f223",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_order_id_here>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.17
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 7,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3114,
+        "cpu_time": 1,
+        "mem_bytes": 12750848,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "33096e6c-6d21-4889-a48f-f7674cb9d969",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"123456\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.19
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 20,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3158,
+        "cpu_time": 0.97,
+        "mem_bytes": 11694080,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "b88d72a9-c696-42ee-b4fb-893544b415d7",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"new_order_12345\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.2
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      }
+    ],
+    "final_summary": {
+      "n_trials": 20,
+      "n_threads": 20,
+      "stock_left": 0,
+      "total_completed_orders": 5,
+      "total_pending_orders": 0,
+      "total_oos_orders": 15,
+      "expected_total_reserved": 5,
+      "final_ec_state": "SUCCESS",
+      "failure_rate": 0,
+      "avg_latency": 2.034965,
+      "std_latency": 0.2421652725657461,
+      "med_latency": 2.0864000000000003
+    }
+  },
+  {
+    "run_number": 3,
+    "trial_results": [
+      {
+        "trial": 8,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.5909,
+        "cpu_time": 0.19,
+        "mem_bytes": 200704,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "92d6a4c4-80d0-41de-8aad-037acedc8aa7",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"001\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 1.452
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 8
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 8
+        }
+      },
+      {
+        "trial": 3,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6755,
+        "cpu_time": 0.26,
+        "mem_bytes": 729088,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "0f15e5d4-d9e6-48c4-94dd-7b0869dfb670",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.54
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 6
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 6
+        }
+      },
+      {
+        "trial": 11,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6671,
+        "cpu_time": 0.26,
+        "mem_bytes": 524288,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "8f505ee5-aba3-46c4-b245-98cb9d59401b",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.53
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 4
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 4
+        }
+      },
+      {
+        "trial": 5,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8189,
+        "cpu_time": 0.3,
+        "mem_bytes": 741376,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "9f12f242-6c5b-47b8-8ea4-1de8012e2e26",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<generated_order_id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.695
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 2
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 2
+        }
+      },
+      {
+        "trial": 15,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8517,
+        "cpu_time": 0.27,
+        "mem_bytes": 757760,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "800c0c5a-b0fc-47a0-97f6-395ed74c16bf",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<generate_new_id_here>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.738
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 9,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.9526,
+        "cpu_time": 0.37,
+        "mem_bytes": 1638400,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "e83a2d9c-5783-431d-897e-9632b93c5490",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.83
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 20,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.9324,
+        "cpu_time": 0.34,
+        "mem_bytes": 851968,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "b868bf6f-fea3-4972-9d57-78e9d42d39ae",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<auto-generated-id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.806
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 4,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.0273,
+        "cpu_time": 0.45,
+        "mem_bytes": 2535424,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "7b12ed75-fd2a-4836-97b0-f3aa6d3eeb14",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.889
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 14,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.0103,
+        "cpu_time": 0.43,
+        "mem_bytes": 1937408,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "1fadd19e-c5f0-485e-966e-7fb7d9ed52b7",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.883
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 12,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.137,
+        "cpu_time": 0.49,
+        "mem_bytes": 1220608,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "3be76101-7fe9-4593-b34f-a2dcc2fcb27d",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 2.007
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 6,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2156,
+        "cpu_time": 0.6,
+        "mem_bytes": 1970176,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "0c4f7c94-70e3-4cf2-864c-1ff6db00ddde",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"abc1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 2.075
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 1,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2227,
+        "cpu_time": 0.61,
+        "mem_bytes": 2064384,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "4e04f3b8-d902-4ac1-8f95-68d0d5a669ba",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"ORDER1234\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.081
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 18,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2495,
+        "cpu_time": 0.75,
+        "mem_bytes": 2473984,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "03b43d8b-be1a-4ba8-beb4-17c1435b83f3",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\": \"ORDER12345\",\n\"status\": \"INIT\",\n\"forward\": true\n}",
+              "took": 2.099
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 13,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2734,
+        "cpu_time": 0.8,
+        "mem_bytes": 2981888,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "44cfd65a-fc00-492b-aae5-3b50cc84d6de",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\": \"ORD12345\",\n\"status\": \"INIT\",\n\"forward\": true\n}",
+              "took": 2.126
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 16,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.273,
+        "cpu_time": 0.85,
+        "mem_bytes": 2617344,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "c08bb055-9039-4340-bfb8-7b7d7e81fc27",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\":true}",
+              "took": 2.112
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 10,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3221,
+        "cpu_time": 0.93,
+        "mem_bytes": 3469312,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "86c8ced3-aa69-4bf3-9c66-11a3a2b2a509",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_order_id_here>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.165
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 19,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.314,
+        "cpu_time": 0.94,
+        "mem_bytes": 3076096,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "5c971e9c-8f90-4acc-81c9-11c73b863cc4",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_unique_order_id>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.15
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 2,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3743,
+        "cpu_time": 0.99,
+        "mem_bytes": 4288512,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "0dccc7b9-3cb4-42cf-b45a-cf47e05c58ae",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"1234567890\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 2.215
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 7,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.368,
+        "cpu_time": 0.98,
+        "mem_bytes": 4247552,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "d6f49a3f-9808-4dad-bb7d-121aa756defe",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"1234567890\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 2.212
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 17,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.358,
+        "cpu_time": 0.96,
+        "mem_bytes": 3547136,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "d55908af-2791-4a22-9534-614203b244a3",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_new_order_id_here>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.22
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      }
+    ],
+    "final_summary": {
+      "n_trials": 20,
+      "n_threads": 20,
+      "stock_left": 0,
+      "total_completed_orders": 5,
+      "total_pending_orders": 0,
+      "total_oos_orders": 15,
+      "expected_total_reserved": 5,
+      "final_ec_state": "SUCCESS",
+      "failure_rate": 0,
+      "avg_latency": 2.081715,
+      "std_latency": 0.2559609350847775,
+      "med_latency": 2.1763
+    }
+  },
+  {
+    "run_number": 4,
+    "trial_results": [
+      {
+        "trial": 1,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.4634,
+        "cpu_time": 0.19,
+        "mem_bytes": 520192,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "5c204c38-40f1-41a4-88fd-560f7a17bf00",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.347
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 8
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 8
+        }
+      },
+      {
+        "trial": 12,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.58,
+        "cpu_time": 0.21,
+        "mem_bytes": 860160,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "576d3156-6d81-4937-b228-1d46bd4af5c5",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.45
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 6
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 6
+        }
+      },
+      {
+        "trial": 14,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6536,
+        "cpu_time": 0.26,
+        "mem_bytes": 1667072,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "9a7e2a0d-b3f4-4c33-8443-4bab0a97bc90",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.519
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 4
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 4
+        }
+      },
+      {
+        "trial": 2,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6813,
+        "cpu_time": 0.3,
+        "mem_bytes": 2256896,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "cd459b28-4238-4c68-a7ef-db33e952f55e",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.551
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 2
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 2
+        }
+      },
+      {
+        "trial": 15,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.7964,
+        "cpu_time": 0.59,
+        "mem_bytes": 3264512,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "d864dca6-e1db-4e3a-91ee-aca46eff4e23",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.631
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 17,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8077,
+        "cpu_time": 0.62,
+        "mem_bytes": 3584000,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "e3dcd81e-c4a8-4173-8b75-b0da1cee5b40",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<new_order_id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.646
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 10,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8394,
+        "cpu_time": 0.65,
+        "mem_bytes": 3784704,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "9e6cf190-221c-4ee6-aa97-01c6798b4425",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<generated_order_id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.659
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 5,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8548,
+        "cpu_time": 0.68,
+        "mem_bytes": 4165632,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "77e0d60e-95d7-45a2-9b23-cfad1c394b00",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<generated_order_id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.681
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 4,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8745,
+        "cpu_time": 0.68,
+        "mem_bytes": 4165632,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "26dd193a-d2d1-4738-bac4-7bd79f736605",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"ord12345\",\"status\":\"INIT\",\"forward\":true}",
+              "took": 1.729
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 11,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8732,
+        "cpu_time": 0.67,
+        "mem_bytes": 3821568,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "eb62381e-7ca0-4f85-9bd0-abfc26c8d422",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<generate_unique_order_id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.724
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 20,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1403,
+        "cpu_time": 1.39,
+        "mem_bytes": 5730304,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "db6cade5-0f4b-4c45-9a67-8b8b385fabaf",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\":true}",
+              "took": 1.953
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.013
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 9,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1883,
+        "cpu_time": 1.53,
+        "mem_bytes": 6762496,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "a0fb0323-1721-4235-b729-e9c117726fad",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.989
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 13,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1923,
+        "cpu_time": 1.59,
+        "mem_bytes": 6680576,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "25ceca97-32f9-4e27-95aa-9dd824a9d16f",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"123456\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 1.98
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 16,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2243,
+        "cpu_time": 1.69,
+        "mem_bytes": 6987776,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "6c68f0c6-4a4f-43c0-bf82-9f0773886e33",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.972
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.007
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 6,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2463,
+        "cpu_time": 1.73,
+        "mem_bytes": 7757824,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "475f675f-dcb0-48eb-bee6-12cbcc03e339",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<id>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 1.991
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.008
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 7,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2522,
+        "cpu_time": 1.73,
+        "mem_bytes": 7757824,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "98071f51-9b68-42cf-9fba-b8951d140851",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\":true}",
+              "took": 2.007
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.007
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 8,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2668,
+        "cpu_time": 1.74,
+        "mem_bytes": 8114176,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "7ed97d76-ec4e-4807-b314-7664dfc09665",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 2.007
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 3,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2773,
+        "cpu_time": 1.74,
+        "mem_bytes": 8445952,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "c4586279-e737-4815-a832-c173e0f6438f",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_unique_order_id>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.107
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 19,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2373,
+        "cpu_time": 1.7,
+        "mem_bytes": 7426048,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "ff35ae53-553d-4cb1-9da1-ce8b2ff1d1f1",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_unique_id>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.047
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 18,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2781,
+        "cpu_time": 1.71,
+        "mem_bytes": 7786496,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "cf5aab44-6302-4c94-b96a-e01bbe2cfb83",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"1234567890\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.159
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      }
+    ],
+    "final_summary": {
+      "n_trials": 20,
+      "n_threads": 20,
+      "stock_left": 0,
+      "total_completed_orders": 5,
+      "total_pending_orders": 0,
+      "total_oos_orders": 15,
+      "expected_total_reserved": 5,
+      "final_ec_state": "SUCCESS",
+      "failure_rate": 0,
+      "avg_latency": 1.986375,
+      "std_latency": 0.2702584783713157,
+      "med_latency": 2.0074
+    }
+  },
+  {
+    "run_number": 5,
+    "trial_results": [
+      {
+        "trial": 2,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.5197,
+        "cpu_time": 0.21,
+        "mem_bytes": -1871872,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "45bdfba3-a18b-4b39-ba32-1a8ddf95fdf4",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<unique_order_id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.393
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 8
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 8
+        }
+      },
+      {
+        "trial": 3,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.5861,
+        "cpu_time": 0.24,
+        "mem_bytes": -1888256,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "9796e287-c2af-448e-b711-3e270ad20adc",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"123456\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.446
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 6
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 6
+        }
+      },
+      {
+        "trial": 1,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6695,
+        "cpu_time": 0.31,
+        "mem_bytes": -1855488,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "e29aba9e-80fe-40ba-9c1b-cdbe6929f630",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.532
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 4
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 4
+        }
+      },
+      {
+        "trial": 5,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6621,
+        "cpu_time": 0.31,
+        "mem_bytes": -1929216,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "858a947c-f8cf-4017-a390-9eef22412568",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"abc123\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.511
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 2
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 2
+        }
+      },
+      {
+        "trial": 12,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.7251,
+        "cpu_time": 0.37,
+        "mem_bytes": -421888,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "9c315a60-14d5-49f5-8ee4-d71c8553a9a7",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.557
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": true,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 20,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.6692,
+        "cpu_time": 0.3,
+        "mem_bytes": -1359872,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "e30f8f0b-b4d7-4138-85a8-33572d0fb8a8",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.546
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 6,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.9487,
+        "cpu_time": 0.46,
+        "mem_bytes": 778240,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "d24c6404-845d-460d-9e68-c0ea58938f7e",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"<generate_unique_id>\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 1.787
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 19,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.8924,
+        "cpu_time": 0.38,
+        "mem_bytes": -73728,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "d39cb1ee-aa65-4890-b2a4-7a1d017a7a7e",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"<generate_unique_order_id>\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.761
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 17,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 1.9486,
+        "cpu_time": 0.41,
+        "mem_bytes": 729088,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "9f02d080-fee2-4af5-afec-40f3b448605c",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"ord123456\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.83
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 14,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.0696,
+        "cpu_time": 0.64,
+        "mem_bytes": 1466368,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "a010335c-f90b-4e6a-9ca0-9b1e84b95322",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.895
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 7,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.0877,
+        "cpu_time": 0.66,
+        "mem_bytes": 1937408,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "27765cff-7c3f-4d54-8bca-cfcd524f6399",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"1234567890\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.914
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.005
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 13,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.0775,
+        "cpu_time": 0.65,
+        "mem_bytes": 1646592,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "885f27cf-a0ff-45d3-b405-b546787a3861",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"order_id\":\"new_order_12345\",\"status\":\"INIT\",\"forward\": true}",
+              "took": 1.897
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 4,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.1222,
+        "cpu_time": 0.67,
+        "mem_bytes": 1982464,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "84988804-e1db-4791-9db5-1f4346996e24",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"ORD1234\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 1.983
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 8,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2398,
+        "cpu_time": 0.73,
+        "mem_bytes": 2011136,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "53ff6109-04a6-44bc-a042-63d19d9252e7",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_unique_id_here>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.091
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 16,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.194,
+        "cpu_time": 0.67,
+        "mem_bytes": 1257472,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "5b1f9021-7ba9-49b0-9f0f-150f925d7f24",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"ORD123456\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 2.064
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 15,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.2977,
+        "cpu_time": 1,
+        "mem_bytes": 4739072,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "0a580571-c26e-4662-a110-4f0802922ea0",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"ORDER12345\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.144
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 9,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3539,
+        "cpu_time": 1.02,
+        "mem_bytes": 5316608,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "5adfb95e-dfe4-4257-bce0-4da49277c963",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_unique_order_id>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.173
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 18,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3067,
+        "cpu_time": 0.96,
+        "mem_bytes": 4620288,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "bbc9595d-6427-4e0e-80d9-a8de53e72753",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"<generate_unique_order_id>\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.148
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.004
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 11,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3656,
+        "cpu_time": 1.02,
+        "mem_bytes": 5214208,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "cc740493-47a8-4533-b0e8-4374cc4e75f8",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n\"order_id\":\"1234567890\",\n\"status\":\"INIT\",\n\"forward\": true\n}",
+              "took": 2.178
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.003
+            }
+          ],
+          "remaining": 0
+        }
+      },
+      {
+        "trial": 10,
+        "agent_delay": 0,
+        "agent_drop": 0,
+        "elapsed": 2.3715,
+        "cpu_time": 1.02,
+        "mem_bytes": 5226496,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "e5853b6e-b5aa-48c2-a885-97d538746053",
+          "item": "laptop",
+          "qty": 2,
+          "status": "out_of_stock",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"order_id\": \"ORD1234\",\n  \"status\": \"INIT\",\n  \"forward\": true\n}",
+              "took": 2.175
+            },
+            {
+              "step": "inventory_microservice_reserve_tool_call",
+              "out": {
+                "reserved": false,
+                "item": "laptop",
+                "remaining": 0
+              },
+              "took": 0.002
+            }
+          ],
+          "remaining": 0
+        }
+      }
+    ],
+    "final_summary": {
+      "n_trials": 20,
+      "n_threads": 20,
+      "stock_left": 0,
+      "total_completed_orders": 5,
+      "total_pending_orders": 0,
+      "total_oos_orders": 15,
+      "expected_total_reserved": 5,
+      "final_ec_state": "SUCCESS",
+      "failure_rate": 0,
+      "avg_latency": 2.00538,
+      "std_latency": 0.2842260693995464,
+      "med_latency": 2.07355
+    }
+  }
+]
