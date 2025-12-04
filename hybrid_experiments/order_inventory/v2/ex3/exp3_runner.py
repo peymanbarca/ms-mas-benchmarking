@@ -3,21 +3,28 @@ import json
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pymongo import MongoClient
+import os
+import statistics
 
 # ---------------- CONFIG ----------------
 ORDER_SERVICE_URL = "http://127.0.0.1:8000/create_order"
 ITEM = "laptop"
 INIT_STOCK = 10
 QTY = 2
-N_TRIALS = 50
+N_TRIALS = 20
 REPORT_FILE = "result/exp3_results.json"
 MAX_WORKERS = N_TRIALS / 1  # Number of concurrent threads
 
-requests.post("http://localhost:8000/clear_orders", json={})
-requests.post("http://localhost:8001/reset_stocks", json={"item": ITEM, "stock": INIT_STOCK})
-input('Check DB state is clean, press any key to continue ...')
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://user:pass1@localhost:27017/")
+DB_NAME = os.environ.get("DB_NAME", "retail_exp3")
 
-results = []
+
+def real_db():
+    client = MongoClient(MONGO_URL)
+    db = client[DB_NAME]
+    return client, db
+
+
 
 def run_trial(trial_id: int):
     payload = {"item": ITEM, "qty": QTY}
@@ -40,14 +47,80 @@ def run_trial(trial_id: int):
         print(f"Trial {trial_id}: Exception {e}")
         return {"trial": trial_id, "status": "error", "elapsed": round(elapsed,3)}
 
-# ---------------- PARALLEL EXECUTION ----------------
-with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-    futures = [executor.submit(run_trial, i) for i in range(1, N_TRIALS + 1)]
-    for future in as_completed(futures):
-        results.append(future.result())
 
-# Save all results
-with open(REPORT_FILE, "w") as f:
-    json.dump(results, f, indent=4)
 
-print(f"\nAll {N_TRIALS} trials completed. Results saved in {REPORT_FILE}")
+def get_final_state(item_name: str):
+    """
+    Returns:
+      stock_left, total_completed_orders(reserved), total_pending_orders, final_ec_state ('SUCCESS'/'FAIL'), failure_rate (float)
+    """
+    client, db = real_db()
+    final_stock = db.inventory.find_one({"item": item_name})
+    stock_left = final_stock["stock"] if final_stock else 0
+    total_completed_orders = db.orders.count_documents({"status": "reserved"})
+    total_pending_orders = db.orders.count_documents({"status": "INIT"})
+    total_oos_orders = db.orders.count_documents({"status": "out_of_stock"})
+    # basic heuristics used previously: compute failure rate loosely
+    final_ec_state = "SUCCESS"
+    failure_rate = 0.0
+    expected_total_reserved = int((INIT_STOCK) / QTY)  # approximate expectation from your earlier code
+    if stock_left < 0:
+        failure_rate += -stock_left / QTY
+        final_ec_state = "FAIL"
+    elif stock_left + total_completed_orders != expected_total_reserved:
+        failure_rate += abs((total_completed_orders - (expected_total_reserved - stock_left)))
+        final_ec_state = "FAIL"
+    if total_pending_orders > 0:
+        failure_rate += total_pending_orders
+        final_ec_state = "FAIL"
+    return stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved,\
+           final_ec_state, failure_rate
+
+
+if __name__ == '__main__':
+
+    total_runs = 5
+
+    with open(REPORT_FILE, "w") as f:
+        f.write("")
+
+    run_results = []
+
+    for i in range(total_runs):
+
+        requests.post("http://localhost:8000/clear_orders", json={})
+        requests.post("http://localhost:8001/reset_stocks", json={"item": ITEM, "stock": INIT_STOCK})
+        print('Check DB state is clean ...')
+
+        results = []
+
+        # ---------------- PARALLEL EXECUTION ----------------
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            futures = [executor.submit(run_trial, i) for i in range(1, N_TRIALS + 1)]
+            for future in as_completed(futures):
+                results.append(future.result())
+
+        stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved, \
+        final_ec_state, failure_rate = get_final_state(ITEM)
+
+        summary = {
+            "n_trials": N_TRIALS,
+            "n_threads": MAX_WORKERS,
+            "stock_left": stock_left,
+            "total_completed_orders": total_completed_orders,
+            "total_pending_orders": total_pending_orders,
+            "total_oos_orders": total_oos_orders,
+            "expected_total_reserved": expected_total_reserved,
+            "final_ec_state": final_ec_state,
+            "failure_rate": (failure_rate / N_TRIALS) * 100,
+            "avg_latency": statistics.mean([x['elapsed'] for x in results]),
+            "std_latency": statistics.stdev([x['elapsed'] for x in results]),
+            "med_latency": statistics.median([x['elapsed'] for x in results]),
+        }
+        print("Final summary:", summary)
+        run_results.append({"run_number": i + 1, "trial_results": results, "final_summary": summary})
+        print(f"Run {i + 1} Done,\n-----------------------------------------")
+
+    # Save all results
+    with open(REPORT_FILE, "w") as f:
+        json.dump(run_results, f)

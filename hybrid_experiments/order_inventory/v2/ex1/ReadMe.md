@@ -1,4 +1,4 @@
-## Experiment 1: 2 Agents (3 LLM Calls + 3 DB Write per trial)
+## Experiment 1: Two Agents (3 LLM Calls + 3 DB Write per trial)
 
 ### Two LLM Agents with Atomic MongoDB Updates
 
