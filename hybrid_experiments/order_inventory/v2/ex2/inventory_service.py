@@ -9,10 +9,6 @@ MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
 DB_NAME = os.environ.get("DB_NAME", "retail_exp2")
 COLL_NAME = os.environ.get("COLL_NAME", "inventory")
 
-# Fault injection via env
-INJECT_DELAY = float(os.environ.get("SERVICE_DELAY", "0"))   # seconds
-INJECT_DROP_RATE = int(os.environ.get("SERVICE_DROP_RATE", "0"))  # percentage 0-100
-
 client = MongoClient(MONGO_URL)
 db = client[DB_NAME]
 inventory_col = db[COLL_NAME]
@@ -24,6 +20,8 @@ class ReserveReq(BaseModel):
     qty: int
     request_id: str | None = None
     atomic_update: bool = False
+    delay: float = 0.0
+    drop: int = 0
 
 @app.on_event("startup")
 def startup():
@@ -37,15 +35,21 @@ def reserve(req: ReserveReq):
     Response: {"reserved": True/False, "item": ..., "remaining": n}
     """
     # optional drop injection: simulate network failure by returning 500 occasionally
+    INJECT_DELAY, INJECT_DROP_RATE = 0, 0
+    if req.delay and req.delay > 0:
+        INJECT_DELAY = req.delay
+    if req.drop and req.drop > 0:
+        INJECT_DROP_RATE = req.drop
+
+    # inject delay
+    if INJECT_DELAY > 0:
+        time.sleep(INJECT_DELAY)
+
     if INJECT_DROP_RATE > 0:
         import random
         if random.randint(0, 99) < INJECT_DROP_RATE:
             # simulate dropped request
             raise HTTPException(status_code=503, detail="simulated service drop")
-
-    # inject delay
-    if INJECT_DELAY > 0:
-        time.sleep(INJECT_DELAY)
 
     # Atomic decrement if stock >= qty
     if req.atomic_update is None or req.atomic_update is True:

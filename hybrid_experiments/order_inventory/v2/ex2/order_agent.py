@@ -41,16 +41,15 @@ INVENTORY_SERVICE_URL = os.environ.get("INVENTORY_SERVICE_URL", "http://localhos
 SERVICE_RESET_URL = os.environ.get("SERVICE_RESET_URL", "http://localhost:8000/reset")
 
 REPORT_FILE = os.environ.get("REPORT_FILE", "exp2_report.txt")
-RESULTS_JSON = os.environ.get("RESULTS_JSON", "exp2_results.json")
 
 # Experiment defaults (can override via env)
 ITEM = os.environ.get("ITEM", "laptop")
 INIT_STOCK = int(os.environ.get("INIT_STOCK", "10"))
 QTY = int(os.environ.get("QTY", "2"))
 
-# Fault injection for agent-side (in addition to service)
-AGENT_DELAY = float(os.environ.get("AGENT_DELAY", "0"))   # seconds inside agent before calling service
-AGENT_DROP = int(os.environ.get("AGENT_DROP", "0"))       # simulate agent-level failure (%)
+# Fault injection for microservice-side
+MS_DELAY = float(os.environ.get("MS_DELAY", "0"))   # seconds inside service
+MS_DROP = int(os.environ.get("MS_DROP", "0"))       # simulate service-level failure (%)
 
 # LLM model (if using Ollama)
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen2")
@@ -246,13 +245,13 @@ def order_agent(state: OrderState, db_tool: DBTool):
     if str(parsed.get("status", "")).lower() == "init":
         db_tool.save_order(order_id, merged["item"], merged["qty"])
 
-    # Simulate agent-side delay or drop before calling service
-    if AGENT_DELAY and AGENT_DELAY > 0:
-        time.sleep(AGENT_DELAY)
-    if AGENT_DROP and AGENT_DROP > 0 and random.randint(0,99) < AGENT_DROP:
-        logging.warning(f"Agent-level drop triggered for order {order_id}")
-        state_store.save_state(key, {**merged, "order_id": order_id, "status": "error", "forward": False})
-        return {"order_id": order_id, "status": "error", "forward": False}
+    # # Simulate agent-side delay or drop before calling service
+    # if AGENT_DELAY and AGENT_DELAY > 0:
+    #     time.sleep(AGENT_DELAY)
+    # if AGENT_DROP and AGENT_DROP > 0 and random.randint(0,99) < AGENT_DROP:
+    #     logging.warning(f"Agent-level drop triggered for order {order_id}")
+    #     state_store.save_state(key, {**merged, "order_id": order_id, "status": "error", "forward": False})
+    #     return {"order_id": order_id, "status": "error", "forward": False}
 
     # Call inventory microservice to reserve
     # If microservice fails (HTTP error), treat as error
@@ -260,7 +259,8 @@ def order_agent(state: OrderState, db_tool: DBTool):
         with httpx.Client(timeout=10.0) as client:
             t0 = time.time()
             r = client.post(INVENTORY_SERVICE_URL, json={"item": merged["item"], "qty": merged["qty"],
-                                                         "request_id": order_id, "atomic_update": atomic_update})
+                                                         "request_id": order_id, "atomic_update": atomic_update,
+                                                         "delay": MS_DELAY, "drop": MS_DROP})
             t1 = time.time()
             state["trace"].append({"step": "inventory_microservice_reserve_tool_call", "out": r.json(), "took": round((t1 - t0), 3)})
 
@@ -360,10 +360,10 @@ def build_graph(db_tool: DBTool):
 # ---------------------------
 # Runner and harness
 # ---------------------------
-def run_trial(idx, db_mode="REAL", report_file=REPORT_FILE, agent_delay=0, agent_drop=0):
-    global AGENT_DELAY, AGENT_DROP
-    AGENT_DELAY = agent_delay
-    AGENT_DROP = agent_drop
+def run_trial(idx, db_mode="REAL", report_file=REPORT_FILE, ms_delay=0.0, ms_drop=0):
+    global MS_DELAY, MS_DROP
+    MS_DELAY = ms_delay
+    MS_DROP = ms_drop
 
     # resources baseline
     cpu0 = process.cpu_times()
@@ -387,8 +387,8 @@ def run_trial(idx, db_mode="REAL", report_file=REPORT_FILE, agent_delay=0, agent
 
     metrics = {
         "trial": idx,
-        "agent_delay": agent_delay,
-        "agent_drop": agent_drop,
+        "ms_delay": ms_delay,
+        "ms_drop": ms_drop,
         "elapsed": round(elapsed, 4),
         "cpu_time": round(cpu_used, 4),
         "mem_bytes": mem_used,
@@ -399,7 +399,7 @@ def run_trial(idx, db_mode="REAL", report_file=REPORT_FILE, agent_delay=0, agent
         f.write(json.dumps(metrics) + "\n")
     return metrics
 
-def sequential_trials(n=n_trials, db_mode="REAL", agent_delay=0.0, agent_drop=0, reset_db_before=True):
+def sequential_trials(n=n_trials, db_mode="REAL", ms_delay=0.0, ms_drop=0, reset_db_before=True):
     if reset_db_before and db_mode == "REAL":
         # call service reset to set initial stock
         try:
@@ -409,7 +409,7 @@ def sequential_trials(n=n_trials, db_mode="REAL", agent_delay=0.0, agent_drop=0,
             logging.warning(f"Service reset failed: {e}")
     results=[]
     for i in range(1, n+1):
-        m = run_trial(i, db_mode=db_mode, agent_delay=agent_delay, agent_drop=agent_drop)
+        m = run_trial(i, db_mode=db_mode, ms_delay=ms_delay, ms_drop=ms_drop)
         logging.info(f"Trial {i}: {m}")
         print("Trial", i, "->", m)
         results.append(m)
@@ -417,7 +417,7 @@ def sequential_trials(n=n_trials, db_mode="REAL", agent_delay=0.0, agent_drop=0,
     #     json.dump(results, f, indent=2)
     return results
 
-def parallel_trials(n=n_trials, max_workers=max_workers, db_mode="REAL", agent_delay=0.0, agent_drop=0, reset_db_before=True):
+def parallel_trials(n=n_trials, max_workers=max_workers, db_mode="REAL", ms_delay=0.0, ms_drop=0, reset_db_before=True):
     if reset_db_before and db_mode == "REAL":
         try:
             with httpx.Client(timeout=5.0) as c:
@@ -426,7 +426,7 @@ def parallel_trials(n=n_trials, max_workers=max_workers, db_mode="REAL", agent_d
             logging.warning(f"Service reset failed: {e}")
     results=[]
     with ThreadPoolExecutor(max_workers=max_workers) as ex:
-        futures = {ex.submit(run_trial, i, db_mode, REPORT_FILE, agent_delay, agent_drop): i for i in range(1, n+1)}
+        futures = {ex.submit(run_trial, i, db_mode, REPORT_FILE, ms_delay, ms_drop): i for i in range(1, n+1)}
         for fut in as_completed(futures):
             m = fut.result()
             logging.info(f"Trial done: {m}")
@@ -455,8 +455,8 @@ def compute_consistency_error_from_db(item_name=ITEM, initial_stock=INIT_STOCK):
 if __name__ == "__main__":
     # Pull config from env if present
     DB_MODE = os.environ.get("DB_MODE", "REAL")
-    AGENT_DELAY = float(os.environ.get("AGENT_DELAY", AGENT_DELAY))
-    AGENT_DROP = int(os.environ.get("AGENT_DROP", AGENT_DROP))
+    MS_DELAY = float(os.environ.get("MS_DELAY", MS_DELAY))
+    MS_DROP = int(os.environ.get("MS_DROP", MS_DROP))
     n_trials = int(os.environ.get("N_TRIALS", n_trials))
     parallel = os.environ.get("PARALLEL", parallel)
     total_runs = 5
@@ -464,12 +464,12 @@ if __name__ == "__main__":
     with open(REPORT_FILE, "w") as f:
         f.write("")
 
-    with open(RESULTS_JSON, "w") as f:
+    with open(f"exp1_results_delay_{MS_DELAY}_drop_{MS_DROP}.json", "w") as f:
         f.write("")
 
     print("Experiment 2: Agent vs Microservice")
     print(f"DB_MODE={DB_MODE}, SERVICE={INVENTORY_SERVICE_URL}, ITEM={ITEM}, INIT_STOCK={INIT_STOCK}, QTY={QTY},"
-          f" n_trials={n_trials}, parallel={parallel}")
+          f" n_trials={n_trials}, parallel={parallel}, MS_DELAY={MS_DELAY}, MS_DROP={MS_DROP}")
     logging.info("Starting Experiment 2")
 
     run_results = []
@@ -482,9 +482,9 @@ if __name__ == "__main__":
             # input("DB reset. Press Enter to start the trials...")
 
         if parallel:
-            results = parallel_trials(n=n_trials, max_workers=max_workers, db_mode=DB_MODE, agent_delay=AGENT_DELAY, agent_drop=AGENT_DROP)
+            results = parallel_trials(n=n_trials, max_workers=max_workers, db_mode=DB_MODE, ms_delay=MS_DELAY, ms_drop=MS_DROP)
         else:
-            results = sequential_trials(n=n_trials, db_mode=DB_MODE, agent_delay=AGENT_DELAY, agent_drop=AGENT_DROP)
+            results = sequential_trials(n=n_trials, db_mode=DB_MODE, ms_delay=MS_DELAY, ms_drop=MS_DROP)
 
         # final audit (if REAL)
         if DB_MODE == "REAL":
@@ -500,6 +500,8 @@ if __name__ == "__main__":
             summary = {
                 "n_trials": n_trials,
                 "n_threads": max_workers,
+                "delay": MS_DELAY,
+                "drop_rate": MS_DROP,
                 "stock_left": stock_left,
                 "total_completed_orders": total_completed_orders,
                 "total_pending_orders": total_pending_orders,
@@ -518,7 +520,7 @@ if __name__ == "__main__":
             run_results.append({"run_number": i + 1, "trial_results": results, "final_summary": summary})
         print(f"Run {i + 1} Done,\n-----------------------------------------")
 
-    with open(RESULTS_JSON, "a") as f:
+    with open(f"exp2_results_delay_{MS_DELAY}_drop_{MS_DROP}.json", "a") as f:
         # json.dump(run_results, f, indent=4)
         json.dump(run_results, f)
 

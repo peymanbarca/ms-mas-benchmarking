@@ -35,6 +35,9 @@ DEFAULT_ITEM = os.getenv("DEFAULT_ITEM", "laptop")
 DEFAULT_QTY = int(os.getenv("DEFAULT_QTY", 2))
 INIT_STOCK = int(os.environ.get("INIT_STOCK", "10"))
 
+DELAY = float(os.environ.get("DELAY", "0"))             # seconds to sleep inside inventory agent
+DROP_RATE = int(os.environ.get("DROP_RATE", "0"))       # percent 0-100
+
 N_TRIALS = int(os.getenv("N_TRIALS", 10))
 NUM_WORKERS = N_TRIALS
 atomic_update = False
@@ -129,7 +132,10 @@ def tool_create_order(order_id, item, qty):
 
 def tool_reserve_inventory(order_id, item, qty):
     with httpx.Client(timeout=5) as c:
-        r = c.post(f"{INVENTORY_SERVICE_URL}/reserve", json={"order_id": order_id, "item": item, "qty": qty, "atomic_update": atomic_update})
+        r = c.post(f"{INVENTORY_SERVICE_URL}/reserve", json={"order_id": order_id, "item": item, "qty": qty,
+                                                             "atomic_update": atomic_update,
+                                                             "delay": DELAY,
+                                                             "drop": DROP_RATE})
         r.raise_for_status()
         return r.json()
 
@@ -303,7 +309,7 @@ if __name__ == "__main__":
 
     total_runs = 5
 
-    with open("exp5_results.json", "w") as f:
+    with open(f"exp5_results_delay_{DELAY}_drop_{DROP_RATE}.json", "w") as f:
         f.write("")
 
     run_results = []
@@ -321,6 +327,8 @@ if __name__ == "__main__":
         summary = {
             "n_trials": N_TRIALS,
             "n_threads": NUM_WORKERS,
+            "delay": DELAY,
+            "drop_rate": DROP_RATE,
             "stock_left": stock_left,
             "total_completed_orders": total_completed_orders,
             "total_pending_orders": total_pending_orders,
@@ -336,7 +344,7 @@ if __name__ == "__main__":
         run_results.append({"run_number": i + 1, "trial_results": results, "final_summary": summary})
         print(f"Run {i + 1} Done,\n-----------------------------------------")
 
-    with open("exp5_results.json", "w") as f:
+    with open(f"exp5_results_delay_{DELAY}_drop_{DROP_RATE}.json", "w") as f:
         # json.dump(run_results, f, indent=4)
         json.dump(run_results, f)
 

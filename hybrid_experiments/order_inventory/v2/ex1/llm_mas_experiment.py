@@ -630,7 +630,7 @@ if __name__ == "__main__":
 
     with open(REPORT_FILE, "w") as f:
         f.write("")
-    with open("exp1_results.json", "w") as f:
+    with open(f"exp1_results_delay_{delay}_drop_{drop_rate}.json", "w") as f:
         f.write("")
 
     print(f"Starting LLM-MAS experiment: DB_MODE={DB_MODE}, delay={delay}s, drop_rate={drop_rate}%, n_trials={n_trials}, parallel={parallel}")
@@ -674,7 +674,7 @@ if __name__ == "__main__":
             run_results.append({"run_number": i + 1, "trial_results": results, "final_summary": summary})
         print(f"Run {i + 1} Done,\n-----------------------------------------")
 
-    with open("exp1_results.json", "a") as f:
+    with open(f"exp1_results_delay_{delay}_drop_{drop_rate}.json", "a") as f:
         # json.dump(run_results, f, indent=4)
         json.dump(run_results, f)
 

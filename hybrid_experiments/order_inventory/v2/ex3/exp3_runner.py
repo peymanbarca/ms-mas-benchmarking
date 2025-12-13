@@ -12,8 +12,11 @@ ITEM = "laptop"
 INIT_STOCK = 10
 QTY = 2
 N_TRIALS = 20
-REPORT_FILE = "result/exp3_results.json"
 MAX_WORKERS = N_TRIALS / 1  # Number of concurrent threads
+
+DELAY = float(os.environ.get("DELAY", "5"))             # seconds to sleep inside inventory agent
+DROP_RATE = int(os.environ.get("DROP_RATE", "10"))       # percent 0-100
+atomic_update = False
 
 MONGO_URL = os.environ.get("MONGO_URL", "mongodb://user:pass1@localhost:27017/")
 DB_NAME = os.environ.get("DB_NAME", "retail_exp3")
@@ -25,12 +28,11 @@ def real_db():
     return client, db
 
 
-
-def run_trial(trial_id: int):
-    payload = {"item": ITEM, "qty": QTY}
+def run_trial(trial_id: int, delay: float, drop_rate: int):
+    payload = {"item": ITEM, "qty": QTY, "atomic_update": atomic_update, "delay": delay, "drop": drop_rate}
     start = time.time()
     try:
-        resp = requests.post(ORDER_SERVICE_URL, json=payload, timeout=5)
+        resp = requests.post(ORDER_SERVICE_URL, json=payload, timeout=10)
         elapsed = time.time() - start
         if resp.status_code == 200:
             result = resp.json()
@@ -46,7 +48,6 @@ def run_trial(trial_id: int):
         elapsed = time.time() - start
         print(f"Trial {trial_id}: Exception {e}")
         return {"trial": trial_id, "status": "error", "elapsed": round(elapsed,3)}
-
 
 
 def get_final_state(item_name: str):
@@ -81,7 +82,7 @@ if __name__ == '__main__':
 
     total_runs = 5
 
-    with open(REPORT_FILE, "w") as f:
+    with open(f"result/exp3_results_delay_{DELAY}_drop_{DROP_RATE}.json", "w") as f:
         f.write("")
 
     run_results = []
@@ -96,7 +97,7 @@ if __name__ == '__main__':
 
         # ---------------- PARALLEL EXECUTION ----------------
         with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-            futures = [executor.submit(run_trial, i) for i in range(1, N_TRIALS + 1)]
+            futures = [executor.submit(run_trial, i, DELAY, DROP_RATE) for i in range(1, N_TRIALS + 1)]
             for future in as_completed(futures):
                 results.append(future.result())
 
@@ -105,6 +106,8 @@ if __name__ == '__main__':
 
         summary = {
             "n_trials": N_TRIALS,
+            "delay": DELAY,
+            "drop_rate": DROP_RATE,
             "n_threads": MAX_WORKERS,
             "stock_left": stock_left,
             "total_completed_orders": total_completed_orders,
@@ -122,5 +125,5 @@ if __name__ == '__main__':
         print(f"Run {i + 1} Done,\n-----------------------------------------")
 
     # Save all results
-    with open(REPORT_FILE, "w") as f:
+    with open(f"result/exp3_results_delay_{DELAY}_drop_{DROP_RATE}.json", "w") as f:
         json.dump(run_results, f)

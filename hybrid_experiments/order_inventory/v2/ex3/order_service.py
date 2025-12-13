@@ -13,6 +13,9 @@ INVENTORY_SERVICE_URL = "http://127.0.0.1:8001/reserve"  # inventory service end
 class Order(BaseModel):
     item: str
     qty: int
+    atomic_update: bool = False
+    delay: float = 0.0
+    drop: int = 0
 
 
 @app.post("/clear_orders")
@@ -29,14 +32,18 @@ def create_order(order: Order):
 
     # Call inventory service
     try:
-        resp = requests.post(INVENTORY_SERVICE_URL, json={"order_id": order_id, "item": order.item, "qty": order.qty})
+        resp = requests.post(INVENTORY_SERVICE_URL, json={"order_id": order_id, "item": order.item,
+                                                          "qty": order.qty,
+                                                          "atomic_update": order.atomic_update,
+                                                          "delay": order.delay,
+                                                          "drop": order.drop})
         if resp.status_code != 200:
             raise HTTPException(status_code=500, detail="Inventory service error")
         result = resp.json()
         # Update order status
         ORDER_DB.update_one({"_id": order_id}, {"$set": {"status": result["status"]}})
     except Exception as e:
-        ORDER_DB.update_one({"_id": order_id}, {"$set": {"status": "error"}})
+        # ORDER_DB.update_one({"_id": order_id}, {"$set": {"status": "error"}})
         raise HTTPException(status_code=500, detail=str(e))
 
     end_time = time.time()
