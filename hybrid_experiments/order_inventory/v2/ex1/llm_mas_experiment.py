@@ -235,8 +235,8 @@ Decide what to do with an incoming order.
 Status: {status_in}
 
 Rules:
-- If Status is null or INIT → return JSON: {{"status": "INIT", "forward": true}}
-- If Status is reserved or out_of_stock or error → return JSON: {{"status": "<status>", "forward": false}}
+- If Status is null or INIT → return JSON: {{"forward": true}}
+- If Status is reserved or out_of_stock or error → return JSON: {{"forward": false}}
 
 Return only one JSON object.
 """
@@ -330,9 +330,9 @@ def order_agent(state: OrderState, db_tool: DBTool):
     # Merge incoming state with persisted state (persisted overrides missing fields)
     merged = {**state, **existing}
     # If status was set in persisted state, use it; else use incoming
-    status_in = merged.get("status") or "INIT"
+    current_status = merged.get("status") or "INIT"
 
-    prompt = order_prompt_template.format(status_in=status_in)
+    prompt = order_prompt_template.format(status_in=current_status)
     logging.debug(f"Order Agent PROMPT: {prompt}")
 
     st = time.time()
@@ -348,24 +348,24 @@ def order_agent(state: OrderState, db_tool: DBTool):
     })
 
     # preserve original order_id if provided
-    order_id = merged.get("order_id") or str(uuid.uuid4())
+    order_id = merged.get("order_id")
 
     # Persist INIT order when LLM asks for INIT (save as partial DB action, done by DBTool)
-    if str(parsed.get("status", "")).lower() == "init":
+    if current_status.lower() == "init":
         # Save order with INIT status if not already present
         st = time.time()
         db_tool.save_order(order_id, merged.get("item"), merged.get("qty"))
         et = time.time()
         state["trace"].append({"step": "db_tool_save_order", "param": merged.get("qty"), "took": round((et - st), 3)})
 
-    elif str(parsed.get("status", "")).lower() == "reserved":
+    elif current_status.lower() == "reserved":
         # do the DB update for order
         st = time.time()
         db_tool.update_order(merged["order_id"], "reserved")
         et = time.time()
         state["trace"].append({"step": "db_tool_update_order", "param": "reserved", "took": round((et - st), 3)})
 
-    elif str(parsed.get("status", "")).lower() == "out_of_stock":
+    elif current_status.lower() == "out_of_stock":
         # do the DB update for order
         st = time.time()
         db_tool.update_order(merged["order_id"], "out_of_stock")
@@ -375,7 +375,7 @@ def order_agent(state: OrderState, db_tool: DBTool):
     # Save merged state in Redis
     partial = {
         "order_id": order_id,
-        "status": parsed.get("status", status_in),
+        "status": current_status,
         "forward": parsed.get("forward", False),
         "trace": state["trace"]
     }
@@ -656,6 +656,8 @@ if __name__ == "__main__":
             summary = {
                 "n_trials": n_trials,
                 "n_threads": max_workers,
+                "delay": delay,
+                "drop_rate": drop_rate,
                 "stock_left": stock_left,
                 "total_completed_orders": total_completed_orders,
                 "total_pending_orders": total_pending_orders,

@@ -116,6 +116,9 @@ def get_final_state(item_name: str):
     if total_pending_orders > 0:
         failure_rate += total_pending_orders
         final_ec_state = "FAIL"
+    if total_oos_orders + total_pending_orders + total_completed_orders != N_TRIALS:
+        failure_rate += N_TRIALS - (total_oos_orders + total_pending_orders + total_completed_orders)
+        final_ec_state = "FAIL"
     return stock_left, total_completed_orders, total_pending_orders, total_oos_orders, expected_total_reserved,\
            final_ec_state, failure_rate
 
@@ -131,14 +134,17 @@ def tool_create_order(order_id, item, qty):
 
 
 def tool_reserve_inventory(order_id, item, qty):
-    with httpx.Client(timeout=5) as c:
-        r = c.post(f"{INVENTORY_SERVICE_URL}/reserve", json={"order_id": order_id, "item": item, "qty": qty,
-                                                             "atomic_update": atomic_update,
-                                                             "delay": DELAY,
-                                                             "drop": DROP_RATE})
-        r.raise_for_status()
-        return r.json()
-
+    with httpx.Client(timeout=10) as c:
+        try:
+            r = c.post(f"{INVENTORY_SERVICE_URL}/reserve", json={"order_id": order_id, "item": item, "qty": qty,
+                                                                 "atomic_update": atomic_update,
+                                                                 "delay": DELAY,
+                                                                 "drop": DROP_RATE})
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            print(f'Error in tool_reserve_inventory calling: {str(e)}')
+            return {'status': 'error'}
 
 def tool_update_order_status(order_id, status):
     with httpx.Client(timeout=5) as c:
@@ -176,11 +182,11 @@ def order_node(state: OrderState):
              Finally return a JSON response as: {{"action":"<action>"}}
              Current status: {state['status']}"""
     t1 = time.time()
-    print(f' --> Order Agent reasoning: \n {prompt} \n----------------------------\n')
+    # print(f' --> Order Agent reasoning: \n {prompt} \n----------------------------\n')
     llm_resp = call_llm(prompt)
     t2 = time.time()
-    print(f' --> Order Agent reasoning response Took {round((t2-t1),3)}: \n {llm_resp}'
-          f' \n----------------------------\n')
+    # print(f' --> Order Agent reasoning response Took {round((t2-t1),3)}: \n {llm_resp}'
+    #       f' \n----------------------------\n')
 
     action = llm_resp.get("action")
     print(f"Action chosen by order agent: {action}")
@@ -197,11 +203,13 @@ def order_node(state: OrderState):
     elif action == "update_order_status":
         # Update order status in Order Service
         t1 = time.time()
-        status_update = tool_update_order_status(state["order_id"], state["status"])
-        t2 = time.time()
+        status_update = state["status"]
+        if status_update != 'error':
+            out = tool_update_order_status(state["order_id"], status_update)
+            t2 = time.time()
+            state["trace"].append({"step": "update_order_status", "out": out, "took": round((t2 - t1), 3)})
+            state["history"].append({"role": "update_order_status_tool", "content": json.dumps(out)})
         state["status"] = "completed"
-        state["trace"].append({"step": "update_order_status", "out": status_update, "took": round((t2 - t1), 3)})
-        state["history"].append({"role": "update_order_status_tool", "content": json.dumps(status_update)})
 
     state_store.save_state(key, state)
     return state
@@ -223,11 +231,11 @@ def inventory_node(state: OrderState):
              Finally return a JSON response as: {{"action":"<action>"}}
              Current status: {state['status']}"""
     t1 = time.time()
-    print(f' --> Inventory Agent reasoning: \n {prompt} \n----------------------------\n')
+    # print(f' --> Inventory Agent reasoning: \n {prompt} \n----------------------------\n')
     llm_resp = call_llm(prompt)
     t2 = time.time()
-    print(f' --> Inventory Agent reasoning response Took {round((t2-t1),3)}: \n {llm_resp}'
-          f' \n----------------------------\n')
+    # print(f' --> Inventory Agent reasoning response Took {round((t2-t1),3)}: \n {llm_resp}'
+    #       f' \n----------------------------\n')
 
     action = llm_resp.get("action")
     print(f"Action chosen by inventory agent: {action}")

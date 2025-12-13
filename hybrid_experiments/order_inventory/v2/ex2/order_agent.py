@@ -464,7 +464,7 @@ if __name__ == "__main__":
     with open(REPORT_FILE, "w") as f:
         f.write("")
 
-    with open(f"exp1_results_delay_{MS_DELAY}_drop_{MS_DROP}.json", "w") as f:
+    with open(f"exp2_results_delay_{MS_DELAY}_drop_{MS_DROP}.json", "w") as f:
         f.write("")
 
     print("Experiment 2: Agent vs Microservice")
