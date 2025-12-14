@@ -88,9 +88,9 @@ x5 = list(range(1, len(avg_latency5) + 1))
 
 
 # ====================================== Error bar plot
-avg1 = np.array(avg_latency1[0])
-std1 = np.array(std_latency1[0])
-fail1 = np.array(consistency_failure1[0])
+avg1 = np.array(avg_latency1[1])
+std1 = np.array(std_latency1[1])
+fail1 = np.array(consistency_failure1[1])
 
 avg2 = np.array(avg_latency2[0])
 std2 = np.array(std_latency2[0])
@@ -111,7 +111,7 @@ fail5 = np.array(consistency_failure5[1])
 fig, axes = plt.subplots(5, 1, figsize=(16, 12), sharey=False)
 
 ylims = [
-    (-5, 80),
+    (-5, 30),
     (-5, 30),
     (-5, 30),
     (-5, 30),

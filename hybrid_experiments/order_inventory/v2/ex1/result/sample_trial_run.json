@@ -1,0 +1,48 @@
+{
+        "trial": 14,
+        "delay": 0,
+        "drop_rate": 0,
+        "elapsed": 3.238,
+        "cpu_time": 0.35,
+        "memory_change_bytes": 4538368,
+        "n_threads": 20,
+        "final_state": {
+          "order_id": "23bbff04-99ac-4743-98fb-6517f0be24a9",
+          "item": "laptop",
+          "qty": 2,
+          "status": "reserved",
+          "forward": false,
+          "trace": [
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\"forward\": true}",
+              "took": 0.979
+            },
+            {
+              "step": "db_tool_save_order",
+              "param": 2,
+              "took": 0.003
+            },
+            {
+              "step": "inventory_agent_reasoning",
+              "out": "{\n  \"status\": \"reserved\"\n}",
+              "took": 0.429
+            },
+            {
+              "step": "db_tool_update_stock",
+              "param": 2,
+              "took": 0.002
+            },
+            {
+              "step": "order_agent_reasoning",
+              "out": "{\n  \"forward\": false\n}",
+              "took": 1.533
+            },
+            {
+              "step": "db_tool_update_order",
+              "param": "reserved",
+              "took": 0.003
+            }
+          ]
+        }
+}

@@ -1,0 +1,143 @@
+[
+  {
+        "order_id": "966796a1-4edc-48a4-9b59-42c6a7e1be8e",
+        "item": "laptop",
+        "qty": 2,
+        "status": "completed",
+        "history": [
+          {
+            "role": "create_order_tool",
+            "content": "{\"order_id\": \"966796a1-4edc-48a4-9b59-42c6a7e1be8e\", \"status\": \"INIT\"}"
+          },
+          {
+            "role": "reserve_inventory_tool",
+            "content": "{\"order_id\": \"966796a1-4edc-48a4-9b59-42c6a7e1be8e\", \"status\": \"reserved\", \"remaining\": 4}"
+          },
+          {
+            "role": "update_order_status_tool",
+            "content": "{\"order_id\": \"966796a1-4edc-48a4-9b59-42c6a7e1be8e\", \"status\": \"reserved\"}"
+          }
+        ],
+        "trace": [
+          {
+            "step": "orchestrator_agent_reasoning",
+            "out": {
+              "action": "create_order"
+            },
+            "took": 1.151
+          },
+          {
+            "step": "create_order",
+            "out": {
+              "order_id": "966796a1-4edc-48a4-9b59-42c6a7e1be8e",
+              "status": "INIT"
+            },
+            "took": 0.22
+          },
+          {
+            "step": "orchestrator_agent_reasoning",
+            "out": {
+              "action": "reserve_inventory"
+            },
+            "took": 0.9
+          },
+          {
+            "step": "reserve_inventory",
+            "out": {
+              "order_id": "966796a1-4edc-48a4-9b59-42c6a7e1be8e",
+              "status": "reserved",
+              "remaining": 4
+            },
+            "took": 0.075
+          },
+          {
+            "step": "orchestrator_agent_reasoning",
+            "out": {
+              "action": "update_order_status"
+            },
+            "took": 1.02
+          },
+          {
+            "step": "update_order_status",
+            "out": {
+              "order_id": "966796a1-4edc-48a4-9b59-42c6a7e1be8e",
+              "status": "reserved"
+            },
+            "took": 0.029
+          }
+        ],
+        "trial": 15,
+        "elapsed": 3.602
+  },
+  {
+        "order_id": "02075b60-8ae8-4090-a36a-b614e7b88226",
+        "item": "laptop",
+        "qty": 2,
+        "status": "completed",
+        "history": [
+          {
+            "role": "create_order_tool",
+            "content": "{\"order_id\": \"02075b60-8ae8-4090-a36a-b614e7b88226\", \"status\": \"INIT\"}"
+          },
+          {
+            "role": "reserve_inventory_tool",
+            "content": "{\"order_id\": \"02075b60-8ae8-4090-a36a-b614e7b88226\", \"status\": \"out_of_stock\", \"remaining\": 0}"
+          },
+          {
+            "role": "update_order_status_tool",
+            "content": "{\"order_id\": \"02075b60-8ae8-4090-a36a-b614e7b88226\", \"status\": \"out_of_stock\"}"
+          }
+        ],
+        "trace": [
+          {
+            "step": "orchestrator_agent_reasoning",
+            "out": {
+              "action": "create_order"
+            },
+            "took": 1.566
+          },
+          {
+            "step": "create_order",
+            "out": {
+              "order_id": "02075b60-8ae8-4090-a36a-b614e7b88226",
+              "status": "INIT"
+            },
+            "took": 0.174
+          },
+          {
+            "step": "orchestrator_agent_reasoning",
+            "out": {
+              "action": "reserve_inventory"
+            },
+            "took": 0.994
+          },
+          {
+            "step": "reserve_inventory",
+            "out": {
+              "order_id": "02075b60-8ae8-4090-a36a-b614e7b88226",
+              "status": "out_of_stock",
+              "remaining": 0
+            },
+            "took": 0.242
+          },
+          {
+            "step": "orchestrator_agent_reasoning",
+            "out": {
+              "action": "update_order_status"
+            },
+            "took": 1.104
+          },
+          {
+            "step": "update_order_status",
+            "out": {
+              "order_id": "02075b60-8ae8-4090-a36a-b614e7b88226",
+              "status": "out_of_stock"
+            },
+            "took": 0.045
+          }
+        ],
+        "trial": 4,
+        "elapsed": 4.336
+  }
+
+]

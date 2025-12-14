@@ -256,6 +256,21 @@ Rules:
 Return JSON with key: status (reserved/out_of_stock).
 """
 
+# --------- Remove stock (stale data) from the prompt and let tool and DB decide -------
+# Inventory agent prompt template
+inventory_prompt_template_1 = """
+You are the Inventory Agent.
+Try to reserve the stock, based on the Status:
+
+Status: {status_in}
+
+Rules:
+- If Status is null or INIT → return JSON: {{"try_reserve": true}}
+- If Status is reserved or out_of_stock or error → return JSON: {{"try_reserve": false}}
+
+Return only one JSON object.
+"""
+
 def call_llm(prompt: str) -> str:
     """Call the configured LLM and return a text response. If no LLM available, return a fallback JSON."""
     if llm is None:
@@ -383,10 +398,10 @@ def order_agent(state: OrderState, db_tool: DBTool):
     # Return partial update (Option B)
     return partial
 
+
 def inventory_agent(state: OrderState, db_tool: DBTool):
     """
-    Inventory agent: consults LLM to decide if reservation should succeed.
-    Returns partial dict like: {"status": "reserved"} or {"status": "out_of_stock"} or {"status":"error"}.
+    Inventory agent: consults LLM to decide if reservation should succeed (try to reserve or ignore).
     Injects delay and drop_rate fault behavior.
     """
     key = f"order:{state['order_id']}"
@@ -394,13 +409,20 @@ def inventory_agent(state: OrderState, db_tool: DBTool):
     if "trace" not in state: state["trace"] = []
 
     merged = {**state, **existing}
+    current_status = merged.get("status") or "INIT"
 
-    stock = db_tool.get_stock(merged["item"])
-    prompt = inventory_prompt_template.format(
-        order_id_in=merged["order_id"],
-        item_in=merged["item"],
-        qty_in=merged["qty"],
-        stock_in=stock
+    # old prompt: let LLM decide with stale stock data
+    # stock = db_tool.get_stock(merged["item"])
+    # prompt = inventory_prompt_template.format(
+    #     order_id_in=merged["order_id"],
+    #     item_in=merged["item"],
+    #     qty_in=merged["qty"],
+    #     stock_in=stock
+    # )
+
+    # new prompt: LLM decides to reserve and hands off decision to tool and db for stock reservation checking
+    prompt = inventory_prompt_template_1.format(
+        status_in=current_status
     )
     logging.debug(f"Inventory Agent PROMPT: {prompt}")
 
@@ -410,7 +432,8 @@ def inventory_agent(state: OrderState, db_tool: DBTool):
     logging.debug(f"Inventory Agent LLM latency: {et - st:.3f}s, raw response: {response_text}")
     state["trace"].append({"step": "inventory_agent_reasoning", "out": response_text, "took": round((et - st), 3)})
 
-    parsed = parse_json_response(response_text, fallback={"order_id": merged["order_id"], "status": "out_of_stock"})
+    # parsed = parse_json_response(response_text, fallback={"order_id": merged["order_id"], "status": "out_of_stock"})
+    parsed = parse_json_response(response_text, fallback={"order_id": merged["order_id"], "try_reserve": False})
 
     # If LLM says reserved, decrement stock (DB-level op)
     # But before committing, we may inject delay/drop
@@ -425,14 +448,43 @@ def inventory_agent(state: OrderState, db_tool: DBTool):
         state_store.save_state(key, {**merged, "status": "error", "forward": False})
         return {"status": "error", "forward": False}
 
-    # If LLM recommended reserved, apply DB update
-    status_out = parsed.get("status", "out_of_stock")
-    if str(status_out).lower() == "reserved":
+    # Old method: If LLM recommended reserved, apply DB update
+    # status_out = parsed.get("status", "out_of_stock")
+    # if str(status_out).lower() == "reserved":
+    #     # do the DB update for stock
+    #     st = time.time()
+    #     db_tool.update_stock(merged["item"], merged["qty"])
+    #     et = time.time()
+    #     state["trace"].append({"step": "db_tool_update_stock", "param": merged["qty"], "took": round((et - st), 3)})
+
+    # New method: If LLM decides to try reserve, apply DB update
+    should_try_reserve = parsed.get("try_reserve", False)
+    if should_try_reserve:
         # do the DB update for stock
-        st = time.time()
-        db_tool.update_stock(merged["item"], merged["qty"])
-        et = time.time()
-        state["trace"].append({"step": "db_tool_update_stock", "param": merged["qty"], "took": round((et - st), 3)})
+        if atomic_update:
+            with LOCK:
+                current_stock = db_tool.get_stock(merged["item"])
+                if current_stock >= merged["qty"]:
+                    st = time.time()
+                    db_tool.update_stock(merged["item"], merged["qty"])
+                    et = time.time()
+                    state["trace"].append({"step": "db_tool_update_stock", "param": merged["qty"], "took": round((et - st), 3)})
+                    status_out = 'reserved'
+                else:
+                    status_out = 'out_of_stock'
+        else:
+            current_stock = db_tool.get_stock(merged["item"])
+            if current_stock >= merged["qty"]:
+                st = time.time()
+                db_tool.update_stock(merged["item"], merged["qty"])
+                et = time.time()
+                state["trace"].append(
+                    {"step": "db_tool_update_stock", "param": merged["qty"], "took": round((et - st), 3)})
+                status_out = 'reserved'
+            else:
+                status_out = 'out_of_stock'
+    else:
+        status_out = current_status
 
     partial = {"status": str(status_out).lower(), "forward": False, "trace": state["trace"]}
 
