@@ -17,7 +17,7 @@ def init_stock(request: dict):
     item: str = request["item"]
     db.inventory.insert_one({"item": item, "stock": 10})
 
-
+#I have added these test cases 
 @app.post("/reserve")
 def reserve(request: dict):
     item: str = request["item"]
